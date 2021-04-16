@@ -1,7 +1,7 @@
 # Program hapusGadget
     # menghapus gadget atau consumable dari gadget.py atau consumable.py
 
-# Kontributor : Bostang Palaguna [16520090], ...
+# Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
 
 import os
 

@@ -1,7 +1,7 @@
 # Program change_quantity_in_database
 # mengubah jumlah item pada gadget.csv atau consumable.csv
 
-# Kontributor : Bostang Palaguna [16520090], ...
+# Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
 
 import os
 
