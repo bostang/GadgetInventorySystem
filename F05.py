@@ -1,7 +1,9 @@
 # Program tambahGadget
 # menambahkan gadget ke gadget.csv dan consumable.csv
 
-# Kontributor : Bostang Palaguna [16520090], ...
+# Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
+
+import os
 
 # KAMUS
     # Variabel
@@ -27,6 +29,8 @@
         # function isIDinDatabase(id : string, database: array of array of string) -> boolean
             # memeriksa apakah id barang sudah ada di database atau belum
 # REALISASI FUNGSI/PROSEDUR
+def bersih():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def isIDinDatabase(id,database):
     # memeriksa apakah iD item ada di suatu array database apa tidak
@@ -79,32 +83,49 @@ def tambahItem():
             # kondisiLanjut : boolean
 
     #ALGORITMA
+    bersih()
     kondisiLanjut = True
+    print(">>> Menambah Item")
     id = input("Masukan ID: ")
     if id[0] == 'C':
         tempatData = _consumable
     elif id[0] == 'G':
         tempatData = _gadget
     else:
-        print("Gagal menambahkan item karena ID tidak valid")
+        print("\nGagal menambahkan item karena ID tidak valid")
         kondisiLanjut = False
 
     if kondisiLanjut:
         if not isIDinDatabase(id,tempatData):
             nama = input("Masukan Nama: ")
             deskripsi = input("Masukan Deskripsi: ")
-            jumlah = input("Masukan Jumlah: ")
-            rarity = input("Masukan Rarity: ")
 
-            if rarity in ['C','B','A','S']:
-                if id[0] == 'G':
-                    tahuntemu = input("Masukan tahun ditemukan: ")
-                else: tahuntemu = 0 # nilai dummy
-                add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu)
+            while True:
+                try:
+                    jumlah = int(input("Masukan Jumlah: "))
+                    break
+                except ValueError:
+                    print("\nMasukan jumlah dalam bentuk angka!\n")
+
+            rarity = input("Masukan Rarity: ")
+            while (rarity != 'C') and (rarity != 'B') and (rarity != 'A') and (rarity != 'S'):
+                print("\nInput rarity tidak valid!\n")
+                rarity = input("Masukan Rarity: ")
             else:
-                print("Input rarity tidak valid!")
+                if id[0] == 'G':
+                    while True:
+                        try:
+                            tahuntemu = int(input("Masukan tahun ditemukan: "))
+                            break
+                        except ValueError:
+                            print("\nMasukan tahun dalam bentuk angka!\n")
+                else: 
+                    tahuntemu = 0 # nilai dummy
+                add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu)
+                print("\nItem telah berhasil ditambahkan ke database")
+
         else:
-            print("Gagal menambahkan item karena ID sudah ada")
+            print("\nGagal menambahkan item karena ID sudah ada")
 
 # ALGORITMA UTAMA
     # membaca file database.csv
@@ -116,6 +137,7 @@ g.close()
 c.close()
 lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
 lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
+
     # mengakses database dalam bentuk array
 _gadget = []
 _consumable = []
@@ -129,3 +151,4 @@ for line in lines_c:
 
     # menambahkan gadget baru
 tambahItem()
+os.system('pause')

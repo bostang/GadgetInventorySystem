@@ -3,6 +3,8 @@
 
 # Kontributor : Bostang Palaguna [16520090], ...
 
+import os
+
 # KAMUS
     # Variabel
         # idUbah : string { id item yang mau diubah jumlahnya }
@@ -33,9 +35,10 @@
         # function infoBarang(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
 
-
-
 # REALISASI FUNGSI/PROSEDUR
+def bersih():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
     # memeriksa apakah ID item ada di suatu array database apa tidak
     # KAMUS LOKAL
@@ -161,7 +164,7 @@ def infoBarang(id,spek):
                 elif spek == 'tahun_ditemukan' and id[0] == 'C':
                     return baris[5]
     else:
-        return "barang tidak ditemukan di database."
+        return "barang tidak ditemukan di database"
 
 # ALGORITMA UTAMA
 
@@ -187,6 +190,8 @@ for line in lines_c:
     _consumable.append(array_of_data)
 
     # skema pengubahan jumlah suatu item pada database
+bersih()
+print(">>> Mengubah Jumlah Gadget atau Consumable")
 idUbah = input("Masukkan ID: ")
 
 if idUbah[0] == 'C':
@@ -202,13 +207,18 @@ if (isIDinDatabase(idUbah,arrayProcess)):
     if (jumlahUbah + int(infoBarang(idUbah,'jumlah')) >= 0):
         kondisiLanjut = True
     else:
-        print(f"{-jumlahUbah} {infoBarang(idUbah,'nama')} gagal dibuang karena stok kurang. Stok sekarang {infoBarang(idUbah,'jumlah')} (<{jumlahUbah})")
+        print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} gagal dibuang karena stok kurang. Stok sekarang: {infoBarang(idUbah,'jumlah')} (<{(-1)*jumlahUbah})")
         kondisiLanjut = False
 else:
-    print("Tidak ada item dengan ID tersebut!")
+    print("\nTidak ada item dengan ID tersebut!")
     kondisiLanjut = False
 
     # melakukan overwrite perubahan data ke file csv
 if kondisiLanjut:
     hasilUbah = change_quantity_in_database(idUbah,jumlahUbah,idUbah[0])
     overwrite_database(idUbah[0])
+    if (jumlahUbah >= 0):
+        print(f"\n{jumlahUbah} {infoBarang(idUbah,'nama')} berhasil ditambahkan. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
+    else:
+        print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} berhasil dibuang. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
+os.system('pause')

@@ -3,6 +3,8 @@
 
 # Kontributor : Bostang Palaguna [16520090], ...
 
+import os
+
 # KAMUS
     # Variabel
         # id_remove : string { id yang ingin dihapus }
@@ -27,6 +29,9 @@
             # melakukan overwrite terhadap konten database [digunakan dalam skema penghapusan item dari csv]
             # I.S. belum ada perubahan pada database ; F.S. database telah ditulis ulang tanpa mengikutkan item yang dihapus
 # REALISASI FUNGSI/PROSEDUR
+def bersih():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
     # memeriksa apakah iD item ada di suatu array database apa tidak
     # KAMUS LOKAL
@@ -48,6 +53,37 @@ def convert_line_to_data(line): # [ *** SUDAH ADA DI F05 *** ]
     array_of_data = [data.strip() for data in raw_array_of_data]
     return array_of_data
 
+def infoBarang(id,spek):
+    # mendapatkan informasi barang dari database
+    # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of string { array tempat item berada }
+            # baris : baris pada arrayProcess { untuk skema pencarian }
+    # ALGORITMA
+    if id[0] == 'C':
+        arrayProcess = _consumable
+    elif id[0] == 'G':
+        arrayProcess = _gadget
+    else:
+        arrayProcess = []
+
+    if isIDinDatabase(id,arrayProcess):
+        for baris in arrayProcess:
+            if baris[0] == id:
+            # me-return informasi
+                if spek == 'nama':
+                    return baris[1]
+                elif spek == 'deskripsi':
+                    return baris[2]
+                elif spek == 'jumlah':
+                    return baris[3]
+                elif spek == 'rarity':
+                    return baris[4]
+                elif spek == 'tahun_ditemukan' and id[0] == 'C':
+                    return baris[5]
+    else:
+        return "\nbarang tidak ditemukan di database"
+
 def hapusItem():
     # menerima input id barang yang ingin dihapuskan dan melakukan validasi
     # KAMUS LOKAL
@@ -62,11 +98,23 @@ def hapusItem():
     else:
         database = []
 
+    kondisiLanjut = True
     if (isIDinDatabase(id_remove,database)):
-        print("Item telah berhasil dihapus dari database.")
+        konfirmasi = input(f"Apakah Anda yakin ingin menghapus {infoBarang(id_remove,'nama')}(Y/N)? ")
+        while (konfirmasi != 'Y') and (konfirmasi != 'y') and (konfirmasi != 'N') and (konfirmasi != 'n'):
+            print("\nHarap masukan dengan benar!\n")
+        else:
+            if (konfirmasi == 'Y') or (konfirmasi == 'y'):
+                print("\nItem telah berhasil dihapus dari database")
+            else:
+                print("\nItem tidak dihapus dari database")
+                kondisiLanjut = False
     else: # barang tidak ditemukan di database
-        print("Tidak ada item dengan id tersebut")
+        print("\nTidak ada item dengan id tersebut")
         kondisiLanjut = False
+    
+    if kondisiLanjut:
+        overwrite_database(id_remove[0])
 
 def convert_datas_to_string(code):
     # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
@@ -128,10 +176,8 @@ for line in lines_c:
     _consumable.append(array_of_data)
 
     # melakukan skema penghapusan
+bersih()
+print(">>> Menghapus Item")
 id_remove = input("Masukkan ID item: ")
-
-kondisiLanjut = True
 hapusItem()
-
-if kondisiLanjut:
-    overwrite_database(id_remove[0])
+os.system('pause')
