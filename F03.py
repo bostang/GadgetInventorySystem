@@ -115,3 +115,6 @@ if isRarityinDatabase(rarity,database):
             
 else:
     print("\nTidak ada")
+
+print('')
+os.system('pause')

@@ -175,3 +175,6 @@ if isTahuninDatabase(tahun_ditemukan,kategori,database):
             
 else:
     print("\nTidak ada gadget yang ditemukan")
+
+print('')
+os.system('pause')
