@@ -55,8 +55,8 @@ def infoBarang(rarity,spek):
     
     # mengecek apakah rarity yang diinginkan ada di database atau tidak
     if isRarityinDatabase(rarity,arrayProcess):
-        i = 0
         # mengecek baris per baris
+        i = 0
         while arrayProcess[i]:
             if spek == 'id':
                 return baris[0]
@@ -74,7 +74,6 @@ def infoBarang(rarity,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-
 '''''''''''
 'ALGORITMA'
 '''''''''''
@@ -90,7 +89,7 @@ for line in lines_g:
     array_of_data = convert_line_to_data(line)
     _gadget.append(array_of_data)
 
-# Melakukan skema pencarian rarity
+# Melakukan skema pencarian berdasarkan rarity
 clear_screen()
 database = _gadget
 print(">>> Pencarian Gadget berdasarkan rarity\n")
@@ -111,7 +110,7 @@ if isRarityinDatabase(rarity,database):
             print(f"Jumlah          : {infoBarang(rarity,'jumlah')}")
             print(f"Rarity          : {infoBarang(rarity,'rarity')}")
             print(f"Tahun ditemukan : {infoBarang(rarity,'tahun_ditemukan')}")
-            
+
     print("\nSemua data telah ditampilkan")
             
 else:
