@@ -46,16 +46,16 @@ def isTahuninDatabase(tahun_ditemukan,kategori,database):
             if tahun_ditemukan == int(element[5]): # element[5] berisi data tahun_ditemukan
                 return True
         elif (kategori == '>'):
-            if tahun_ditemukan > int(element[5]): # element[5] berisi data tahun_ditemukan
+            if tahun_ditemukan-1 <= int(element[5]): # element[5] berisi data tahun_ditemukan
                 return True
         elif (kategori == '<'):
-            if tahun_ditemukan < int(element[5]): # element[5] berisi data tahun_ditemukan
+            if tahun_ditemukan+1 >= int(element[5]): # element[5] berisi data tahun_ditemukan
                 return True
         elif (kategori == '>='):
-            if tahun_ditemukan > int(element[5]): # element[5] berisi data tahun_ditemukan
+            if tahun_ditemukan <= int(element[5]): # element[5] berisi data tahun_ditemukan
                 return True
         elif (kategori == '<='):
-            if tahun_ditemukan > int(element[5]): # element[5] berisi data tahun_ditemukan
+            if tahun_ditemukan >= int(element[5]): # element[5] berisi data tahun_ditemukan
                 return True
     return False
 
@@ -174,4 +174,4 @@ if isTahuninDatabase(tahun_ditemukan,kategori,database):
     print("\nSemua data telah ditampilkan")
             
 else:
-    print("\nTidak ada")
+    print("\nTidak ada gadget yang ditemukan")
