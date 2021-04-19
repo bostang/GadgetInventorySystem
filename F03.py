@@ -51,7 +51,7 @@ import os
 
 # REALISASI FUNGSI/PROSEDUR
 def clear_screen():
-    # fungsi ini digunakan untuk membuat efek clear screen pada Python
+    # membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def isRarityinDatabase(rarity,database):

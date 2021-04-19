@@ -35,12 +35,36 @@ Tentang cariRarity:
 # mengimport file dari Python
 import os
 
+# KAMUS
+    # Variabel
+        # array_of_data : array of string { array sementara untuk menambah data dari file csv ke array database }
+        # g : textIOWrapper
+        # raw_lines_g : array of character { array sementara berisi data gadget [banyak \n ] }
+        # lines_g : array of character { array sementara sebelum mebuat _gadget }
+        # _gadget : array database gadget.csv
+        # tahun : integer { tahun ditemukannya item yang mau dicari }
+        # kategori : string { untuk memperjelas pencarian berdasarkan tahun ditemukan }
+    # Fungsi/Prosedur
+        # function clear_screen
+            # membuat efek clear screen pada Python
+        # function isTahuninDatabase(tahun_ditemukan : integer, kategori : string, database: array of array of string) -> boolean
+            # mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
+        # procedure convert_line_to_data(input line: string)
+            # menulis data per baris dalam csv ke dalam bentuk array
+            # I.S. belum ada array database ; F.S. array database sudah bisa digunakan
+        # function infoBarang(id : string ,spek : string) -> string / integer
+            # mendapatkan informasi barang dari database
+
+# REALISASI FUNGSI/PROSEDUR
 def clear_screen():
-    # fungsi ini digunakan untuk membuat efek clear screen pada Python
+    # membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def isTahuninDatabase(tahun_ditemukan,kategori,database):
-    # fungsi ini digunakan untuk mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
+    # mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
+    # KAMUS LOKAL
+        # element : array of string { baris pada database }
+    # ALGORITMA
     for element in database[1:]: # database dimulai pada baris ke 1(header tidak dihitung)
         if (kategori == '='):
             if tahun_ditemukan == int(element[5]): # element[5] berisi data tahun_ditemukan
@@ -60,13 +84,23 @@ def isTahuninDatabase(tahun_ditemukan,kategori,database):
     return False
 
 def convert_line_to_data(line):
-    # fungsi ini digunakan menulis data per baris dalam csv ke dalam bentuk array
+    # menulis data per baris dalam csv ke dalam bentuk array
+    # KAMUS LOKAL
+        # Variabel
+            # raw_array_of_data : array of string { array sementara [masih kotor oleh \n] }
+            # array_data : array of string { array hasil berisi data-data dari csv}
+    # ALGORITMA
     raw_array_of_data = line.split(",")
     array_of_data = [data.strip() for data in raw_array_of_data]
     return array_of_data
 
 def infoBarang(tahun_ditemukan,kategori,spek):
-    # fungsi ini digunakan untuk mendapatkan informasi mengenai barang yang ada di database
+    # mendapatkan informasi mengenai barang yang ada di database
+    # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of string { array tempat item berada }
+            # baris : baris pada arrayProcess { untuk skema pencarian }
+    # ALGORITMA
     if (kategori == '=') or (kategori == '>') or (kategori == '<') or (kategori == '>=') or (kategori == '<=') and (tahun_ditemukan > 0):
         arrayProcess = _gadget
     else:
@@ -93,9 +127,8 @@ def infoBarang(tahun_ditemukan,kategori,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-'''''''''''
-'ALGORITMA'
-'''''''''''
+# ALGORITMA UTAMA
+
 # membaca file database .csv
 g = open("gadget.csv","r")
 raw_lines_g = g.readlines()
@@ -116,7 +149,7 @@ print(">>> Pencarian Gadget berdasarkan rarity\n")
 # untuk memastikan bahwa tahun yang di input dalam integer, jika tidak bertipe integer maka akan meminta input ulang
 while True:
     try:
-        tahun_ditemukan = int(input("Masukkan tahun: "))
+        tahun = int(input("Masukkan tahun: "))
         break
     except ValueError:
         print("\nMasukan tahun dalam bentuk angka!\n")
@@ -129,47 +162,43 @@ while (kategori != '=') and (kategori != '>') and (kategori != '<') and (kategor
 
 print("\nHasil pencarian:")
 # mengecek apakah tahun ada di database atau tidak, sesuai kategori
-if isTahuninDatabase(tahun_ditemukan,kategori,database): 
+if isTahuninDatabase(tahun,kategori,database): 
     for baris in database[1:]: # database dimulai pada baris ke 1(header tidak dihitung)
         if (kategori == '='):
-            if int(baris[5]) == tahun_ditemukan: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun_ditemukan,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun_ditemukan,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun_ditemukan,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun_ditemukan,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun_ditemukan,kategori,'tahun_ditemukan')}")
-
+            if int(baris[5]) == tahun: # baris[5] berisi data tentang tahun_ditemukan
+                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
+                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
+                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
+                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
+                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")
         elif (kategori == '>'):
-            if int(baris[5]) >= tahun_ditemukan+1: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun_ditemukan,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun_ditemukan,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun_ditemukan,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun_ditemukan,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun_ditemukan,kategori,'tahun_ditemukan')}")
-        
+            if int(baris[5]) >= tahun+1: # baris[5] berisi data tentang tahun_ditemukan
+                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
+                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
+                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
+                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
+                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")        
         elif (kategori == '<'):
-            if int(baris[5]) <= tahun_ditemukan-1: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun_ditemukan,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun_ditemukan,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun_ditemukan,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun_ditemukan,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun_ditemukan,kategori,'tahun_ditemukan')}")
-            
+            if int(baris[5]) <= tahun-1: # baris[5] berisi data tentang tahun_ditemukan
+                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
+                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
+                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
+                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
+                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")            
         elif (kategori == '>='):
-            if int(baris[5]) >= tahun_ditemukan: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun_ditemukan,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun_ditemukan,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun_ditemukan,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun_ditemukan,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun_ditemukan,kategori,'tahun_ditemukan')}")
-        
+            if int(baris[5]) >= tahun: # baris[5] berisi data tentang tahun_ditemukan
+                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
+                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
+                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
+                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
+                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")        
         elif (kategori == '<='):
-            if int(baris[5]) <= tahun_ditemukan: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun_ditemukan,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun_ditemukan,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun_ditemukan,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun_ditemukan,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun_ditemukan,kategori,'tahun_ditemukan')}")
+            if int(baris[5]) <= tahun: # baris[5] berisi data tentang tahun_ditemukan
+                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
+                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
+                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
+                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
+                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")
 
     print("\nSemua data telah ditampilkan")
             
