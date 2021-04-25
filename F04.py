@@ -30,18 +30,17 @@ import os
         # tahun : integer { tahun ditemukannya item yang mau dicari }
         # kategori : string { untuk memperjelas pencarian berdasarkan tahun ditemukan }
     # Fungsi/Prosedur
-        # function clear_screen
+        # function bersih
             # membuat efek clear screen pada Python
+        # procedure splitList
+            # menulis data per baris dalam csv ke dalam bentuk array
         # function isTahuninDatabase(tahun_ditemukan : integer, kategori : string, database: array of array of string) -> boolean
             # mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
-        # procedure convert_line_to_data(input line: string)
-            # menulis data per baris dalam csv ke dalam bentuk array
-            # I.S. belum ada array database ; F.S. array database sudah bisa digunakan
         # function infoBarang(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
 
 # REALISASI FUNGSI/PROSEDUR
-def clear_screen():
+def bersih():
     # membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -136,7 +135,7 @@ for line in lines_g:
     _gadget.append(array_of_data)
 
 # Melakukan skema pencarian berdasarkan tahun_ditemukan dan kategori
-clear_screen()
+bersih()
 database = _gadget
 print(">>> Pencarian Gadget berdasarkan rarity\n")
 
