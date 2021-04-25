@@ -79,7 +79,7 @@ def splitList(database):
     split_list = []
     tmp = ''
     for s in database:
-        if s == ',':
+        if s == ';':
             split_list.append(tmp)
             tmp = ''
         else:
