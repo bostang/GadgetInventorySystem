@@ -31,9 +31,10 @@ import os
         # _gadget : array database gadget.csv
         # _consumable : array database consumable.csv
     # Fungsi/Prosedur
-        # procedure convert_line_to_data(input line: string)
+        # function bersih
+            # membuat efek clear screen pada Python
+        # procedure splitList
             # menulis data per baris dalam csv ke dalam bentuk array
-            # I.S. belum ada array database ; F.S. array database sudah bisa digunakan
         # procedure add_item_to_database(input id, nama, deskripsi, jumlah, rarity, tahuntemu: string)
             # menambahkan item LANGSUNG ke gadget.csv atau consumable.csv
             # I.S. barang belum masuk ke file .csv ; F.S. barang telah ditambahkan ke file .csv
@@ -42,6 +43,7 @@ import os
             # I.S. informasi barang belum di-ipnut ; F.S. barang telah divalidasi (ditampilkan pesan error / ditambahkan ke database)
         # function isIDinDatabase(id : string, database: array of array of string) -> boolean
             # memeriksa apakah id barang sudah ada di database atau belum
+
 # REALISASI FUNGSI/PROSEDUR
 def bersih():
     # membuat efek clear screen pada Python
@@ -174,4 +176,5 @@ for line in lines_c:
 
     # menambahkan gadget baru
 tambahItem()
+print("")
 os.system('pause')

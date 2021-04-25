@@ -17,14 +17,15 @@ import os
         # id_remove : string { id yang ingin dihapus }
         # kondisiLanjut : boolean { jika bernilai True, maka penghapusan akan dilanjutkan }
     # Fungsi / Prosedur
+        # function bersih
+            # membuat efek clear screen pada Python
+        # procedure splitList
+            # menulis data per baris dalam csv ke dalam bentuk array
         # procedure remove_item_from_database
             # I.S. id item yang ingin dihapus sudah divalidasi [dapat dihapus]
             # F.S. item dengan id bersangkutan telah dihapus dari file csv
         # function isIDinDatabase(id : string, database: array of array of string) -> boolean
             # memeriksa apakah id barang sudah ada di database atau belum
-        # procedure convert_line_to_data(input line: string)
-            # menulis data per baris dalam csv ke dalam bentuk array
-            # I.S. belum ada array database ; F.S. array database sudah bisa digunakan
         # procedure hapusItem
             # menerima input id barang yang ingin dihapuskan dan melakukan validasi
             # I.S. belum diterima barang yang mau dihapus
@@ -197,4 +198,5 @@ bersih()
 print(">>> Menghapus Item")
 id_remove = input("Masukkan ID item: ")
 hapusItem()
+print("")
 os.system('pause')

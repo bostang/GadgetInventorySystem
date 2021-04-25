@@ -18,11 +18,12 @@ import os
         # jumlahUbah : integer { penambahan / pengurangan terhadap jumlah awal gadget }
         # kondisiLanjut : boolean { jika True, maka proses overwritting pada file csv akan dieksekusi }
     # Fungsi/Prosedur
+        # function bersih
+            # membuat efek clear screen pada Python
+        # procedure splitList
+            # menulis data per baris dalam csv ke dalam bentuk array
         # function isIDinDatabase(id : string, database: array of array of string) -> boolean
             # memeriksa apakah id barang sudah ada di database atau belum
-        # procedure convert_line_to_data(input line: string)
-            # menulis data per baris dalam csv ke dalam bentuk array
-            # I.S. belum ada array database ; F.S. array database sudah bisa digunakan
         # procedure convert_to_real(input code : character)
             # mengonversi data suatu array database supaya bisa dimanipulasi nilainya
             # I.S. data pada kolom 'jumlah' masih berupa string
@@ -237,4 +238,5 @@ if kondisiLanjut:
         print(f"\n{jumlahUbah} {infoBarang(idUbah,'nama')} berhasil ditambahkan. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
     else:
         print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} berhasil dibuang. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
+print("")
 os.system('pause')
