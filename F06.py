@@ -61,7 +61,7 @@ def splitList(database):
     split_list = []
     tmp = ''
     for s in database:
-        if s == ',':
+        if s == ';':
             split_list.append(tmp)
             tmp = ''
         else:
@@ -152,7 +152,7 @@ def convert_datas_to_string(code):
         if arr_data[0] == id_remove : # kita tidak akan mendaftarkan id yang ingin kita hapus
             continue
         arr_data_all_string = [var for var in arr_data]
-        string_data += ",".join(arr_data_all_string)
+        string_data += ";".join(arr_data_all_string)
         string_data += "\n"
     return string_data
 

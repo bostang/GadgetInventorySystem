@@ -67,7 +67,7 @@ def splitList(database):
     split_list = []
     tmp = ''
     for s in database:
-        if s == ',':
+        if s == ';':
             split_list.append(tmp)
             tmp = ''
         else:
@@ -118,7 +118,7 @@ def convert_datas_to_string_ubahJumlah(code):
     string_data = ""
     for arr_data in arrayProcess:
         arr_data_all_string = [str(var) for var in arr_data]
-        string_data += ",".join(arr_data_all_string)
+        string_data += ";".join(arr_data_all_string)
         string_data += "\n"
 
     return string_data

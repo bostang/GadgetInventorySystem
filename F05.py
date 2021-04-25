@@ -68,7 +68,7 @@ def splitList(database):
     split_list = []
     tmp = ''
     for s in database:
-        if s == ',':
+        if s == ';':
             split_list.append(tmp)
             tmp = ''
         else:
@@ -84,10 +84,10 @@ def add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu):
             # new_data : string { string data yang ingin ditulis ke file database.csv }
     # ALGORITMA
     if id[0] == 'G': # menambahkan ke gadget.csv bila id dimulai dari huruf G
-        new_data = f"{id},{nama},{deskripsi},{jumlah},{rarity},{tahuntemu}\n"
+        new_data = f"{id};{nama};{deskripsi};{jumlah};{rarity};{tahuntemu}\n"
         f = open("gadget.csv","a") # "a" : menambahkan konten pada database.csv
     elif id[0] == 'C': # menambahkan ke consumable.csv bila id dimulai dari huruf C
-        new_data = f"{id},{nama},{deskripsi},{jumlah},{rarity}\n"
+        new_data = f"{id};{nama};{deskripsi};{jumlah};{rarity}\n"
         f = open("consumable.csv","a")
 
     f.write(new_data)
