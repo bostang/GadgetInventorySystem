@@ -1,7 +1,14 @@
-# Program change_quantity_in_database
-# mengubah jumlah item pada gadget.csv atau consumable.csv
+"""
+Menambah item
+Akses: Admin
 
-# Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
+Admin dapat mengubah jumlah gadget atau consumable yang terdapat di dalam sistem.
+Pastikan jumlah gadget atau consumable yang telah diupdate tetap valid(tidak negatif).
+Bila consumable dan gadget menjadi 0, tidak perlu dihapus dari sistem.
+
+Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
+
+"""
 
 import os
 
@@ -39,7 +46,7 @@ import os
 def bersih():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
+def isIDinDatabase(id,database):
     # memeriksa apakah ID item ada di suatu array database apa tidak
     # KAMUS LOKAL
         # element : array of string { baris pada database }
@@ -49,16 +56,25 @@ def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
             return True
     return False
 
-def convert_line_to_data(line): # [ *** SUDAH ADA DI F05 *** ]
+def splitList(database):
     # menulis data per baris dalam csv ke dalam bentuk array
     # KAMUS LOKAL
         # Variabel
-            # raw_array_of_data : array of string { array sementara [masih kotor oleh \n] }
-            # array_data : array of string { array hasil berisi data-data dari csv}
+            # database : array of string { array sementara [masih kotor oleh \n] }
+            # aplit_list : array of string { array hasil berisi data-data dari csv}
     # ALGORITMA
-    raw_array_of_data = line.split(",")
-    array_of_data = [data.strip() for data in raw_array_of_data]
-    return array_of_data
+    database = ''.join(line)
+    split_list = []
+    tmp = ''
+    for s in database:
+        if s == ',':
+            split_list.append(tmp)
+            tmp = ''
+        else:
+            tmp += s
+    if tmp:
+        split_list.append(tmp)
+    return split_list
 
 def convert_to_real(code):
     # mengonversi data suatu array database supaya bisa dimanipulasi nilainya
@@ -85,7 +101,7 @@ def convert_to_real(code):
             baris[3] = int(baris[3])
     return array_salinan
 
-def convert_datas_to_string_ubahJumlah(code): # [ *** SUDAH ADA DI F06 tetapi agak beda *** ]
+def convert_datas_to_string_ubahJumlah(code):
     # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
     # KAMUS LOKAL
         # Variabel
@@ -107,7 +123,7 @@ def convert_datas_to_string_ubahJumlah(code): # [ *** SUDAH ADA DI F06 tetapi ag
 
     return string_data
 
-def overwrite_database(code): # [ *** SUDAH ADA DI F06 *** ]
+def overwrite_database(code):
     # melakukan overwrite terhadap konten database [digunakan dalam skema penggantian jumlah item pada csv]
     # KAMUS LOKAL
         # datas_as_string : string { untain informasi dari database [lokal] }
@@ -183,10 +199,10 @@ _gadget = []
 _consumable = []
 
 for line in lines_g:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 for line in lines_c:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _consumable.append(array_of_data)
 
     # skema pengubahan jumlah suatu item pada database

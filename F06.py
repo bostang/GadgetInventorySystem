@@ -1,8 +1,15 @@
-# Program hapusGadget
-    # menghapus gadget atau consumable dari gadget.py atau consumable.py
+"""
+Menambah item
+Akses: Admin
 
-# Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
+Admin memiliki wewenang untuk menghapus suatu item pada database. Bila item sudah dihapus.
+entry item akan hilang dari file bila di-save.
 
+Kontributor : Bostang Palaguna [16520090], Muhammad Daris Nurhakim [16520170]
+
+"""
+
+# mengimport file dari Python
 import os
 
 # KAMUS
@@ -30,9 +37,10 @@ import os
             # I.S. belum ada perubahan pada database ; F.S. database telah ditulis ulang tanpa mengikutkan item yang dihapus
 # REALISASI FUNGSI/PROSEDUR
 def bersih():
+    # membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
+def isIDinDatabase(id,database):
     # memeriksa apakah iD item ada di suatu array database apa tidak
     # KAMUS LOKAL
         # element : array of string { baris pada database }
@@ -42,16 +50,25 @@ def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
             return True
     return False
 
-def convert_line_to_data(line): # [ *** SUDAH ADA DI F05 *** ]
+def splitList(database):
     # menulis data per baris dalam csv ke dalam bentuk array
     # KAMUS LOKAL
         # Variabel
-            # raw_array_of_data : array of string { array sementara [masih kotor oleh \n] }
-            # array_data : array of string { array hasil berisi data-data dari csv}
+            # database : array of string { array sementara [masih kotor oleh \n] }
+            # aplit_list : array of string { array hasil berisi data-data dari csv}
     # ALGORITMA
-    raw_array_of_data = line.split(",")
-    array_of_data = [data.strip() for data in raw_array_of_data]
-    return array_of_data
+    database = ''.join(line)
+    split_list = []
+    tmp = ''
+    for s in database:
+        if s == ',':
+            split_list.append(tmp)
+            tmp = ''
+        else:
+            tmp += s
+    if tmp:
+        split_list.append(tmp)
+    return split_list
 
 def infoBarang(id,spek):
     # mendapatkan informasi barang dari database
@@ -169,10 +186,10 @@ _gadget = []
 _consumable = []
 
 for line in lines_g:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 for line in lines_c:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _consumable.append(array_of_data)
 
     # melakukan skema penghapusan
