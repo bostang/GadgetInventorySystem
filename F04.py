@@ -13,22 +13,7 @@ Penjelasan dari setiap kategori adalah sebagai berikut:
 
 Catatan: Format tanggal dan jenis kategori yang diinput pasti valid
 
-Desainer : 
-1. Muhammad Daris Nurhakim (16520170)
-2. 
-
-Coder :
-1. Muhammad Daris Nurhakim (16520170)
-2. 
-
-Tester :
-1.
-2.
-
-Tentang cariRarity:
-1. Sudah berjalan dengan baik
-2. Masih menggunakan .split()
-3. Belum di cek saat bergabung dengan semua fungsi
+Kontributor : Muhammad Daris Nurhakim [16520170], ...
 
 """
 
@@ -83,16 +68,25 @@ def isTahuninDatabase(tahun_ditemukan,kategori,database):
                 return True
     return False
 
-def convert_line_to_data(line):
+def splitList(database):
     # menulis data per baris dalam csv ke dalam bentuk array
     # KAMUS LOKAL
         # Variabel
-            # raw_array_of_data : array of string { array sementara [masih kotor oleh \n] }
-            # array_data : array of string { array hasil berisi data-data dari csv}
+            # database : array of string { array sementara [masih kotor oleh \n] }
+            # aplit_list : array of string { array hasil berisi data-data dari csv}
     # ALGORITMA
-    raw_array_of_data = line.split(",")
-    array_of_data = [data.strip() for data in raw_array_of_data]
-    return array_of_data
+    database = ''.join(line)
+    split_list = []
+    tmp = ''
+    for s in database:
+        if s == ',':
+            split_list.append(tmp)
+            tmp = ''
+        else:
+            tmp += s
+    if tmp:
+        split_list.append(tmp)
+    return split_list
 
 def infoBarang(tahun_ditemukan,kategori,spek):
     # mendapatkan informasi mengenai barang yang ada di database
@@ -138,7 +132,7 @@ lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
 # mengakses database dalam bentuk array
 _gadget = []
 for line in lines_g:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 
 # Melakukan skema pencarian berdasarkan tahun_ditemukan dan kategori
