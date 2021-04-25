@@ -13,7 +13,7 @@ Penjelasan dari setiap kategori adalah sebagai berikut:
 
 Catatan: Format tanggal dan jenis kategori yang diinput pasti valid
 
-Kontributor : Muhammad Daris Nurhakim [16520170], ...
+Kontributor : Muhammad Daris Nurhakim [16520170], Diffa' Shada 'Aqila [16520070]
 
 """
 

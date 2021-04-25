@@ -7,7 +7,7 @@ rarity(C,B,A,S), kemudian aplikasi akan menampilkan Gadget dengan rarity tersebu
 
 Catatan: Jenis rarity yang di input pasti valid(C,B,A,S).
 
-Kontributor : Muhammad Daris Nurhakim [16520170]
+Kontributor : Muhammad Daris Nurhakim [16520170], Diffa' Shada 'Aqila [16520070]
 
 """
 
