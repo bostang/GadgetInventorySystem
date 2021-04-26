@@ -7,7 +7,9 @@ Data bisa dibaca dari file yang tersedia. Bila terdapat lebih dari 5 entry. Kelu
 paling baru, dan pengguna dapat mengeluarkan 5 entry tambahan bila diinginkan. Keluaran minimal
 memiliki field seperti contoh dan harus sorted descending berdasarkan tanggal.
 
-Kontributor : Muhammad Daris Nurhakim [16520170]
+Kontributor : 
+Muhammad Daris Nurhakim [16520170]
+Joshi Ryu Setiady [16520230]
 
 """
 

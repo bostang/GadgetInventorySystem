@@ -1,8 +1,8 @@
 """
-Melihat Riwayat Pengembalian Gadget
+Melihat Riwayat Pengambilan Consumable
 Akses: Admin
 
-Prosedur ini digunakan oleh Admin sebagai bantuan untuk melihat riwayat pengembalian gadget.
+Prosedur ini digunakan oleh Admin sebagai bantuan untuk melihat riwayat pengambilan consumable.
 Data bisa dibaca dari file yang tersedia. Bila terdapat lebih dari 5 entry. Keluarkan 5 entry
 paling baru, dan pengguna dapat mengeluarkan 5 entry tambahan bila diinginkan. Keluaran minimal
 memiliki field seperti contoh dan harus sorted descending berdasarkan tanggal.
@@ -34,8 +34,8 @@ import os
             # mendapatkan informasi barang dari database
         # function infoUser(string, stiring) -> string
             # mendapatkan informasi user (nama atau id saja) dari database
-        # function infoKembali(string, stiring) -> string
-            # mendapatkan informasi mengenai barang yang dikembalikan
+        # function infoPinjam(string, stiring) -> string
+            # mendapatkan informasi mengenai barang yang dipinjam
 
 # REALISASI FUNGSI/PROSEDUR
 def bersih():
@@ -128,14 +128,14 @@ def infoBarang(id_pinjam,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-def infoKembali(spek):
+def infoPinjam(spek):
     # mendapatkan informasi mengenai barang yang dipinjam
     # KAMUS LOKAL
         # Variabel
             # arrayProcess : array of array of string { array tempat item berada }
             # baris : baris pada arrayProcess { untuk skema pencarian }
     # ALGORITMA
-    arrayProcess = _gadgetReturnHistory
+    arrayProcess = _gadgetBorrowHistory
     # mengecek baris per baris
     i = 0
     while arrayProcess[i]:
@@ -158,24 +158,24 @@ def infoKembali(spek):
 # membaca file database .csv
 g = open("gadget.csv","r")
 u = open("user.csv","r")
-gr = open("gadget_return_history.csv","r")
+gb = open("gadget_borrow_history.csv","r")
 
 raw_lines_g = g.readlines()
 raw_lines_u = u.readlines()
-raw_lines_gr = gr.readlines()
+raw_lines_gb = gb.readlines()
 
 g.close()
 u.close()
-gr.close()
+gb.close()
 
 lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
 lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
-lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
+lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
 
 # mengakses database dalam bentuk array
 _gadget = []
 _user = []
-_gadgetReturnHistory = []
+_gadgetBorrowHistory = []
 
 for line in lines_g:
     array_of_data = splitList(line)
@@ -183,26 +183,27 @@ for line in lines_g:
 for line in lines_u:
     array_of_data = splitList(line)
     _user.append(array_of_data)
-for line in lines_gr:
+for line in lines_gb:
     array_of_data = splitList(line)
-    _gadgetReturnHistory.append(array_of_data)
+    _gadgetBorrowHistory.append(array_of_data)
 
 bersih()
 
 # melakukan skema untuk melihat riwayat peminjaman barang
 print(">>> Riwayat Kembali")
-database = _gadgetReturnHistory
+database = _gadgetBorrowHistory
 m = 1
 n = 6
 for baris in database[m:n]:
-    print(f"\nID Pengembalian       : {infoKembali('id')}")
-    idPeminjam = infoKembali('id_peminjam')
+    print(f"\nID Peminjaman       : {infoPinjam('id')}")
+    idPeminjam = infoPinjam('id_peminjam')
     if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
-        print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
-    idGadget = infoKembali('id_gadget')
+        print(f"Nama Pengambil      : {infoUser(idPeminjam,'nama')}")
+    idGadget = infoPinjam('id_gadget')
     if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
-        print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
-    print(f"Tanggal Pengembalian  : {infoKembali('tanggal_peminjaman')}")
+        print(f"Nama Gadget         : {infoBarang(idGadget,'nama')}")
+    print(f"Tanggal Peminjaman  : {infoPinjam('tanggal_peminjaman')}")
+    print(f"Jumlah              : {infoPinjam('jumlah_pinjam')}")
 
 while (len(database) > n):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
@@ -213,14 +214,15 @@ while (len(database) > n):
         m += 5
         n += 5
         for baris in database[m:n]:
-            print(f"\nID Pengembalian       : {infoKembali('id')}")
-        idPeminjam = infoKembali('id_peminjam')
+            print(f"\nID Peminjaman       : {infoPinjam('id')}")
+        idPeminjam = infoPinjam('id_peminjam')
         if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
-            print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
-        idGadget = infoKembali('id_gadget')
+            print(f"Nama Pengambil      : {infoUser(idPeminjam,'nama')}")
+        idGadget = infoPinjam('id_gadget')
         if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
-            print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
-        print(f"Tanggal Pengembalian  : {infoKembali('tanggal_peminjaman')}")
+            print(f"Nama Gadget         : {infoBarang(idGadget,'nama')}")
+        print(f"Tanggal Peminjaman  : {infoPinjam('tanggal_peminjaman')}")
+        print(f"Jumlah              : {infoPinjam('jumlah_pinjam')}")
     else:
         break
 else:
