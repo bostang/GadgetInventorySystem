@@ -32,9 +32,9 @@ import os
             # memeriksa apakah user ada di array _user apa tidak
         # function infoBarang(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
-        # function infoUser(string, stiring) -> string
+        # function infoUser(string, string) -> string
             # mendapatkan informasi user (nama atau id saja) dari database
-        # function infoPinjam(string, stiring) -> string
+        # function infoPinjam(string, string) -> string
             # mendapatkan informasi mengenai barang yang dipinjam
 
 # REALISASI FUNGSI/PROSEDUR
@@ -90,7 +90,6 @@ def infoUser(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _user
     # mengecek baris per baris
-    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
         # me-return informasi
@@ -110,7 +109,6 @@ def infoBarang(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _gadget
     # mengecek baris per baris
-    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
             if spek == 'id':
@@ -207,7 +205,7 @@ for baris in database[m:n]:
 
 while (len(database) > n):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    while (lanjut != 'Y') and (lanjut != 'y') and (lanjut != 'N') and (lanjut != 'n'):
+    while lanjut not in 'YyNn':
         print("Masukan Anda salah!")
         lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
     if (lanjut == 'Y') or (lanjut == 'y'):
