@@ -30,9 +30,8 @@ def help():
     print('minta - untuk memingta consumable yang tersedia dalam database')
     print('save - untuk menyimpan data ke dalam suatu file setelah diubah')
     print('help - untuk menampilkan command sesuai kebutuhan user/admin')  
-    return 
 
-print(help()) 
+help() 
 
 
 
