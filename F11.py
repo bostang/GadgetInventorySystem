@@ -7,9 +7,7 @@ Data bisa dibaca dari file yang tersedia. Bila terdapat lebih dari 5 entry. Kelu
 paling baru, dan pengguna dapat mengeluarkan 5 entry tambahan bila diinginkan. Keluaran minimal
 memiliki field seperti contoh dan harus sorted descending berdasarkan tanggal.
 
-Kontributor : 
-Muhammad Daris Nurhakim [16520170]
-Joshi Ryu Setiady [16520230]
+Kontributor : Muhammad Daris Nurhakim [16520170], Joshi Ryu Setiady [16520230]
 
 """
 
@@ -34,7 +32,7 @@ import os
             # mendapatkan informasi barang dari database
         # function infoUser(string, string) -> string
             # mendapatkan informasi user (nama atau id saja) dari database
-        # function infoPinjam(string, string) -> string
+        # function infoPinjam(string, stiring) -> string
             # mendapatkan informasi mengenai barang yang dipinjam
 
 # REALISASI FUNGSI/PROSEDUR
@@ -190,9 +188,12 @@ bersih()
 # melakukan skema untuk melihat riwayat peminjaman barang
 print(">>> Riwayat Kembali")
 database = _gadgetBorrowHistory
-m = 1
-n = 6
-for baris in database[m:n]:
+if (len(database) < 6):
+    m = 1    
+else: 
+    m = len(database) - 5
+n = len(database)
+for baris in reversed(database[m:n]):
     print(f"\nID Peminjaman       : {infoPinjam('id')}")
     idPeminjam = infoPinjam('id_peminjam')
     if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
@@ -203,15 +204,20 @@ for baris in database[m:n]:
     print(f"Tanggal Peminjaman  : {infoPinjam('tanggal_peminjaman')}")
     print(f"Jumlah              : {infoPinjam('jumlah_pinjam')}")
 
-while (len(database) > n):
+while (m > 1):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    while lanjut not in 'YyNn':
+    while (lanjut != 'Y') and (lanjut != 'y') and (lanjut != 'N') and (lanjut != 'n'):
         print("Masukan Anda salah!")
         lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
     if (lanjut == 'Y') or (lanjut == 'y'):
-        m += 5
-        n += 5
-        for baris in database[m:n]:
+        if (m > 6):
+            m -= 5
+        else:
+            m = 1
+        n -= 5
+        for baris in reversed(database[m:n]):
+            bersih()
+            print(">>> Riwayat Kembali")
             print(f"\nID Peminjaman       : {infoPinjam('id')}")
         idPeminjam = infoPinjam('id_peminjam')
         if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
