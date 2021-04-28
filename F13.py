@@ -7,9 +7,7 @@ Data bisa dibaca dari file yang tersedia. Bila terdapat lebih dari 5 entry. Kelu
 paling baru, dan pengguna dapat mengeluarkan 5 entry tambahan bila diinginkan. Keluaran minimal
 memiliki field seperti contoh dan harus sorted descending berdasarkan tanggal.
 
-Kontributor : 
-Muhammad Daris Nurhakim [16520170]
-Joshi Ryu Setiady [16520230]
+Kontributor : Muhammad Daris Nurhakim [16520170], Joshi Ryu Setiady [16520230]
 
 """
 
@@ -188,9 +186,12 @@ bersih()
 # melakukan skema untuk melihat riwayat peminjaman barang
 print(">>> Riwayat Kembali")
 database = _consumableHistory
-m = 1
-n = 6
-for baris in database[m:n]:
+if (len(database) < 6):
+    m = 1    
+else: 
+    m = len(database) - 5
+n = len(database)
+for baris in reversed(database[m:n]):
     print(f"\nID Pengambilan      : {infoAmbil('id')}")
     idPengambil = infoAmbil('id_pengambil')
     if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id'):
@@ -201,15 +202,18 @@ for baris in database[m:n]:
     print(f"Tanggal Peminjaman  : {infoAmbil('tanggal_pengambilan')}")
     print(f"Jumlah              : {infoAmbil('jumlah')}")
 
-while (len(database) > n):
+while (m > 1):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
     while lanjut not in 'YyNn':
         print("Masukan Anda salah!")
         lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
     if (lanjut == 'Y') or (lanjut == 'y'):
-        m += 5
-        n += 5
-        for baris in database[m:n]:
+        if (m > 6):
+            m -= 5
+        else:
+            m = 1
+        n -= 5
+        for baris in reversed(database[m:n]):
             print(f"\nID Pengambilan      : {infoAmbil('id')}")
         idPengambil = infoAmbil('id_pengambil')
         if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id'):
