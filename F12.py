@@ -7,9 +7,7 @@ Data bisa dibaca dari file yang tersedia. Bila terdapat lebih dari 5 entry. Kelu
 paling baru, dan pengguna dapat mengeluarkan 5 entry tambahan bila diinginkan. Keluaran minimal
 memiliki field seperti contoh dan harus sorted descending berdasarkan tanggal.
 
-Kontributor : 
-Muhammad Daris Nurhakim [16520170]
-Joshi Ryu Setiady [16520230]
+Kontributor : Muhammad Daris Nurhakim [16520170], Joshi Ryu Setiady [16520230]
 
 """
 
@@ -32,9 +30,9 @@ import os
             # memeriksa apakah user ada di array _user apa tidak
         # function infoBarang(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
-        # function infoUser(string, string) -> string
+        # function infoUser(string, stiring) -> string
             # mendapatkan informasi user (nama atau id saja) dari database
-        # function infoKembali(string, string) -> string
+        # function infoKembali(string, stiring) -> string
             # mendapatkan informasi mengenai barang yang dikembalikan
 
 # REALISASI FUNGSI/PROSEDUR
@@ -90,6 +88,7 @@ def infoUser(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _user
     # mengecek baris per baris
+    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
         # me-return informasi
@@ -109,6 +108,7 @@ def infoBarang(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _gadget
     # mengecek baris per baris
+    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
             if spek == 'id':
@@ -190,9 +190,12 @@ bersih()
 # melakukan skema untuk melihat riwayat peminjaman barang
 print(">>> Riwayat Kembali")
 database = _gadgetReturnHistory
-m = 1
-n = 6
-for baris in database[m:n]:
+if (len(database) < 6):
+    m = 1    
+else: 
+    m = len(database) - 5
+n = len(database)
+for baris in reversed(database[m:n]):
     print(f"\nID Pengembalian       : {infoKembali('id')}")
     idPeminjam = infoKembali('id_peminjam')
     if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
@@ -202,15 +205,17 @@ for baris in database[m:n]:
         print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
     print(f"Tanggal Pengembalian  : {infoKembali('tanggal_peminjaman')}")
 
-while (len(database) > n):
+while (m > 1):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    while lanjut not in 'YyNn':
+    while (lanjut != 'Y') and (lanjut != 'y') and (lanjut != 'N') and (lanjut != 'n'):
         print("Masukan Anda salah!")
         lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    if (lanjut == 'Y') or (lanjut == 'y'):
-        m += 5
-        n += 5
-        for baris in database[m:n]:
+        if (m > 6):
+            m -= 5
+        else:
+            m = 1
+        n -= 5
+        for baris in reversed(database[m:n]):
             print(f"\nID Pengembalian       : {infoKembali('id')}")
         idPeminjam = infoKembali('id_peminjam')
         if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
