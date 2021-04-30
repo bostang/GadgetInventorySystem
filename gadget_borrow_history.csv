@@ -1,0 +1,7 @@
+id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned
+3G217042021;3;G2;17/04/2021;69;False
+3G125042021;2;G1;25/04/2021;5;True
+3G326042021;1;G3;26/04/2021;10;False
+3G426042021;4;G4;26/04/2021;5;False
+3G226042021;3;G2;26/04/2021;3;False
+3G326042021;2;G3;26/04/2021;8;False
