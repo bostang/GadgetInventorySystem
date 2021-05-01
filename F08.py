@@ -3,6 +3,7 @@
 
 # Kontributor : Bostang Palaguna [16520090]
 
+import datetime
 from Basic_Procedure import *
 
 # KAMUS
@@ -174,8 +175,13 @@ def pinjamGadget():
     # KAMUS LOKAL
     # ALGORITMA
     id_peminjam = infoUser(userAktif,'id')
-    id_transaksi = f"{id_peminjam}{idPinjam}{tanggalPinjam[0:2]}{tanggalPinjam[3:5]}{tanggalPinjam[6:]}"
-    is_returned = "False"
+    database = _gadgetBorrowHistory
+    id_transaksi = int(database[-1][0]) + 1
+    tanggalPinjam = datetime.datetime.now().strftime("%d/%m/%Y")
+    if (jumlahPinjam > 0):
+        is_returned = "False"
+    elif (jumlahPinjam == 0):
+        is_returned = "True"
         # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
     dataPinjam = f"{id_transaksi};{id_peminjam};{idPinjam};{tanggalPinjam};{jumlahPinjam};{is_returned}\n"
     gb = open("gadget_borrow_history.csv","a")
@@ -231,7 +237,8 @@ kondisiLanjut = True
 idPinjam = input("Masukkan ID item: ")
 
 if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
-    tanggalPinjam = input("Masukkan tanggal peminjaman: ")
+    tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+    tanggalPinjam = print("Tanggal peminjaman:",tanggal)
     jumlahPinjam = int(input("Jumlah peminjaman: "))
     if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah'))):
         namaBarangPinjam = infoBarang(idPinjam,"nama")
@@ -240,7 +247,7 @@ if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
         print("Peminjaman gagal! (jumlah pinjam harus > 0)")
         kondisiLanjut = False
     else:
-        print(" Peminjaman Gagal! jumlah barang di database kurang")
+        print("Peminjaman Gagal! jumlah barang di database kurang")
         kondisiLanjut = False
 else:
     print("Peminjaman Gagal! barang tidak ditemukan di database")
