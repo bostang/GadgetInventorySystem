@@ -8,7 +8,7 @@ pada bagian struktur data eksternal.
 
 Kontributor : Joshi Ryu Setiady (16520230)
 """
-
+# UNTUK SEMENTARA, LANGSUNG DIIMPLEMENTASIKAN KE PROGRAM UTAMA KANTONGAJAIB.PY
 import argparse
 import os
 from Basic_Procedure import *
@@ -28,7 +28,7 @@ def load():
             print('Tidak ada nama folder yang diberikan!')
             print("Usage : python kantongajaib.py <nama_folder>")
     else:
-        print('Tidak ada nama folder yang diberikan!')
+        print('Tidak ada nama folder yang diberikan!')    # In case kepake (harusnya engga)
         print("Usage : python kantongajaib.py <nama_folder>")
 
     # Untuk mengubah file CSV menjadi array yg bisa dipakai di fungsi lain
@@ -81,6 +81,10 @@ def load():
         for line in lines_u:
             array_of_data = splitList(line)
             _user.append(array_of_data)
+        # Menyimpan array dari file csv untuk dipakai di fungsi lain
     except UnboundLocalError:
         print('Tidak ada nama folder yang diberikan!')
         print("Usage : python kantongajaib.py <nama_folder>")
+
+    
+    

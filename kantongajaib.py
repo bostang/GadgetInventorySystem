@@ -1,5 +1,6 @@
 # Program Inventarisasi Gadget
 
+import os, argparse
 from Basic_Procedure import *
 from F01 import *
 from F02 import *
@@ -22,8 +23,73 @@ from F17 import *
 exitprogram = False
 loop = True
 
+# Fungsi Load
+# Untuk mencari file di folder tersebut
+parser = argparse.ArgumentParser(usage='python kantongajaib.py <folder_name>')
+parser.add_argument('folder_name', help="Masukkan nama folder tempat penyimpanan", default=None)
+args = parser.parse_args()
+if args.folder_name is not None:
+    if __name__ == "__main__":
+        for (root,dirs,files) in os.walk(args.folder_name, topdown=True):
+            path = root
+            nama_file = files
+# Untuk mengubah file CSV menjadi array yg bisa dipakai di fungsi lain
+try:
+    c = open(path+"/"+nama_file[0],"r")
+    ch = open(path+"/"+nama_file[1],"r")
+    g = open(path+"/"+nama_file[2],"r")
+    gb = open(path+"/"+nama_file[3],"r")
+    gr = open(path+"/"+nama_file[4],"r")
+    u = open(path+"/"+nama_file[5],"r")
+    raw_lines_c = c.readlines()
+    raw_lines_ch = ch.readlines()
+    raw_lines_g = g.readlines()
+    raw_lines_gb = gb.readlines()
+    raw_lines_gr = gr.readlines()
+    raw_lines_u = u.readlines()
+    c.close()
+    ch.close()
+    g.close()
+    gb.close()
+    gr.close()
+    u.close()
+    lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
+    lines_ch = [raw_line.replace("\n", "") for raw_line in raw_lines_ch]
+    lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
+    lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
+    lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
+    lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
+    _consumable = []
+    _consumableHistory = []
+    _gadget = []
+    _gadgetBorrow = []
+    _gadgetReturn = []
+    _user = []
+    for line in lines_c:
+        array_of_data = splitList(line)
+        _consumable.append(array_of_data)
+    for line in lines_ch:
+        array_of_data = splitList(line)
+        _consumableHistory.append(array_of_data)
+    for line in lines_g:
+        array_of_data = splitList(line)
+        _gadget.append(array_of_data)
+    for line in lines_gb:
+        array_of_data = splitList(line)
+        _gadgetBorrow.append(array_of_data)
+    for line in lines_gr:
+        array_of_data = splitList(line)
+        _gadgetReturn.append(array_of_data)
+    for line in lines_u:
+        array_of_data = splitList(line)
+        _user.append(array_of_data)
+except UnboundLocalError or NameError:
+    print('Tidak ada nama folder yang diberikan!')
+    print("Usage : python kantongajaib.py <nama_folder>")
+    exit()
+
+# Main Program
 while not exitprogram:
-    load()
     print("loading...")
     print("Selamat Datang di 'Kantong Ajaib'!")
     os.system('pause')
@@ -36,9 +102,10 @@ Program Kantong Ajaib! :
     """)
     menu_utama = str(input("Masukkan pilihan : "))
     if menu_utama == '1':
-        login()
+        clear_screen()
+        user_aktif = login(_user)
         while loop:
-            if role == 'admin':
+            if user_aktif[5] == 'admin':
                 print("""
 Menu Utama Admin :
 1. Register akun baru
@@ -57,7 +124,7 @@ Menu Utama Admin :
                 """)
                 menu_admin = str(input("Masukkan pilihan : "))
                 if menu_admin == '1':
-                    test # untuk F01
+                    register(_user) # untuk F01
                     loop = False
                 elif menu_admin == '2':
                     test # untuk F03
@@ -96,7 +163,7 @@ Menu Utama Admin :
                     clear_screen()
                     print("Masukkan salah. Mohon ulangi")
                     os.system('pause')
-            if role == 'user':
+            if user_aktif[5] == 'user':
                 print("""
 Menu Utama User :
 1. Pencarian gadget berdasarkan rarity
