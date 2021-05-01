@@ -1,5 +1,5 @@
 """
-Menambah item
+Mengubah jumlah item
 Akses: Admin
 
 Admin dapat mengubah jumlah gadget atau consumable yang terdapat di dalam sistem.

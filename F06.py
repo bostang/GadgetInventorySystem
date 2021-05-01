@@ -1,5 +1,5 @@
 """
-Menambah item
+Menghapus item
 Akses: Admin
 
 Admin memiliki wewenang untuk menghapus suatu item pada database. Bila item sudah dihapus.

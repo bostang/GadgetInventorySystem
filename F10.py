@@ -1,4 +1,4 @@
-# Program pinjamGadget
+# Program Meminta Consumable
     # meminjam gadget dari gadget.csv dan menyimpan riwayatnya pada gadget_borrow_history.csv
 
 # Kontributor : Bostang Palaguna [16520090]
