@@ -32,51 +32,55 @@ def load():
         print("Usage : python kantongajaib.py <nama_folder>")
 
     # Untuk mengubah file CSV menjadi array yg bisa dipakai di fungsi lain
-    c = open(path+"/"+nama_file[0],"r")
-    ch = open(path+"/"+nama_file[1],"r")
-    g = open(path+"/"+nama_file[2],"r")
-    gb = open(path+"/"+nama_file[3],"r")
-    gr = open(path+"/"+nama_file[4],"r")
-    u = open(path+"/"+nama_file[5],"r")
-    raw_lines_c = c.readlines()
-    raw_lines_ch = ch.readlines()
-    raw_lines_g = g.readlines()
-    raw_lines_gb = gb.readlines()
-    raw_lines_gr = gr.readlines()
-    raw_lines_u = u.readlines()
-    c.close()
-    ch.close()
-    g.close()
-    gb.close()
-    gr.close()
-    u.close()
-    lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
-    lines_ch = [raw_line.replace("\n", "") for raw_line in raw_lines_ch]
-    lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-    lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
-    lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
-    lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
-    _consumable = []
-    _consumableHistory = []
-    _gadget = []
-    _gadgetBorrow = []
-    _gadgetReturn = []
-    _user = []
-    for line in lines_c:
-        array_of_data = splitList(line)
-        _consumable.append(array_of_data)
-    for line in lines_ch:
-        array_of_data = splitList(line)
-        _consumableHistory.append(array_of_data)
-    for line in lines_g:
-        array_of_data = splitList(line)
-        _gadget.append(array_of_data)
-    for line in lines_gb:
-        array_of_data = splitList(line)
-        _gadgetBorrow.append(array_of_data)
-    for line in lines_gr:
-        array_of_data = splitList(line)
-        _gadgetReturn.append(array_of_data)
-    for line in lines_u:
-        array_of_data = splitList(line)
-        _user.append(array_of_data)
+    try:
+        c = open(path+"/"+nama_file[0],"r")
+        ch = open(path+"/"+nama_file[1],"r")
+        g = open(path+"/"+nama_file[2],"r")
+        gb = open(path+"/"+nama_file[3],"r")
+        gr = open(path+"/"+nama_file[4],"r")
+        u = open(path+"/"+nama_file[5],"r")
+        raw_lines_c = c.readlines()
+        raw_lines_ch = ch.readlines()
+        raw_lines_g = g.readlines()
+        raw_lines_gb = gb.readlines()
+        raw_lines_gr = gr.readlines()
+        raw_lines_u = u.readlines()
+        c.close()
+        ch.close()
+        g.close()
+        gb.close()
+        gr.close()
+        u.close()
+        lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
+        lines_ch = [raw_line.replace("\n", "") for raw_line in raw_lines_ch]
+        lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
+        lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
+        lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
+        lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
+        _consumable = []
+        _consumableHistory = []
+        _gadget = []
+        _gadgetBorrow = []
+        _gadgetReturn = []
+        _user = []
+        for line in lines_c:
+            array_of_data = splitList(line)
+            _consumable.append(array_of_data)
+        for line in lines_ch:
+            array_of_data = splitList(line)
+            _consumableHistory.append(array_of_data)
+        for line in lines_g:
+            array_of_data = splitList(line)
+            _gadget.append(array_of_data)
+        for line in lines_gb:
+            array_of_data = splitList(line)
+            _gadgetBorrow.append(array_of_data)
+        for line in lines_gr:
+            array_of_data = splitList(line)
+            _gadgetReturn.append(array_of_data)
+        for line in lines_u:
+            array_of_data = splitList(line)
+            _user.append(array_of_data)
+    except UnboundLocalError:
+        print('Tidak ada nama folder yang diberikan!')
+        print("Usage : python kantongajaib.py <nama_folder>")
