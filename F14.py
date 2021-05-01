@@ -13,9 +13,6 @@ import argparse
 import os
 from Basic_Procedure import *
 
-nama_file = ['*' for i in range(6)]
-i = 0
-
 def load():
     # Untuk mencari file di folder tersebut
     parser = argparse.ArgumentParser(usage='python kantongajaib.py <folder_name>')
@@ -26,13 +23,7 @@ def load():
             if __name__ == "__main__":
                 for (root,dirs,files) in os.walk(args.folder_name, topdown=True):
                     path = root
-                    file_raw = files
-                try:
-                    for file in file_raw:
-                        nama_file[i] = file
-                except NameError:
-                    print('Tidak ada nama folder yang diberikan!')
-                    print("Usage : python kantongajaib.py <nama_folder>")
+                    nama_file = files
         except SyntaxError:
             print('Tidak ada nama folder yang diberikan!')
             print("Usage : python kantongajaib.py <nama_folder>")
@@ -89,5 +80,3 @@ def load():
     for line in lines_u:
         array_of_data = splitList(line)
         _user.append(array_of_data)
-
-    

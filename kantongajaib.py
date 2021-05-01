@@ -19,12 +19,16 @@ from F15 import *
 from F16 import *
 from F17 import *
 
-
 exitprogram = False
 loop = True
+
 while not exitprogram:
+    load()
+    print("loading...")
+    print("Selamat Datang di 'Kantong Ajaib'!")
+    os.system('pause')
     print("""
-Program Inventarisasi Gadget Doraemonangis : 
+Program Kantong Ajaib! : 
 1. Login
 2. Help
 3. Exit
