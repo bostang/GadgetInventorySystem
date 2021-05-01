@@ -161,7 +161,7 @@ for line in lines_ch:
 clear_screen()
 
 # melakukan skema untuk melihat riwayat peminjaman barang
-print(">>> Riwayat Kembali")
+print(">>> Riwayat Ambil")
 database = _consumableHistory
 if (len(database) < 6):
     m = 1    
