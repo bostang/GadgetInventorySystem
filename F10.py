@@ -1,9 +1,16 @@
-# Program Meminta Consumable
-    # meminjam gadget dari gadget.csv dan menyimpan riwayatnya pada gadget_borrow_history.csv
+"""
+Meminta Consumable
+Akses: User
 
-# Kontributor : Bostang Palaguna [16520090]
-# Kontributor : Diffa' Shada 'Aqila [16520070]
+Prosedur ini digunakan oleh pengguna untuk meminta consumable yang tersedia.
+Pastikan masukan valid (contoh: jumlah tidak memiliki batas, item tersedia, dan 
+lain-lain). Bila consumable menjadi 0, tidak perlu dihapus dari sistem.
 
+Kontributor : Diffa' Shada 'Aqila [16520070], Joshi Ryu Setiady [16520230]
+
+"""
+
+import datetime
 from Basic_Procedure import *
 
 # KAMUS
@@ -80,7 +87,7 @@ def convert_datas_to_string(code): # [ *** SUDAH ADA DI F06 tetapi agak beda ***
     string_data = ""
     for arr_data in arrayProcess:
         arr_data_all_string = [str(var) for var in arr_data]
-        string_data += ",".join(arr_data_all_string)
+        string_data += ";".join(arr_data_all_string)
         string_data += "\n"
 
     return string_data
@@ -186,9 +193,11 @@ def mintaConsum():
     # KAMUS LOKAL
     # ALGORITMA
     id_peminta = infoUser(userAktif,'id')
-    id_transaksi = f"{id_peminta}{idPeminta}{tanggalPeminta[0:2]}{tanggalPeminta[3:5]}{tanggalPeminta[6:]}"
+    database = _consumableHistory
+    id_minta = int(database[-1][0]) + 1
+    tanggalPeminta = str(datetime.datetime.now().strftime("%d/%m/%Y"))
         # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-    dataMinta = f"{id_transaksi};{id_peminta};{idPeminta};{tanggalPeminta};{jumlahPermintaan}\n"
+    dataMinta = f"{id_minta};{id_peminta};{idPeminta};{tanggalPeminta};{jumlahPermintaan}\n"
     c = open("consumable_history.csv","a")
     c.write(dataMinta)
     c.close()
@@ -203,44 +212,36 @@ userAktif = "bostang123" # user yang sedang aktif [butuh penyesuaian dengan F02 
 # asumsikan ini adalah user yang telah login
 
     # membaca file csv database
-#g = open("gadget.csv","r")
-#gb = open("gadget_borrow_history.csv","r")
 u = open("user.csv","r")
 c = open('consumable.csv',"r")
+ch = open('consumable_history.csv',"r")
 
-#raw_lines_g = g.readlines()
-#raw_lines_gb = gb.readlines()
 raw_lines_u = u.readlines()
 raw_lines_c = c.readlines()
+raw_lines_ch = ch.readlines()
 
-#g.close()
-#gb.close()
 u.close()
 c.close()
+ch.close()
 
-#lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-#lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
 lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
 lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
+lines_ch = [raw_line.replace("\n", "") for raw_line in raw_lines_ch]
 
     # mengakses database dalam bentuk array
-_gadget = []
-_gadgetBorrowHistory = []
 _user = []
 _consumable = []
+_consumableHistory = []
 
-'''for line in lines_g:
-    array_of_data = convert_line_to_data(line)
-    _gadget.append(array_of_data)
-for line in lines_gb:
-    array_of_data = convert_line_to_data(line)
-    _gadgetBorrowHistory.append(array_of_data)'''
 for line in lines_u:
     array_of_data = splitList(line)
     _user.append(array_of_data)
 for line in lines_c:
     array_of_data = splitList(line)
     _consumable.append(array_of_data)
+for line in lines_ch:
+    array_of_data = splitList(line)
+    _consumableHistory.append(array_of_data)
 
 clear_screen()
 
@@ -252,7 +253,8 @@ idPeminta = input("Masukkan ID item: ")
 
 if isIDinDatabase(idPeminta, _consumable): # permintaan barang HANYA DARI consumable.csv
     jumlahPermintaan = int(input("Jumlah: "))
-    tanggalPeminta = input("Tanggal permintaan: ")
+    tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+    tanggalPeminta = print("Tanggal permintaan:",tanggal)
     if (jumlahPermintaan <= int(infoBarang(idPeminta,'jumlah'))):
         namaBarangPermintaan = infoBarang(idPeminta,"nama")
         print(f"Item {namaBarangPermintaan} (x{jumlahPermintaan}) telah berhasil diambil!")
@@ -260,7 +262,7 @@ if isIDinDatabase(idPeminta, _consumable): # permintaan barang HANYA DARI consum
         print("Permintaan gagal! (jumlah pengambilan harus > 0)")
         kondisiLanjut = False
     else:
-        print(" Permintaan Gagal! jumlah barang di database kurang")
+        print("Permintaan Gagal! jumlah barang di database kurang")
         kondisiLanjut = False
 else:
     print("Permintaan Gagal! barang tidak ditemukan di database")
