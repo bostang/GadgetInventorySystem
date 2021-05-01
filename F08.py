@@ -51,17 +51,6 @@ def modify_datas(array, idx, col, value):
     # ALGORITMA
     array[idx][col] = value
 
-def convert_line_to_data(line): # [ *** SUDAH ADA DI F05 *** ]
-    # menulis data per baris dalam csv ke dalam bentuk array
-    # KAMUS LOKAL
-        # Variabel
-            # raw_array_of_data : array of string { array sementara [masih kotor oleh \n] }
-            # array_data : array of string { array hasil berisi data-data dari csv}
-    # ALGORITMA
-    raw_array_of_data = line.split(",")
-    array_of_data = [data.strip() for data in raw_array_of_data]
-    return array_of_data
-
 def convert_datas_to_string(code): # [ *** SUDAH ADA DI F06 tetapi agak beda *** ]
     # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
     # KAMUS LOKAL
@@ -79,7 +68,7 @@ def convert_datas_to_string(code): # [ *** SUDAH ADA DI F06 tetapi agak beda ***
     string_data = ""
     for arr_data in arrayProcess:
         arr_data_all_string = [str(var) for var in arr_data]
-        string_data += ",".join(arr_data_all_string)
+        string_data += ";".join(arr_data_all_string)
         string_data += "\n"
 
     return string_data
@@ -186,8 +175,9 @@ def pinjamGadget():
     # ALGORITMA
     id_peminjam = infoUser(userAktif,'id')
     id_transaksi = f"{id_peminjam}{idPinjam}{tanggalPinjam[0:2]}{tanggalPinjam[3:5]}{tanggalPinjam[6:]}"
+    is_returned = "False"
         # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-    dataPinjam = f"{id_transaksi},{id_peminjam},{idPinjam},{tanggalPinjam},{jumlahPinjam}\n"
+    dataPinjam = f"{id_transaksi};{id_peminjam};{idPinjam};{tanggalPinjam};{jumlahPinjam};{is_returned}\n"
     gb = open("gadget_borrow_history.csv","a")
     gb.write(dataPinjam)
     gb.close()
@@ -198,7 +188,7 @@ def pinjamGadget():
 
 # ALGORITMA UTAMA
 
-userAktif = "bostang123" # user yang sedang aktif [butuh penyesuaian dengan F02 ]
+userAktif = "bostang123" # user yang sedang aktif [butuh penyesuaian dengan F02]
 # asumsikan ini adalah user yang telah login
 
     # membaca file csv database
@@ -234,7 +224,6 @@ for line in lines_u:
     _user.append(array_of_data)
 
 clear_screen()
-
     # melakukan proses peminjaman barang
 print(">>> Meminjam Gadget")
 
