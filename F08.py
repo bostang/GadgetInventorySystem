@@ -1,7 +1,16 @@
-# Program pinjamGadget
-    # meminjam gadget dari gadget.csv dan menyimpan riwayatnya pada gadget_borrow_history.csv
+"""
+Meminjam Gadget
+Akses: User
 
-# Kontributor : Bostang Palaguna [16520090]
+User dapat melakukan peminjaman gadget yang akan menambahkan entry pada file
+history bila di-save. Pastikan bahwa masukan yang diberikan valid, misalnya peminjaman
+tidak melebihi stok yang ada pada sistem. Bila gadget menjadi 0, tidak perlu dihapus
+dari sistem. Tidak perlu membuat entry baru pada file history pengembalian gadget.
+Seseorang tidak dapat meminjam jenis gadget yang sama ketika sedang meminjam gadget tersebut.
+
+Kontributor : Bostang Palaguna [16520090], Diffa' Shada 'Aqila [16520070]
+
+"""
 
 import datetime
 from Basic_Procedure import *
@@ -169,6 +178,33 @@ def infoUser(username,spek):
     else:
         return "user tidak ada pada database."
 
+def infoPinjam(spek):
+    # mendapatkan informasi mengenai barang yang dipinjam
+    # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of string { array tempat item berada }
+            # baris : baris pada arrayProcess { untuk skema pencarian }
+    # ALGORITMA
+    arrayProcess = _gadgetBorrowHistory
+    # mengecek baris per baris
+    i = 0
+    while arrayProcess[i]:
+        if spek == 'id':
+            return baris[0]
+        elif spek == 'id_peminjam':
+            return baris[1]
+        elif spek == 'id_gadget':
+            return baris[2]
+        elif spek == 'tanggal_peminjaman':
+            return baris[3]
+        elif spek == 'jumlah_pinjam':
+            return baris[4]
+        elif spek == 'is_returned':
+            return baris[5]       
+        i += 1
+    else:
+        return "\nbarang tidak ditemukan di database"
+
 def pinjamGadget():
     # Prosedur untuk menuliskan informasi peminjaman gadget ke gadget_borrow_history.csv
     # proses ini dijalankan bila sudah divalidasi bahwa gadget BISA dipinjam
@@ -235,23 +271,30 @@ print(">>> Meminjam Gadget")
 
 kondisiLanjut = True
 idPinjam = input("Masukkan ID item: ")
-
-if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
-    tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
-    tanggalPinjam = print("Tanggal peminjaman:",tanggal)
-    jumlahPinjam = int(input("Jumlah peminjaman: "))
-    if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah'))):
-        namaBarangPinjam = infoBarang(idPinjam,"nama")
-        print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
-    elif (jumlahPinjam <= 0):
-        print("Peminjaman gagal! (jumlah pinjam harus > 0)")
+for baris in (_gadgetBorrowHistory):
+    id_peminjam = infoUser(userAktif,'id')
+    if (id_peminjam == infoPinjam('id_peminjam')) and (idPinjam == infoPinjam('id_gadget')) and (infoPinjam('is_returned') == 'False'):
+        print("User tidak bisa meminjam lagi barang tersebut!")
         kondisiLanjut = False
+        break
+    
+if kondisiLanjut:
+    if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
+        tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+        tanggalPinjam = print("Tanggal peminjaman:",tanggal)
+        jumlahPinjam = int(input("Jumlah peminjaman: "))
+        if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah'))):
+            namaBarangPinjam = infoBarang(idPinjam,"nama")
+            print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
+        elif (jumlahPinjam <= 0):
+            print("Peminjaman gagal! (jumlah pinjam harus > 0)")
+            kondisiLanjut = False
+        else:
+            print("Peminjaman Gagal! jumlah barang di database kurang")
+            kondisiLanjut = False
     else:
-        print("Peminjaman Gagal! jumlah barang di database kurang")
+        print("Peminjaman Gagal! barang tidak ditemukan di database")
         kondisiLanjut = False
-else:
-    print("Peminjaman Gagal! barang tidak ditemukan di database")
-    kondisiLanjut = False
 
 if kondisiLanjut:
     pinjamGadget()
