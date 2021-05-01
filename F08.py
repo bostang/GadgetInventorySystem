@@ -224,16 +224,20 @@ _gadgetBorrowHistory = []
 _user = []
 
 for line in lines_g:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 for line in lines_gb:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _gadgetBorrowHistory.append(array_of_data)
 for line in lines_u:
-    array_of_data = convert_line_to_data(line)
+    array_of_data = splitList(line)
     _user.append(array_of_data)
 
+clear_screen()
+
     # melakukan proses peminjaman barang
+print(">>> Meminjam Gadget")
+
 kondisiLanjut = True
 idPinjam = input("Masukkan ID item: ")
 
@@ -244,13 +248,13 @@ if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
         namaBarangPinjam = infoBarang(idPinjam,"nama")
         print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
     elif (jumlahPinjam <= 0):
-        print("Peminjaman gagal! (jumlah pinjam harus >0 )")
+        print("Peminjaman gagal! (jumlah pinjam harus > 0)")
         kondisiLanjut = False
     else:
-        print(" peminjaman Gagal! jumlah barang di database kurang.")
+        print(" Peminjaman Gagal! jumlah barang di database kurang")
         kondisiLanjut = False
 else:
-    print("peminjaman Gagal! barang tak ditemukan di database ")
+    print("Peminjaman Gagal! barang tidak ditemukan di database")
     kondisiLanjut = False
 
 if kondisiLanjut:

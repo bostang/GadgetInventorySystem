@@ -242,7 +242,11 @@ for line in lines_c:
     array_of_data = splitList(line)
     _consumable.append(array_of_data)
 
+clear_screen()
+
     # melakukan proses peminjaman barang
+print(">>> Meminta Consumable")
+
 kondisiLanjut = True
 idPeminta = input("Masukkan ID item: ")
 
@@ -253,13 +257,13 @@ if isIDinDatabase(idPeminta, _consumable): # permintaan barang HANYA DARI consum
         namaBarangPermintaan = infoBarang(idPeminta,"nama")
         print(f"Item {namaBarangPermintaan} (x{jumlahPermintaan}) telah berhasil diambil!")
     elif (jumlahPermintaan <= 0):
-        print("Permintaan gagal! (jumlah pengambilan harus >0 )")
+        print("Permintaan gagal! (jumlah pengambilan harus > 0)")
         kondisiLanjut = False
     else:
-        print(" permintaan Gagal! jumlah barang di database kurang.")
+        print(" Permintaan Gagal! jumlah barang di database kurang")
         kondisiLanjut = False
 else:
-    print("permintaan Gagal! barang tak ditemukan di database ")
+    print("Permintaan Gagal! barang tidak ditemukan di database")
     kondisiLanjut = False
 
 if kondisiLanjut:
