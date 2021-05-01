@@ -21,8 +21,6 @@ from Basic_Procedure import *
         # idConsumable : string { id barang yang dipinjam }
         # lanjut : string { kondisi untuk menentukan apakah mengeluarkan 5 entry setelahnya }
     # Fungsi / Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
         # procedure splitList
             # menulis data per baris dalam csv ke dalam bentuk array
         # function isIDinDatabase(string, array of array of string) -> boolean
@@ -190,6 +188,9 @@ while (m > 1):
         else:
             m = 1
         n -= 5
+
+        clear_screen()
+
         for baris in reversed(database[m:n]):
             print(f"\nID Pengambilan      : {infoAmbil('id')}")
         idPengambil = infoAmbil('id_pengambil')

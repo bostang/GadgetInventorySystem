@@ -192,8 +192,10 @@ while (m > 1):
         else:
             m = 1
         n -= 5
+
+        clear_screen()
+        
         for baris in reversed(database[m:n]):
-            bersih()
             print(">>> Riwayat Kembali")
             print(f"\nID Peminjaman       : {infoPinjam('id')}")
         idPeminjam = infoPinjam('id_peminjam')
