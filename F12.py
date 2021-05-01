@@ -47,13 +47,23 @@ def isIDinDatabase(id,database):
             return True
     return False
 
-def isUserinDatabase(user,database):
+def isUserinDatabase(id,database):
     # memeriksa apakah user ada di array _user atau tidak
     # KAMUS LOKAL
         # element : array of string { baris pada database }
     # ALGORITMA
     for element in database:
-        if user == element[0]: # lokasi username ada di kolom kedua
+        if id == element[0]: # lokasi id ada di kolom pertama
+            return True
+    return False
+
+def isPinjaminDatabase(id_peminjaman,database):
+    # memeriksa apakah user ada di array _user atau tidak
+    # KAMUS LOKAL
+        # element : array of string { baris pada database }
+    # ALGORITMA
+    for element in database:
+        if id_peminjaman == element[0]: # lokasi username ada di kolom kedua
             return True
     return False
 
@@ -65,7 +75,6 @@ def infoUser(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _user
     # mengecek baris per baris
-    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
         # me-return informasi
@@ -85,7 +94,6 @@ def infoBarang(id_pinjam,spek):
     # ALGORITMA
     arrayProcess = _gadget
     # mengecek baris per baris
-    i = 0
     for baris in arrayProcess[1:]:
         if id_pinjam == baris[0]:
             if spek == 'id':
@@ -103,6 +111,32 @@ def infoBarang(id_pinjam,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
+def infoPinjam(id_peminjaman,spek):
+    # mendapatkan informasi mengenai barang yang dipinjam
+    # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of string { array tempat item berada }
+            # baris : baris pada arrayProcess { untuk skema pencarian }
+    # ALGORITMA
+    arrayProcess = _gadgetBorrowHistory
+    # mengecek baris per baris
+    for baris in arrayProcess[1:]:
+        if id_peminjaman == baris[0]:
+            if spek == 'id':
+                return baris[0]
+            elif spek == 'id_peminjam':
+                return baris[1]
+            elif spek == 'id_gadget':
+                return baris[2]
+            elif spek == 'tanggal_peminjaman':
+                return baris[3]
+            elif spek == 'jumlah_pinjam':
+                return baris[4]
+            elif spek == 'is_returned':
+                return baris[5]  
+    else:
+        return "\nbarang tidak ditemukan di database"
+
 def infoKembali(spek):
     # mendapatkan informasi mengenai barang yang dipinjam
     # KAMUS LOKAL
@@ -116,13 +150,13 @@ def infoKembali(spek):
     while arrayProcess[i]:
         if spek == 'id':
             return baris[0]
-        elif spek == 'id_peminjam':
+        elif spek == 'id_peminjaman':
             return baris[1]
-        elif spek == 'id_gadget':
+        elif spek == 'tanggal_pengembalian':
             return baris[2]
-        elif spek == 'tanggal_peminjaman':
+        elif spek == 'jumlah_kembali':
             return baris[3]
-        elif spek == 'jumlah_pinjam':
+        elif spek == 'total_kembali':
             return baris[4]          
         i += 1
     else:
@@ -133,23 +167,28 @@ def infoKembali(spek):
 # membaca file database .csv
 g = open("gadget.csv","r")
 u = open("user.csv","r")
+gb = open("gadget_borrow_history.csv","r")
 gr = open("gadget_return_history.csv","r")
 
 raw_lines_g = g.readlines()
 raw_lines_u = u.readlines()
+raw_lines_gb = gb.readlines()
 raw_lines_gr = gr.readlines()
 
 g.close()
 u.close()
+gb.close()
 gr.close()
 
 lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
 lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
+lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
 lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
 
 # mengakses database dalam bentuk array
 _gadget = []
 _user = []
+_gadgetBorrowHistory = []
 _gadgetReturnHistory = []
 
 for line in lines_g:
@@ -158,6 +197,9 @@ for line in lines_g:
 for line in lines_u:
     array_of_data = splitList(line)
     _user.append(array_of_data)
+for line in lines_gb:
+    array_of_data = splitList(line)
+    _gadgetBorrowHistory.append(array_of_data)
 for line in lines_gr:
     array_of_data = splitList(line)
     _gadgetReturnHistory.append(array_of_data)
@@ -174,13 +216,16 @@ else:
 n = len(database)
 for baris in reversed(database[m:n]):
     print(f"\nID Pengembalian       : {infoKembali('id')}")
-    idPeminjam = infoKembali('id_peminjam')
-    if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
-        print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
-    idGadget = infoKembali('id_gadget')
-    if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
-        print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
-    print(f"Tanggal Pengembalian  : {infoKembali('tanggal_peminjaman')}")
+    idPeminjaman = infoKembali('id_peminjaman')
+    if isPinjaminDatabase(idPeminjaman,_gadgetBorrowHistory) and infoPinjam(idPeminjaman,'id_peminjam'):
+        idPeminjam = infoPinjam(idPeminjaman,'id_peminjam')
+        if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
+            print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
+    if isPinjaminDatabase(idPeminjaman,_gadgetBorrowHistory) and infoPinjam(idPeminjaman,'id_gadget'):        
+        idGadget = infoPinjam(idPeminjaman,'id_gadget')
+        if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
+            print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
+    print(f"Tanggal Pengembalian  : {infoKembali('tanggal_pengembalian')}")
 
 while (m > 1):
     lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
@@ -194,13 +239,16 @@ while (m > 1):
         n -= 5
         for baris in reversed(database[m:n]):
             print(f"\nID Pengembalian       : {infoKembali('id')}")
-        idPeminjam = infoKembali('id_peminjam')
-        if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
-            print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
-        idGadget = infoKembali('id_gadget')
-        if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
-            print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
-        print(f"Tanggal Pengembalian  : {infoKembali('tanggal_peminjaman')}")
+            idPeminjaman = infoKembali('id_peminjaman')
+            if isPinjaminDatabase(idPeminjaman,_gadgetBorrowHistory) and infoPinjam(idPeminjaman,'id_peminjam'):
+                idPeminjam = infoPinjam(idPeminjaman,'id_peminjam')
+                if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id'):
+                    print(f"Nama Pengambil        : {infoUser(idPeminjam,'nama')}")
+            if isPinjaminDatabase(idPeminjaman,_gadgetBorrowHistory) and infoPinjam(idPeminjaman,'id_gadget'):        
+                idGadget = infoPinjam(idPeminjaman,'id_gadget')
+                if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id'):
+                    print(f"Nama Gadget           : {infoBarang(idGadget,'nama')}")
+            print(f"Tanggal Pengembalian  : {infoKembali('tanggal_pengembalian')}")
     else:
         break
 else:
