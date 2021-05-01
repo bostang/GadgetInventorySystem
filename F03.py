@@ -89,7 +89,7 @@ lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
 # mengakses database dalam bentuk array
 _gadget = []
 for line in lines_g:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 
 # melakukan skema pencarian berdasarkan rarity

@@ -37,30 +37,6 @@ from Basic_Procedure import *
             # mendapatkan informasi mengenai barang yang dipinjam
 
 # REALISASI FUNGSI/PROSEDUR
-def bersih():
-    # membuat efek clear screen pada Python
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-def splitList(database):
-    # menulis data per baris dalam csv ke dalam bentuk array
-    # KAMUS LOKAL
-        # Variabel
-            # database : array of string { array sementara [masih kotor oleh \n] }
-            # split_list : array of string { array hasil berisi data-data dari csv }
-    # ALGORITMA
-    database = ''.join(line)
-    split_list = []
-    tmp = ''
-    for s in database:
-        if s == ';':
-            split_list.append(tmp)
-            tmp = ''
-        else:
-            tmp += s
-    if tmp:
-        split_list.append(tmp)
-    return split_list
-
 def isIDinDatabase(id,database):
     # memeriksa apakah ID item ada di suatu array database apa tidak
     # KAMUS LOKAL
@@ -182,7 +158,7 @@ for line in lines_ch:
     array_of_data = splitList(line)
     _consumableHistory.append(array_of_data)
 
-bersih()
+clear_screen()
 
 # melakukan skema untuk melihat riwayat peminjaman barang
 print(">>> Riwayat Kembali")

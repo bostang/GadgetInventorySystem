@@ -164,10 +164,10 @@ _gadget = []
 _consumable = []
 
 for line in lines_g:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 for line in lines_c:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _consumable.append(array_of_data)
 
     # melakukan skema penghapusan

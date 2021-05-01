@@ -4,7 +4,7 @@ def clear_screen():
     # Membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def split(list):
+def splitList(list):
     # menulis data per baris dalam csv ke dalam bentuk array dengan delimiter ";"
     # KAMUS LOKAL
         # Variabel
@@ -26,7 +26,7 @@ def split(list):
 
 def convert_line_to_data(line):
     # Mengubah baris menjadi data
-    raw_array_from_data = split(line)
+    raw_array_from_data = splitList(line)
     array_from_data = [data.strip() for data in raw_array_from_data]
     return array_from_data
 

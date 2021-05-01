@@ -236,10 +236,10 @@ for line in lines_gb:
     array_of_data = convert_line_to_data(line)
     _gadgetBorrowHistory.append(array_of_data)'''
 for line in lines_u:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _user.append(array_of_data)
 for line in lines_c:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _consumable.append(array_of_data)
 
     # melakukan proses peminjaman barang

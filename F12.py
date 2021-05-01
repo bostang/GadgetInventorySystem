@@ -153,13 +153,13 @@ _user = []
 _gadgetReturnHistory = []
 
 for line in lines_g:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _gadget.append(array_of_data)
 for line in lines_u:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _user.append(array_of_data)
 for line in lines_gr:
-    array_of_data = split(line)
+    array_of_data = splitList(line)
     _gadgetReturnHistory.append(array_of_data)
 
 clear_screen()
