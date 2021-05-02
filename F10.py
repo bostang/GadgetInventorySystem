@@ -109,10 +109,13 @@ def mintaConsum(_consumable, _consumableHistory, user_aktif):
             namaBarangPermintaan = infoBarang(id_barang_diminta,"nama",_consumable)
             id_user_peminta = user_aktif[0]
             database = _consumableHistory
-            id_minta = int(database[-1][0]) + 1
+            if database[-1][0] == 'id':
+                id_minta = 1
+            else:
+                id_minta = int(database[-1][0]) + 1
 
             # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-            dataMinta = [id_minta,id_user_peminta,id_barang_diminta,str(tanggal),str(jumlahPermintaan)]
+            dataMinta = [str(id_minta),str(id_user_peminta),str(id_barang_diminta),str(tanggal),str(jumlahPermintaan)]
             _consumableHistory.append(dataMinta)
 
             # mengubah jumlah barang yang tersedia [berkurang setelah diminta] pada consumable.csv

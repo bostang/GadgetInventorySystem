@@ -139,6 +139,7 @@ def change_quantity_in_database(idUbah,jumlahUbah,array,x,sisa_dipinjam):
 
 # ALGORITMA UTAMA
 def kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif):
+    clear_screen()
     # skema pengembalian barang
     print(">>> Mengembalikan Gadget\n")
 
@@ -167,7 +168,10 @@ def kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif):
                     # prosedur mengembalikan gadget ke gadget.csv dan mendata riwayatnya ke gadget_return_history.csv
                     # menambahkan riwayat pengembalian ke gadget_return_history.csv
                     database = _gadgetReturn
-                    id_pengembalian = int(database[-1][0]) + 1
+                    if database[-1][0] == 'id':
+                        id_pengembalian = 1
+                    else:
+                        id_pengembalian = int(database[-1][0]) + 1
                     id_peminjaman = array_pengembalian[0]
                     sisa_inventory = jumlah_sisa - jumlahPengembalian
                     data_baru = [str(id_pengembalian),id_peminjaman,idBarang,tanggal,str(jumlahPengembalian)]

@@ -150,8 +150,10 @@ def pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif):
                 
                 # Prosedur untuk menuliskan informasi peminjaman gadget ke gadget_borrow_history.csv
                 database = _gadgetBorrow
-                id_transaksi = int(database[-1][0]) + 1
-
+                if database[-1][0] == 'id':
+                    id_transaksi = 1
+                else:
+                    id_transaksi = int(database[-1][0]) + 1
                 sisaPinjam = jumlahPinjam
 
                 # menambahkan riwayat peminjaman ke gadget_borrow_history.csv

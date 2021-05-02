@@ -1,5 +1,2 @@
 id;id_peminjaman;id_gadget;tanggal_pengembalian;jumlah_kembali
-1;1;G2;02/05/2021;19
-2;4;G4;02/05/2021;3
-3;2;G1;02/05/2021;5
-4;3;G3;02/05/2021;5
+1;1;G1;03/05/2021;50
