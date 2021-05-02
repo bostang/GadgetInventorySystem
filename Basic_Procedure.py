@@ -50,34 +50,3 @@ def isIDinDatabase(id,database):
         if id == element[0]: # lokasi id ada di kolom pertama
             return True
     return False
-
-def infoBarang(id,spek,_consumable,_gadget):
-    # mendapatkan informasi barang dari database
-    # KAMUS LOKAL
-        # Variabel
-            # arrayProcess : array of array of string { array tempat item berada }
-            # baris : baris pada arrayProcess { untuk skema pencarian }
-    # ALGORITMA
-    if id[0] == 'C':
-        arrayProcess = _consumable
-    elif id[0] == 'G':
-        arrayProcess = _gadget
-    else:
-        arrayProcess = []
-
-    if isIDinDatabase(id,arrayProcess):
-        for baris in arrayProcess:
-            if baris[0] == id:
-            # me-return informasi
-                if spek == 'nama':
-                    return baris[1]
-                elif spek == 'deskripsi':
-                    return baris[2]
-                elif spek == 'jumlah':
-                    return baris[3]
-                elif spek == 'rarity':
-                    return baris[4]
-                elif spek == 'tahun_ditemukan' and id[0] == 'C':
-                    return baris[5]
-    else:
-        return "\nbarang tidak ditemukan di database"

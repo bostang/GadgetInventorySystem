@@ -11,7 +11,7 @@ from F06 import *  #done
 from F07 import *  #done
 from F08 import *
 from F09 import *
-from F10 import *
+from F10 import *  #done
 from F11 import *  #done
 from F12 import *  #done
 from F13 import *  #done
@@ -183,7 +183,7 @@ while not exitprogram:
                 elif menu_user == '4':
                     test # untuk F09
                 elif menu_user == '5':
-                    test # untuk F10
+                    mintaConsum(_consumable, _consumableHistory, user_aktif)
                 elif menu_user == '6':
                     clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
