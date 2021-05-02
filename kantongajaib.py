@@ -132,8 +132,6 @@ while not exitprogram:
                     cariTahun(_gadget)
                 elif menu_admin == '4':
                     tambahItem(_consumable,_gadget)
-                    print(_gadget)
-                    os.system('pause')
                 elif menu_admin == '5':
                     test # untuk F06
                 elif menu_admin == '6':

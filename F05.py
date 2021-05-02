@@ -52,10 +52,10 @@ def add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu,_consumable,_
             # data_baru : string { string data yang ingin ditulis ke file database.csv }
     # ALGORITMA
     if id[0] == 'G': # menambahkan ke gadget.csv bila id dimulai dari huruf G
-        data_baru = [id,nama,deskripsi,jumlah,rarity,tahuntemu]
+        data_baru = [id,nama,deskripsi,str(jumlah),rarity,str(tahuntemu)]
         _gadget = _gadget.append(data_baru)
     elif id[0] == 'C': # menambahkan ke consumable.csv bila id dimulai dari huruf C
-        data_baru = [id,nama,deskripsi,jumlah,rarity]
+        data_baru = [id,nama,deskripsi,str(jumlah),rarity]
         _consumable = _consumable.append(data_baru)
 
 # ALGORITMA UTAMA
