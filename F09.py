@@ -8,7 +8,7 @@ besar dari tanggal peminjaman (abaikan tanggal, bukan faktor dalam peminjaman).
 Namun, entry peminjaman harus ada untuk dapat mengembalikan sebuah gadget. Bila 
 mengerjakan bonus, silahkan menyesuaikan input dan output.
 
-Kontributor : Bostang Palaguna [16520090], Diffa' Shada 'Aqila [16520070]
+Kontributor : Bostang Palaguna [16520090], Diffa' Shada 'Aqila [16520070], Muhammad Daris Nurhakim [16520170]
 
 """
 
@@ -202,16 +202,13 @@ def Inventory(user):
                 arrayBarangPinjam.append(riwayat[2])
                 arrayJumlahPinjam.append(int(riwayat[4]))
             else:
-                arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] += int(riwayat[5])
+                arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] += int(riwayat[4])
 
     for riwayat in _gadgetReturnHistory: # jumlah negatif
         # asumsi: total jumlah barang yang dikembalikan TELAH DIVALIDASI kurang dari sama dengan jumlah barang yang dipinjam
             # maka data jumlah barang pasti >= 0
-        id_peminjam = infoUser(userAktif,'id')
-        if riwayat[1] == infoPinjam(id_peminjam,'id'):
-            id_peminjam = infoUser(userAktif,'id')
-            id_gadget = infoPinjam(id_peminjam,'id_gadget')
-            arrayJumlahPinjam[arrayBarangPinjam.index(id_gadget)] -= int(riwayat[3])
+        if riwayat[1] == infoUser(user,'id'):
+            arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] -= int(riwayat[4])
 
     # menghapus yang neto jumlah sama dengan nol { berarti semua barang yang sempat dipinjam, telah dikembalikan }
     for data in arrayJumlahPinjam:
@@ -221,7 +218,7 @@ def Inventory(user):
 
     # menampilkan barang-barang yang telah dipinjam dalam bentuk list:
     for k in range(len(arrayBarangPinjam)):
-        print(f"{k+1}. {infoBarang(arrayBarangPinjam[k],'nama')} (jumlah : {arrayJumlahPinjam[k]})")
+        print(f"{k+1}. {infoBarang(arrayBarangPinjam[k],'nama')}     || jumlah : {arrayJumlahPinjam[k]}")
 
 def infoPinjam(id_peminjam,spek):
     # mendapatkan informasi mengenai barang yang dipinjam
@@ -292,20 +289,16 @@ def kembalikanGadget():
     else:
         sisa = int(infoKembali(idPeminjaman,'sisa')) - jumlahPengembalian
     
-    if (sisa < 0):
-        print("Barang yang dikembalikan melebihi barang yang dipinjam")
-        kondisiLanjut = False
-    else:
-        dataKembali = f"{id_transaksi};{idPeminjaman};{tanggalPengembalian};{jumlahPengembalian};{sisa}\n"
-        gh = open("gadget_return_history.csv","a")
-        gh.write(dataKembali)
-        gh.close()
-        namaBarangPinjam = infoBarang(id_gadget,"nama")
-        print(f"\nItem {namaBarangPinjam} (x{jumlahPengembalian}) telah dikembalikan!")
+    dataKembali = f"{id_transaksi};{idPeminjaman};{tanggalPengembalian};{jumlahPengembalian};{sisa}\n"
+    gh = open("gadget_return_history.csv","a")
+    gh.write(dataKembali)
+    gh.close()
+    namaBarangPinjam = infoBarang(id_gadget,"nama")
+    print(f"\nItem {namaBarangPinjam} (x{jumlahPengembalian}) telah dikembalikan!")
 
-            # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
-        modify_datas(_gadget,locIDinArray(_gadget,idPengembalian),3,int(infoBarang(idPengembalian,'jumlah'))+jumlahPengembalian)
-        overwrite_database('G')
+        # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
+    modify_datas(_gadget,locIDinArray(_gadget,idPengembalian),3,int(infoBarang(idPengembalian,'jumlah'))+jumlahPengembalian)
+    overwrite_database('G')
 
 # ALGORITMA UTAMA
 userAktif = "bostang123" # user yang aktif akan disesuiakan dengan fungsionalitas login [ F02 ]
