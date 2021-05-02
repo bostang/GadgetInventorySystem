@@ -19,10 +19,6 @@ from Basic_Procedure import *
         # jumlahUbah : integer { penambahan / pengurangan terhadap jumlah awal gadget }
         # kondisiLanjut : boolean { jika True, maka proses overwritting pada file csv akan dieksekusi }
     # Fungsi/Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
-        # procedure splitList
-            # menulis data per baris dalam csv ke dalam bentuk array
         # function isIDinDatabase(id : string, database: array of array of string) -> boolean
             # memeriksa apakah id barang sudah ada di database atau belum
         # procedure convert_to_real(input code : character)
@@ -162,59 +158,38 @@ def infoBarang(id,spek):
         return "barang tidak ditemukan di database"
 
 # ALGORITMA UTAMA
-
-    # membaca file database.csv
-g = open("gadget.csv","r")
-c = open("consumable.csv","r")
-raw_lines_g = g.readlines()
-raw_lines_c = c.readlines()
-g.close()
-c.close()
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
-
-    # mengakses database dalam bentuk array
-_gadget = []
-_consumable = []
-
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-for line in lines_c:
-    array_of_data = splitList(line)
-    _consumable.append(array_of_data)
-
+def ubahJumlah(_consumable,_gadget):
     # skema pengubahan jumlah suatu item pada database
-clear_screen()
-print(">>> Mengubah Jumlah Gadget atau Consumable")
-idUbah = input("Masukkan ID: ")
+    clear_screen()
+    print(">>> Mengubah Jumlah Gadget atau Consumable")
+    idUbah = input("Masukkan ID: ")
 
-if idUbah[0] == 'C':
-    arrayProcess = _consumable
-elif idUbah[0] == 'G':
-    arrayProcess = _gadget
-else:
-    arrayProcess = []
+    if idUbah[0] == 'C':
+        arrayProcess = _consumable
+    elif idUbah[0] == 'G':
+        arrayProcess = _gadget
+    else:
+        arrayProcess = []
 
     # melakukan pemeriksaan validitas input
-if (isIDinDatabase(idUbah,arrayProcess)):
-    jumlahUbah = int(input("Masukkan jumlah: "))
-    if (jumlahUbah + int(infoBarang(idUbah,'jumlah')) >= 0):
-        kondisiLanjut = True
+    if (isIDinDatabase(idUbah,arrayProcess)):
+        jumlahUbah = int(input("Masukkan jumlah: "))
+        if (jumlahUbah + int(infoBarang(idUbah,'jumlah')) >= 0):
+            kondisiLanjut = True
+        else:
+            print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} gagal dibuang karena stok kurang. Stok sekarang: {infoBarang(idUbah,'jumlah')} (<{(-1)*jumlahUbah})")
+            kondisiLanjut = False
     else:
-        print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} gagal dibuang karena stok kurang. Stok sekarang: {infoBarang(idUbah,'jumlah')} (<{(-1)*jumlahUbah})")
+        print("\nTidak ada item dengan ID tersebut!")
         kondisiLanjut = False
-else:
-    print("\nTidak ada item dengan ID tersebut!")
-    kondisiLanjut = False
 
     # melakukan overwrite perubahan data ke file csv
-if kondisiLanjut:
-    hasilUbah = change_quantity_in_database(idUbah,jumlahUbah,idUbah[0])
-    overwrite_database(idUbah[0])
-    if (jumlahUbah >= 0):
-        print(f"\n{jumlahUbah} {infoBarang(idUbah,'nama')} berhasil ditambahkan. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
-    else:
-        print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} berhasil dibuang. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
-print("")
-os.system('pause')
+    if kondisiLanjut:
+        hasilUbah = change_quantity_in_database(idUbah,jumlahUbah,idUbah[0])
+        overwrite_database(idUbah[0])
+        if (jumlahUbah >= 0):
+            print(f"\n{jumlahUbah} {infoBarang(idUbah,'nama')} berhasil ditambahkan. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
+        else:
+            print(f"\n{(-1)*jumlahUbah} {infoBarang(idUbah,'nama')} berhasil dibuang. Stok sekarang: {infoBarang(idUbah,'jumlah')}")
+    print("")
+    os.system('pause')

@@ -8,13 +8,7 @@ from F03 import *  #done
 from F04 import *  #done
 from F05 import *  #done
 from F06 import *  #done
-from F07 import *
-from F08 import *
-from F09 import *
-from F10 import *
-from F11 import *
-from F12 import *
-from F13 import *
+
 from F15 import *  #done
 from F16 import *  #done
 from F17 import *  #done

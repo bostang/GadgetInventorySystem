@@ -129,6 +129,7 @@ def hapusItem(_consumable,_gadget):
             if (konfirmasi == 'Y') or (konfirmasi == 'y'):
                 _consumable, _gadget = overwrite_database(id_remove[0],id_remove,_consumable,_gadget)
                 print("\nItem telah berhasil dihapus dari database")
+                os.system('pause')
                 return _consumable, _gadget
             else:
                 print("\nItem tidak dihapus dari database")
