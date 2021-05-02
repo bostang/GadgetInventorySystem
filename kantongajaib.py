@@ -4,7 +4,7 @@ import os, argparse
 from Basic_Procedure import *
 from F01 import *  #done
 from F02 import *  #done
-from F03 import *
+from F03 import *  #done
 from F04 import *
 from F05 import *
 from F06 import *
@@ -128,7 +128,7 @@ while not exitprogram:
                     clear_screen()
                     register(_user)
                 elif menu_admin == '2':
-                    test # untuk F03
+                    cariRarity(_gadget)
                 elif menu_admin == '3':
                     test # untuk F04
                 elif menu_admin == '4':
@@ -170,7 +170,7 @@ while not exitprogram:
                 """)
                 menu_user = str(input("Masukkan pilihan : "))
                 if menu_user == '1':
-                    test # untuk F03
+                    cariRarity(_gadget)
                 elif menu_user == '2':
                     test # untuk F04
                 elif menu_user == '3':

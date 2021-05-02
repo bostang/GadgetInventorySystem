@@ -45,7 +45,7 @@ def isRarityinDatabase(rarity,database):
             return True
     return False
 
-def infoBarang(rarity,spek):
+def infoBarang(rarity,spek,_gadget,baris):
     # mendapatkan informasi mengenai barang yang ada di database
     # KAMUS LOKAL
         # Variabel
@@ -80,43 +80,31 @@ def infoBarang(rarity,spek):
 
 
 # ALGORITMA UTAMA
-# membaca file database .csv
-g = open("gadget.csv","r")
-raw_lines_g = g.readlines()
-g.close()
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-
-# mengakses database dalam bentuk array
-_gadget = []
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-
-# melakukan skema pencarian berdasarkan rarity
-clear_screen()
-database = _gadget
-print(">>> Pencarian Gadget berdasarkan rarity\n")
-rarityItem = input("Masukkan rarity: ").upper()
-
-# jika inputan salah, maka akan diulang
-while (rarityItem != 'S') and (rarityItem != 'A') and (rarityItem != 'B') and (rarityItem != 'C'):
-    print("\nMasukan Anda salah!\n")
+def cariRarity(_gadget):
+    # melakukan skema pencarian berdasarkan rarity
+    clear_screen()
+    database = _gadget
+    print(">>> Pencarian Gadget berdasarkan rarity\n")
     rarityItem = input("Masukkan rarity: ").upper()
 
-print("\nHasil pencarian:")
-# mengecek apakah rarity ada di database atau tidak
-if isRarityinDatabase(rarityItem,database): 
-    for baris in database:
-        if baris[4] == rarityItem: # baris[4] berisi data tentang rarity
-            print(f"\nNama            : {infoBarang(rarityItem,'nama')}")
-            print(f"Deskripsi       : {infoBarang(rarityItem,'deskripsi')}")
-            print(f"Jumlah          : {infoBarang(rarityItem,'jumlah')}")
-            print(f"Rarity          : {infoBarang(rarityItem,'rarity')}")
-            print(f"Tahun ditemukan : {infoBarang(rarityItem,'tahun_ditemukan')}")
+    # jika inputan salah, maka akan diulang
+    while (rarityItem != 'S') and (rarityItem != 'A') and (rarityItem != 'B') and (rarityItem != 'C'):
+        print("\nMasukan Anda salah!\n")
+        rarityItem = input("Masukkan rarity: ").upper()
+    
+    print("\nHasil pencarian:")
+    # mengecek apakah rarity ada di database atau tidak
+    if isRarityinDatabase(rarityItem,database): 
+        for baris in database:
+            if baris[4] == rarityItem: # baris[4] berisi data tentang rarity
+                print(f"\nNama            : {infoBarang(rarityItem,'nama',_gadget,baris)}")
+                print(f"Deskripsi       : {infoBarang(rarityItem,'deskripsi',_gadget,baris)}")
+                print(f"Jumlah          : {infoBarang(rarityItem,'jumlah',_gadget,baris)}")
+                print(f"Rarity          : {infoBarang(rarityItem,'rarity',_gadget,baris)}")
+                print(f"Tahun ditemukan : {infoBarang(rarityItem,'tahun_ditemukan',_gadget,baris)}")
+        print("\nSemua data telah ditampilkan")            
+    else:
+        print("\nTidak ada")
 
-    print("\nSemua data telah ditampilkan")            
-else:
-    print("\nTidak ada")
-
-print('')
-os.system('pause')
+    print('')
+    os.system('pause')
