@@ -26,11 +26,14 @@ def id_user(nama_user,_user):
 #Apabila username dan password sesuai maka output login berhasil
 
 def login(_user):
-    username = input('Masukkan username:')
-    password = input('Masukkan password:')
-    if user_list(username,_user) == True and password_list(password,_user) == True: # Cek username dan password dalam database
-        print('Halo', username,'! Selamat datang di Kantong Ajaib.')
-        user_aktif = id_user(username,_user)
-        return user_aktif
-    else:
-        print('Username atau password anda salah. Gagal login!')   
+    loop = True
+    while loop:
+        username = input('Masukkan username:')
+        password = input('Masukkan password:')
+        if user_list(username,_user) == True and password_list(password,_user) == True: # Cek username dan password dalam database
+            print('Halo', username,'! Selamat datang di Kantong Ajaib.')
+            user_aktif = id_user(username,_user)
+            loop = False
+            return user_aktif
+        else:
+            print('Username atau password anda salah. Gagal login!')   

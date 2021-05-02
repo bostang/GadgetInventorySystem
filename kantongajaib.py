@@ -87,12 +87,13 @@ except UnboundLocalError or NameError:
     print('Tidak ada nama folder yang diberikan!')
     print("Usage : python kantongajaib.py <nama_folder>")
     exit()
+# Tampilan load
+print("loading...")
+print("Selamat Datang di 'Kantong Ajaib'!")
+os.system('pause')
 
 # Main Program
 while not exitprogram:
-    print("loading...")
-    print("Selamat Datang di 'Kantong Ajaib'!")
-    os.system('pause')
     print("""
 Program Kantong Ajaib! : 
 1. Login
@@ -124,41 +125,34 @@ Menu Utama Admin :
                 """)
                 menu_admin = str(input("Masukkan pilihan : "))
                 if menu_admin == '1':
-                    register(_user) # untuk F01
-                    loop = False
+                    register(_user)
+                    print(_user)
+                    print(type(_user[1][0]))
+                    print(type(_user[5][0]))
+                    print(type(_user[0][1]))
+                    print(type(_user[0][5]))
                 elif menu_admin == '2':
                     test # untuk F03
-                    loop = False
                 elif menu_admin == '3':
                     test # untuk F04
-                    loop = False
                 elif menu_admin == '4':
                     test # untuk F05
-                    loop = False
                 elif menu_admin == '5':
                     test # untuk F06
-                    loop = False
                 elif menu_admin == '6':
                     test # untuk F07
-                    loop = False
                 elif menu_admin == '7':
                     test # untuk F11
-                    loop = False
                 elif menu_admin == '8':
                     test # untuk F12
-                    loop = False
                 elif menu_admin == '9':
                     test # untuk F13
-                    loop = False
                 elif menu_admin == '10':
-                    test # untuk F15
-                    loop = False
+                    simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_admin == '11':
                     test # untuk F16
-                    loop = False
                 elif menu_admin == '12':
-                    test # untuk F17
-                    loop = False
+                    keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 else:
                     clear_screen()
                     print("Masukkan salah. Mohon ulangi")
@@ -179,28 +173,20 @@ Menu Utama User :
                 menu_user = str(input("Masukkan pilihan : "))
                 if menu_user == '1':
                     test # untuk F03
-                    loop = False
                 elif menu_user == '2':
                     test # untuk F04
-                    loop = False
                 elif menu_user == '3':
                     test # untuk F08
-                    loop = False
                 elif menu_user == '4':
                     test # untuk F09
-                    loop = False
                 elif menu_user == '5':
                     test # untuk F10
-                    loop = False
                 elif menu_user == '6':
-                    test # untuk F15
-                    loop = False
+                    simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_user == '7':
                     test # untuk F16
-                    loop = False
                 elif menu_user == '8':
-                    test # untuk F17
-                    loop = False
+                    keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 else:
                     clear_screen()
                     print("Masukkan salah. Mohon ulangi")

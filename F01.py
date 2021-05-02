@@ -10,11 +10,9 @@ from Basic_Procedure import *
 #output : string       
 
 #FUMGSI-FUNGSI TAMBAHAN
-def add_item_to_database(register_indeks,username,nama,alamat,password):
-    data_baru = f"{register_indeks};{username};{nama};{alamat};{password};user\n"
-    f = open('user.csv', 'a')
-    f.write(data_baru)
-    f.close()
+def add_item_to_database(register_indeks,username,nama,alamat,password,_user):
+    data_baru = [register_indeks,username,nama,alamat,password,'user']
+    _user = _user.append(data_baru)
 
 def user_list(nama_user,_user):
     # Cek data username
@@ -30,9 +28,9 @@ def register(_user):
     if not user_list(username,_user):    # Cek username yang sama   
         password = input('Masukkan password:')
         alamat = input('Masukkan alamat:')
-        register_indeks = data_data[-1][0] + 1
-        add_item_to_database(register_indeks,username,nama,alamat,password)
-        print('User',username, "telah berhasil register ke dalam Kantong Ajaib")#user telah berhasil register
+        register_indeks = str(int(_user[-1][0]) + 1)
+        add_item_to_database(register_indeks,username,nama,alamat,password,_user)
+        print('User',username, "telah berhasil register ke dalam Kantong Ajaib!")#user telah berhasil register
         os.system('pause')
     else:
         print('Username sama. Gagal register!')
