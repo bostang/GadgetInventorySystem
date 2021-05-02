@@ -2,22 +2,22 @@
 
 import os, argparse
 from Basic_Procedure import *
-from F01 import *  #done
-from F02 import *  #done
-from F03 import *  #done
-from F04 import *  #done
-from F05 import *  #done
-from F06 import *  #done
-from F07 import *  #done
-from F08 import *  #done
-from F09 import *  #testing
-from F10 import *  #done
-from F11 import *  #done
-from F12 import *  #done
-from F13 import *  #done
-from F15 import *  #done
-from F16 import *  #done
-from F17 import *  #done
+from F01 import *
+from F02 import *
+from F03 import *
+from F04 import *
+from F05 import *
+from F06 import *
+from F07 import *
+from F08 import *
+from F09 import *
+from F10 import *
+from F11 import *
+from F12 import *
+from F13 import *
+from F15 import *
+from F16 import *
+from F17 import *
 # untuk F14 tidak diimport melainkan langsung diimplementasikan di program utama
 
 exitprogram = False
@@ -182,10 +182,6 @@ while not exitprogram:
                     pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif)
                 elif menu_user == '4':
                     kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif)
-                    print(_gadget)
-                    print(_gadgetBorrow)
-                    print(_gadgetReturn)
-                    os.system('pause')
                 elif menu_user == '5':
                     mintaConsum(_consumable, _consumableHistory, user_aktif)
                 elif menu_user == '6':
