@@ -7,7 +7,7 @@ from F02 import *  #done
 from F03 import *  #done
 from F04 import *  #done
 from F05 import *  #done
-from F06 import *
+from F06 import *  #done
 from F07 import *
 from F08 import *
 from F09 import *
@@ -133,7 +133,10 @@ while not exitprogram:
                 elif menu_admin == '4':
                     tambahItem(_consumable,_gadget)
                 elif menu_admin == '5':
-                    test # untuk F06
+                    try:
+                        _consumable, _gadget = hapusItem(_consumable,_gadget)
+                    except TypeError:
+                        loop = True
                 elif menu_admin == '6':
                     test # untuk F07
                 elif menu_admin == '7':

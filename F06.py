@@ -18,10 +18,6 @@ from Basic_Procedure import *
         # id_remove : string { id yang ingin dihapus }
         # kondisiLanjut : boolean { jika bernilai True, maka penghapusan akan dilanjutkan }
     # Fungsi / Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
-        # procedure splitList
-            # menulis data per baris dalam csv ke dalam bentuk array
         # procedure remove_item_from_database
             # I.S. id item yang ingin dihapus sudah divalidasi [dapat dihapus]
             # F.S. item dengan id bersangkutan telah dihapus dari file csv
@@ -48,7 +44,7 @@ def isIDinDatabase(id,database):
             return True
     return False
 
-def infoBarang(id,spek):
+def infoBarang(id,spek,_consumable,_gadget):
     # mendapatkan informasi barang dari database
     # KAMUS LOKAL
         # Variabel
@@ -79,39 +75,7 @@ def infoBarang(id,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-def hapusItem():
-    # menerima input id barang yang ingin dihapuskan dan melakukan validasi
-    # KAMUS LOKAL
-        # Variabel
-            # database : array of array of string
-    # ALGORITMA
-        # memeriksa huruf pertama
-    if id_remove[0] == 'G':
-        database = _gadget
-    elif id_remove[0] == 'C':
-        database = _consumable
-    else:
-        database = []
-
-    kondisiLanjut = True
-    if (isIDinDatabase(id_remove,database)):
-        konfirmasi = input(f"Apakah Anda yakin ingin menghapus {infoBarang(id_remove,'nama')}(Y/N)? ")
-        while (konfirmasi != 'Y') and (konfirmasi != 'y') and (konfirmasi != 'N') and (konfirmasi != 'n'):
-            print("\nHarap masukan dengan benar!\n")
-        else:
-            if (konfirmasi == 'Y') or (konfirmasi == 'y'):
-                print("\nItem telah berhasil dihapus dari database")
-            else:
-                print("\nItem tidak dihapus dari database")
-                kondisiLanjut = False
-    else: # barang tidak ditemukan di database
-        print("\nTidak ada item dengan id tersebut")
-        kondisiLanjut = False
-    
-    if kondisiLanjut:
-        overwrite_database(id_remove[0])
-
-def convert_datas_to_string(code):
+def overwrite_database(code,id_remove,_consumable,_gadget):
     # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
     # KAMUS LOKAL
         # Variabel
@@ -122,58 +86,52 @@ def convert_datas_to_string(code):
     # ALGORITMA
     if code == 'C':
         arrayProcess = _consumable
+        _consumable = []
     elif code == 'G':
         arrayProcess = _gadget
+        _gadget = []
 
-    string_data = ""
     for arr_data in arrayProcess:
         if arr_data[0] == id_remove : # kita tidak akan mendaftarkan id yang ingin kita hapus
             continue
-        arr_data_all_string = [var for var in arr_data]
-        string_data += ";".join(arr_data_all_string)
-        string_data += "\n"
-    return string_data
-
-def overwrite_database(code):
-    # melakukan overwrite terhadap konten database [digunakan dalam skema penghapusan item dari csv]
-    # KAMUS LOKAL
-        # datas_as_string : string { untain informasi dari database [lokal] }
-    # ALGORITMA
-    datas_as_string = convert_datas_to_string(id_remove[0])
-    if code == 'C':
-        f = open("consumable.csv","w")
-    elif code == 'G':
-        f = open("gadget.csv","w")
-    f.write(datas_as_string) # melakukan overwrite terhadap isi database
-    f.close()
+        if code == 'C':
+            string = [arr_data[0],arr_data[1],arr_data[2],arr_data[3],arr_data[4]]
+            _consumable.append(string)
+        elif code == 'G':
+            string = [arr_data[0],arr_data[1],arr_data[2],arr_data[3],arr_data[4],arr_data[5]]
+            _gadget.append(string)
+    return _consumable, _gadget
 
 # ALGORITMA UTAMA
+def hapusItem(_consumable,_gadget):
+    # menerima input id barang yang ingin dihapuskan dan melakukan validasi
+    # KAMUS LOKAL
+        # Variabel
+            # database : array of array of string
+    # ALGORITMA
+    clear_screen()
+    print(">>> Menghapus Item")
+    id_remove = input("Masukkan ID item: ").upper()
+    # memeriksa huruf pertama
+    if id_remove[0] == 'G':
+        database = _gadget
+    elif id_remove[0] == 'C':
+        database = _consumable
+    else:
+        database = []
 
-    # membaca file database.csv
-g = open("gadget.csv","r")
-c = open("consumable.csv","r")
-raw_lines_g = g.readlines()
-raw_lines_c = c.readlines()
-g.close()
-c.close()
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
-
-    # mengakses database dalam bentuk array
-_gadget = []
-_consumable = []
-
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-for line in lines_c:
-    array_of_data = splitList(line)
-    _consumable.append(array_of_data)
-
-    # melakukan skema penghapusan
-clear_screen()
-print(">>> Menghapus Item")
-id_remove = input("Masukkan ID item: ")
-hapusItem()
-print("")
-os.system('pause')
+    if (isIDinDatabase(id_remove,database)):
+        konfirmasi = input(f"Apakah Anda yakin ingin menghapus {infoBarang(id_remove,'nama',_consumable,_gadget)}(Y/N)? ")
+        while (konfirmasi != 'Y') and (konfirmasi != 'y') and (konfirmasi != 'N') and (konfirmasi != 'n'):
+            print("\nHarap masukan dengan benar!\n")
+            konfirmasi = input(f"Apakah Anda yakin ingin menghapus {infoBarang(id_remove,'nama',_consumable,_gadget)}(Y/N)? ")
+        else:
+            if (konfirmasi == 'Y') or (konfirmasi == 'y'):
+                _consumable, _gadget = overwrite_database(id_remove[0],id_remove,_consumable,_gadget)
+                print("\nItem telah berhasil dihapus dari database")
+                return _consumable, _gadget
+            else:
+                print("\nItem tidak dihapus dari database")
+    else: # barang tidak ditemukan di database
+        print("\nTidak ada item dengan id tersebut")
+    os.system('pause')
