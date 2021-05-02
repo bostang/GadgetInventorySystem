@@ -4,17 +4,7 @@ import os, argparse
 from Basic_Procedure import *
 from F01 import *  #done
 from F02 import *  #done
-from F03 import *
-from F04 import *
-from F05 import *
-from F06 import *
-from F07 import *
-from F08 import *
-from F09 import *
-from F10 import *
-from F11 import *
-from F12 import *
-from F13 import *
+
 from F15 import *  #done
 from F16 import *  #done
 from F17 import *  #done
@@ -148,7 +138,7 @@ while not exitprogram:
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_admin == '11':
                     clear_screen()
-                    bantuan_admin()
+                    bantuan_dalam(user_aktif[5])
                 elif menu_admin == '12':
                     keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 else:
@@ -184,7 +174,7 @@ while not exitprogram:
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_user == '7':
                     clear_screen()
-                    bantuan_user()
+                    bantuan_dalam(user_aktif[5])
                 elif menu_user == '8':
                     clear_screen()
                     keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
@@ -194,7 +184,7 @@ while not exitprogram:
                     os.system('pause')
     elif menu_utama == '2':
         clear_screen()
-        bantuan()
+        bantuan_luar()
     elif menu_utama == '3':
         exit()
     else:
