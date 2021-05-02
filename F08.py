@@ -238,7 +238,7 @@ idPinjam = input("Masukkan ID item: ")
 if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
     tanggalPinjam = input("Masukkan tanggal peminjaman: ")
     jumlahPinjam = int(input("Jumlah peminjaman: "))
-    if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah'))):
+    if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah')) and jumlahPinjam > 0):
         namaBarangPinjam = infoBarang(idPinjam,"nama")
         print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
     elif (jumlahPinjam <= 0):
