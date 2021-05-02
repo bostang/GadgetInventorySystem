@@ -34,4 +34,5 @@ def register(_user):
         os.system('pause')
     else:
         print('Username sama. Gagal register!')
+        os.system('pause')
         

@@ -6,7 +6,7 @@ from F01 import *  #done
 from F02 import *  #done
 from F03 import *  #done
 from F04 import *  #done
-from F05 import *
+from F05 import *  #done
 from F06 import *
 from F07 import *
 from F08 import *
@@ -103,7 +103,6 @@ while not exitprogram:
     """)
     menu_utama = str(input("Masukkan pilihan : "))
     if menu_utama == '1':
-        clear_screen()
         user_aktif = login(_user)
         while loop:
             if user_aktif[5] == 'admin':
@@ -132,7 +131,9 @@ while not exitprogram:
                 elif menu_admin == '3':
                     cariTahun(_gadget)
                 elif menu_admin == '4':
-                    test # untuk F05
+                    tambahItem(_consumable,_gadget)
+                    print(_gadget)
+                    os.system('pause')
                 elif menu_admin == '5':
                     test # untuk F06
                 elif menu_admin == '6':

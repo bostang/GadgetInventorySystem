@@ -22,20 +22,9 @@ from Basic_Procedure import *
 
 # KAMUS
     # Variabel
-        # array_of_data : array of string { array sementara untuk menambah data dari file csv ke array database }
-        # g : textIOWrapper
-        # c : textIOWrapper
-        # raw_lines_g : array of character { array sementara berisi data gadget [banyak \n ] }
-        # raw_lines_c : array of character { array sementara berisi data consumable [banyak \n ]}
-        # lines_g : array of character { array sementara sebelum mebuat _gadget }
-        # lines_c : array of character { array sementara sebelum mebuat _consumable }
         # _gadget : array database gadget.csv
         # _consumable : array database consumable.csv
     # Fungsi/Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
-        # procedure splitList
-            # menulis data per baris dalam csv ke dalam bentuk array
         # procedure add_item_to_database(input id, nama, deskripsi, jumlah, rarity, tahuntemu: string)
             # menambahkan item LANGSUNG ke gadget.csv atau consumable.csv
             # I.S. barang belum masuk ke file .csv ; F.S. barang telah ditambahkan ke file .csv
@@ -56,23 +45,21 @@ def isIDinDatabase(id,database):
             return True
     return False
 
-def add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu):
+def add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu,_consumable,_gadget):
     # menambahkan item LANGSUNG ke gadget.csv atau consumable.csv
     # KAMUS LOKAL
         # Variabel
-            # new_data : string { string data yang ingin ditulis ke file database.csv }
+            # data_baru : string { string data yang ingin ditulis ke file database.csv }
     # ALGORITMA
     if id[0] == 'G': # menambahkan ke gadget.csv bila id dimulai dari huruf G
-        new_data = f"{id};{nama};{deskripsi};{jumlah};{rarity};{tahuntemu}\n"
-        f = open("gadget.csv","a") # "a" : menambahkan konten pada database.csv
+        data_baru = [id,nama,deskripsi,jumlah,rarity,tahuntemu]
+        _gadget = _gadget.append(data_baru)
     elif id[0] == 'C': # menambahkan ke consumable.csv bila id dimulai dari huruf C
-        new_data = f"{id};{nama};{deskripsi};{jumlah};{rarity}\n"
-        f = open("consumable.csv","a")
+        data_baru = [id,nama,deskripsi,jumlah,rarity]
+        _consumable = _consumable.append(data_baru)
 
-    f.write(new_data)
-    f.close()
-
-def tambahItem():
+# ALGORITMA UTAMA
+def tambahItem(_consumable,_gadget):
     # prosedur menerima input informasi barang dan menambahkan ke csv database
     #KAMUS
         # Variabel
@@ -88,7 +75,7 @@ def tambahItem():
     clear_screen()
     kondisiLanjut = True
     print(">>> Menambah Item")
-    id = input("Masukan ID: ")
+    id = input("Masukan ID: ").upper()
     if id[0] == 'C':
         tempatData = _consumable
     elif id[0] == 'G':
@@ -123,35 +110,9 @@ def tambahItem():
                             print("\nMasukan tahun dalam bentuk angka!\n")
                 else: 
                     tahuntemu = 0 # nilai dummy
-                add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu)
+                add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu,_consumable,_gadget)
                 print("\nItem telah berhasil ditambahkan ke database")
-
         else:
             print("\nGagal menambahkan item karena ID sudah ada")
-
-# ALGORITMA UTAMA
-    # membaca file database.csv
-g = open("gadget.csv","r")
-c = open("consumable.csv","r")
-raw_lines_g = g.readlines()
-raw_lines_c = c.readlines()
-g.close()
-c.close()
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
-
-    # mengakses database dalam bentuk array
-_gadget = []
-_consumable = []
-
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-for line in lines_c:
-    array_of_data = splitList(line)
-    _consumable.append(array_of_data)
-
-    # menambahkan gadget baru
-tambahItem()
-print("")
-os.system('pause')
+    print("")
+    os.system('pause')
