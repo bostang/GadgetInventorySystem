@@ -9,7 +9,7 @@ from F04 import *  #done
 from F05 import *  #done
 from F06 import *  #done
 from F07 import *  #done
-from F08 import *
+from F08 import *  #should be done
 from F09 import *
 from F10 import *  #done
 from F11 import *  #done
@@ -179,7 +179,7 @@ while not exitprogram:
                 elif menu_user == '2':
                     cariTahun(_gadget)
                 elif menu_user == '3':
-                    test # untuk F08
+                    pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif)
                 elif menu_user == '4':
                     test # untuk F09
                 elif menu_user == '5':

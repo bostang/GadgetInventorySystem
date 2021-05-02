@@ -17,7 +17,7 @@ from Basic_Procedure import *
 
 # KAMUS
     # Variabel
-        # userAktif : string { user yang sedang sedang login ke program utama }
+        # user_aktif : string { user yang sedang sedang login ke program utama }
         # kondisiLanjut : boolean { kondisi yang menyatakan input telah valid [barang BISA dipinjam] }
         # idPinjam : string { id barang yang ingin dipinjam }
         # tanggalPinjam : string { tanggal peminjaman }
@@ -55,81 +55,14 @@ from Basic_Procedure import *
               # perubahan jumlah item di gadget.csv
 
 # REALISASI FUNGSI/PROSEDUR
-def modify_datas(array, idx, col, value):
-    # melakukan modifikasi pada suatu nilai array
-    # KAMUS LOKAL
-    # ALGORITMA
-    array[idx][col] = value
-
-def convert_datas_to_string(code): # [ *** SUDAH ADA DI F06 tetapi agak beda *** ]
-    # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
-    # KAMUS LOKAL
-        # Variabel
-            # arr_data : array { array yang merupakan elemen _gadget atau _consumable }
-            # arr_data_all_string : array of string { untuk skema konversi array database menjadi string }
-            # arrayProcess : array of array of string { array yang ingin diproses }
-            # string_data : string { untain informasi dari database [lokal] }
-    # ALGORITMA
-    if code == 'C':
-        arrayProcess = _consumable
-    elif code == 'G':
-        arrayProcess = _gadget
-
-    string_data = ""
-    for arr_data in arrayProcess:
-        arr_data_all_string = [str(var) for var in arr_data]
-        string_data += ";".join(arr_data_all_string)
-        string_data += "\n"
-
-    return string_data
-
-def overwrite_database(code): # [ *** SUDAH ADA DI F06 *** ] { sedikit berbeda dengan di F06 }
-    # melakukan overwrite terhadap konten database [digunakan dalam skema penggantian jumlah item pada csv]
-    # KAMUS LOKAL
-        # datas_as_string : string { untain informasi dari database [lokal] }
-        # f : textIOWrapper
-    # ALGORITMA
-    datas_as_string = convert_datas_to_string(idPinjam[0])
-    if code == 'C':
-        f = open("consumable.csv","w")
-    elif code == 'G':
-        f = open("gadget.csv","w")
-    f.write(datas_as_string) # melakukan overwrite terhadap isi database
-    f.close()
-
-def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
-    # memeriksa apakah ID item ada di suatu array database apa tidak
-    # KAMUS LOKAL
-        # element : array of string { baris pada database }
-    # ALGORITMA
-    for element in database:
-        if id == element[0]: # lokasi id ada di kolom pertama
-            return True
-    return False
-
-def isUserinDatabase(user,database):
-    # memeriksa apakah user ada di array _user atau tidak
-    # KAMUS LOKAL
-        # element : array of string { baris pada database }
-    # ALGORITMA
-    for element in database:
-        if user == element[1]: # lokasi username ada di kolom kedua
-            return True
-    return False
-
-def infoBarang(id,spek):
+def infoBarang(id,spek,_gadget,baris):
     # mendapatkan informasi barang dari database
     # KAMUS LOKAL
         # Variabel
             # arrayProcess : array of array of string { array tempat item berada }
             # baris : baris pada arrayProcess { untuk skema pencarian }
     # ALGORITMA
-    if id[0] == 'C':
-        arrayProcess = _consumable
-    elif id[0] == 'G':
-        arrayProcess = _gadget
-    else:
-        arrayProcess = []
+    arrayProcess = _gadget
 
     if isIDinDatabase(id,arrayProcess):
         for baris in arrayProcess:
@@ -148,44 +81,14 @@ def infoBarang(id,spek):
     else:
         return "barang tidak ditemukan di database."
 
-def locIDinArray(arr,id):
-    # mencari lokasi / index item dalam suatu array arr
-    # KAMUS LOKAL
-        # Variabel
-            # k : integer { indeks saat k ketemu di arr }
-    # ALGORITMA
-    k = 0
-    while k <= len(arr):
-        if arr[k][0] == id:
-            return k
-        k += 1
-    return "NOT FOUND"
-
-def infoUser(username,spek):
-    # mendapatkan informasi user (nama atau id saja) dari database
-    # KAMUS LOKAL
-        # Variabel
-            # baris : baris pada arrayProcess { untuk skema pencarian }
-    # ALGORITMA
-    if isUserinDatabase(username,_user): # id menyatakan id user
-        for baris in _user:
-            if baris[1] == username:
-            # me-return informasi
-                if spek == 'id':
-                    return baris[0]
-                elif spek == 'nama':
-                    return baris[2]
-    else:
-        return "user tidak ada pada database."
-
-def infoPinjam(spek):
+def infoPinjam(spek,_gadgetBorrow,baris):
     # mendapatkan informasi mengenai barang yang dipinjam
     # KAMUS LOKAL
         # Variabel
             # arrayProcess : array of array of string { array tempat item berada }
             # baris : baris pada arrayProcess { untuk skema pencarian }
     # ALGORITMA
-    arrayProcess = _gadgetBorrowHistory
+    arrayProcess = _gadgetBorrow
     # mengecek baris per baris
     i = 0
     while arrayProcess[i]:
@@ -205,96 +108,61 @@ def infoPinjam(spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-def pinjamGadget():
-    # Prosedur untuk menuliskan informasi peminjaman gadget ke gadget_borrow_history.csv
-    # proses ini dijalankan bila sudah divalidasi bahwa gadget BISA dipinjam
+def change_quantity_in_database(idUbah,jumlahUbah,array):
+    # melakukan skema pengubahan jumlah barang pada array
     # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of integer,string { array yang mau diproses }
+            # baris : array of integer, string { untuk pencarian baris dengan id yang mau diubah jumlah itemnya }
     # ALGORITMA
-    id_peminjam = infoUser(userAktif,'id')
-    database = _gadgetBorrowHistory
-    id_transaksi = int(database[-1][0]) + 1
-    tanggalPinjam = datetime.datetime.now().strftime("%d/%m/%Y")
-    if (jumlahPinjam > 0):
-        is_returned = "False"
-    elif (jumlahPinjam == 0):
-        is_returned = "True"
-        # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-    dataPinjam = f"{id_transaksi};{id_peminjam};{idPinjam};{tanggalPinjam};{jumlahPinjam};{is_returned}\n"
-    gb = open("gadget_borrow_history.csv","a")
-    gb.write(dataPinjam)
-    gb.close()
-
-        # mengubah jumlah barang yang tersedia [berkurang setelah dipinjam] pada gadget.csv
-    modify_datas(_gadget,locIDinArray(_gadget,idPinjam),3,int(infoBarang(idPinjam,'jumlah'))-jumlahPinjam)
-    overwrite_database('G')
+    arrayProcess = array
+    # mengubah jumlah item yang mau diubah
+    for baris in arrayProcess:
+        if baris[0] == idUbah:
+            baris[3] = int(baris[3])
+            baris[3] -= jumlahUbah
+            baris[3] = str(baris[3])
+    return arrayProcess
 
 # ALGORITMA UTAMA
-
-userAktif = "bostang123" # user yang sedang aktif [butuh penyesuaian dengan F02]
-# asumsikan ini adalah user yang telah login
-
-    # membaca file csv database
-g = open("gadget.csv","r")
-gb = open("gadget_borrow_history.csv","r")
-u = open("user.csv","r")
-
-raw_lines_g = g.readlines()
-raw_lines_gb = gb.readlines()
-raw_lines_u = u.readlines()
-
-g.close()
-gb.close()
-u.close()
-
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
-lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
-
-    # mengakses database dalam bentuk array
-_gadget = []
-_gadgetBorrowHistory = []
-_user = []
-
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-for line in lines_gb:
-    array_of_data = splitList(line)
-    _gadgetBorrowHistory.append(array_of_data)
-for line in lines_u:
-    array_of_data = splitList(line)
-    _user.append(array_of_data)
-
-clear_screen()
     # melakukan proses peminjaman barang
-print(">>> Meminjam Gadget")
-
-kondisiLanjut = True
-idPinjam = input("Masukkan ID item: ")
-for baris in (_gadgetBorrowHistory):
-    id_peminjam = infoUser(userAktif,'id')
-    if (id_peminjam == infoPinjam('id_peminjam')) and (idPinjam == infoPinjam('id_gadget')) and (infoPinjam('is_returned') == 'False'):
-        print("User tidak bisa meminjam lagi barang tersebut!")
-        kondisiLanjut = False
-        break
-    
-if kondisiLanjut:
-    if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
-        tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
-        tanggalPinjam = print("Tanggal peminjaman:",tanggal)
-        jumlahPinjam = int(input("Jumlah peminjaman: "))
-        if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah'))):
-            namaBarangPinjam = infoBarang(idPinjam,"nama")
-            print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
-        elif (jumlahPinjam <= 0):
-            print("Peminjaman gagal! (jumlah pinjam harus > 0)")
+def pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif):
+    clear_screen()
+    print(">>> Meminjam Gadget\n")
+    kondisiLanjut = True
+    idPinjam = input("Masukkan ID item: ").upper()
+    # Cek apakah user ingin meminjam gadget yang sama
+    for baris in (_gadgetBorrow):
+        id_peminjam = user_aktif[0]
+        if (id_peminjam == infoPinjam('id_peminjam',_gadgetBorrow,baris)) and (idPinjam == infoPinjam('id_gadget',_gadgetBorrow,baris)) and (infoPinjam('is_returned',_gadgetBorrow,baris) == 'False'):
+            print("User tidak bisa meminjam lagi barang tersebut!")
+            os.system('pause')
             kondisiLanjut = False
+            break
+        
+    if kondisiLanjut:
+        if isIDinDatabase(idPinjam, _gadget): # peminjaman barang HANYA DARI gadget.csv
+            tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+            print("Tanggal peminjaman:",tanggal)
+            jumlahPinjam = int(input("Jumlah peminjaman: "))
+            if (jumlahPinjam <= int(infoBarang(idPinjam,'jumlah',_gadget,baris))):
+                namaBarangPinjam = infoBarang(idPinjam,"nama",_gadget,baris)
+                
+                # Prosedur untuk menuliskan informasi peminjaman gadget ke gadget_borrow_history.csv
+                database = _gadgetBorrow
+                id_transaksi = int(database[-1][0]) + 1
+
+                # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
+                dataPinjam = [id_transaksi,id_peminjam,idPinjam,str(tanggal),str(jumlahPinjam),"False"]
+                _gadgetBorrow.append(dataPinjam)
+
+                # mengubah jumlah barang yang tersedia [berkurang setelah dipinjam] pada gadget.csv
+                _gadget = change_quantity_in_database(idPinjam, jumlahPinjam, _gadget)
+                print(f"Item {namaBarangPinjam} (x{jumlahPinjam}) berhasil dipinjam!")
+            elif (jumlahPinjam <= 0):
+                print("Peminjaman gagal! (jumlah pinjam harus > 0)")
+            else:
+                print("Peminjaman Gagal! jumlah barang di database kurang")
         else:
-            print("Peminjaman Gagal! jumlah barang di database kurang")
-            kondisiLanjut = False
-    else:
-        print("Peminjaman Gagal! barang tidak ditemukan di database")
-        kondisiLanjut = False
-
-if kondisiLanjut:
-    pinjamGadget()
+            print("Peminjaman Gagal! barang tidak ditemukan di database")
+    os.system('pause')
