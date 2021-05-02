@@ -152,12 +152,12 @@ def infoKembali(spek,_gadgetReturn,baris):
             return baris[0]
         elif spek == 'id_peminjaman':
             return baris[1]
-        elif spek == 'tanggal_pengembalian':
+        elif spek == 'id_gadget':
             return baris[2]
-        elif spek == 'jumlah_kembali':
+        elif spek == 'tanggal_pengembalian':
             return baris[3]
-        elif spek == 'total_kembali':
-            return baris[4]          
+        elif spek == 'jumlah_kembali':
+            return baris[4]      
         i += 1
     else:
         return "\nbarang tidak ditemukan di database"

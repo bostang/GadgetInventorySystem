@@ -121,7 +121,11 @@ def infoPinjam(spek,_gadgetBorrow,baris):
         elif spek == 'tanggal_peminjaman':
             return baris[3]
         elif spek == 'jumlah_pinjam':
-            return baris[4]          
+            return baris[4]
+        elif spek == 'sisa_dipinjam':
+            return baris[5]
+        elif spek == 'is_returned':
+            return baris[6]          
         i += 1
     else:
         return "\nbarang tidak ditemukan di database"
