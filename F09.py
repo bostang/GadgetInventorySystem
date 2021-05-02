@@ -257,7 +257,7 @@ raw_lines_gr = gr.readlines()
 
 g.close()
 u.close()
-gr.close()
+gb.close()
 gr.close()
 
 lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
