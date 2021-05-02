@@ -55,7 +55,7 @@ def isUserinDatabase(user,database):
             return True
     return False
 
-def infoUser(id_ambil,spek):
+def infoUser(id_ambil,spek,_user,baris):
     # mendapatkan informasi user (nama atau id saja) dari database
     # KAMUS LOKAL
         # Variabel
@@ -73,7 +73,7 @@ def infoUser(id_ambil,spek):
     else:
         return "user tidak ada pada database."
 
-def infoBarang(id_ambil,spek):
+def infoBarang(id_ambil,spek,_consumable,baris):
     # mendapatkan informasi mengenai barang yang ada di database
     # KAMUS LOKAL
         # Variabel
@@ -97,7 +97,7 @@ def infoBarang(id_ambil,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
-def infoAmbil(spek):
+def infoAmbil(spek,_consumableHistory,baris):
     # mendapatkan informasi mengenai barang yang diambil
     # KAMUS LOKAL
         # Variabel
@@ -123,87 +123,53 @@ def infoAmbil(spek):
         return "\nbarang tidak ditemukan di database"
 
 # ALGORITMA UTAMA
-
-# membaca file database .csv
-c = open("consumable.csv","r")
-u = open("user.csv","r")
-ch = open("consumable_history.csv","r")
-
-raw_lines_c = c.readlines()
-raw_lines_u = u.readlines()
-raw_lines_ch = ch.readlines()
-
-c.close()
-u.close()
-ch.close()
-
-lines_c = [raw_line.replace("\n", "") for raw_line in raw_lines_c]
-lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
-lines_ch = [raw_line.replace("\n", "") for raw_line in raw_lines_ch]
-
-# mengakses database dalam bentuk array
-_consumable = []
-_user = []
-_consumableHistory = []
-
-for line in lines_c:
-    array_of_data = splitList(line)
-    _consumable.append(array_of_data)
-for line in lines_u:
-    array_of_data = splitList(line)
-    _user.append(array_of_data)
-for line in lines_ch:
-    array_of_data = splitList(line)
-    _consumableHistory.append(array_of_data)
-
-clear_screen()
-
 # melakukan skema untuk melihat riwayat peminjaman barang
-print(">>> Riwayat Ambil")
-database = _consumableHistory
-if (len(database) < 6):
-    m = 1    
-else: 
-    m = len(database) - 5
-n = len(database)
-for baris in reversed(database[m:n]):
-    print(f"\nID Pengambilan      : {infoAmbil('id')}")
-    idPengambil = infoAmbil('id_pengambil')
-    if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id'):
-        print(f"Nama Pengambil      : {infoUser(idPengambil,'nama')}")
-    idConsumable = infoAmbil('id_consumable')
-    if isIDinDatabase(idConsumable,_consumable) and infoBarang(idConsumable,'id'):
-        print(f"Nama Consumable     : {infoBarang(idConsumable,'nama')}")
-    print(f"Tanggal Peminjaman  : {infoAmbil('tanggal_pengambilan')}")
-    print(f"Jumlah              : {infoAmbil('jumlah')}")
+def riwayatMinta(_consumableHistory,_consumable,_user):
+    print(">>> Riwayat Ambil")
+    database = _consumableHistory
+    if (len(database) < 6):
+        m = 1    
+    else: 
+        m = len(database) - 5
+    n = len(database)
+    for baris in reversed(database[m:n]):
+        print(f"\nID Pengambilan      : {infoAmbil('id',_consumableHistory,baris)}")
+        idPengambil = infoAmbil('id_pengambil',_consumableHistory,baris)
+        if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id',_user,baris):
+            print(f"Nama Pengambil      : {infoUser(idPengambil,'nama',_user,baris)}")
+        idConsumable = infoAmbil('id_consumable',_consumableHistory,baris)
+        if isIDinDatabase(idConsumable,_consumable) and infoBarang(idConsumable,'id',_consumable,baris):
+            print(f"Nama Consumable     : {infoBarang(idConsumable,'nama',_consumable,baris)}")
+        print(f"Tanggal Peminjaman  : {infoAmbil('tanggal_pengambilan',_consumableHistory,baris)}")
+        print(f"Jumlah              : {infoAmbil('jumlah',_consumableHistory,baris)}")
 
-while (m > 1):
-    lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    while lanjut not in 'YyNn':
-        print("Masukan Anda salah!")
+    while (m > 1):
         lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
-    if (lanjut == 'Y') or (lanjut == 'y'):
-        if (m > 6):
-            m -= 5
+        while lanjut not in 'YyNn':
+            print("Masukan Anda salah!")
+            lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
+        if (lanjut == 'Y') or (lanjut == 'y'):
+            if (m > 6):
+                m -= 5
+            else:
+                m = 1
+            n -= 5
+
+            clear_screen()
+
+            for baris in reversed(database[m:n]):
+                print(f"\nID Pengambilan      : {infoAmbil('id',_consumableHistory,baris)}")
+                idPengambil = infoAmbil('id_pengambil',_consumableHistory,baris)
+                if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id',_user,baris):
+                    print(f"Nama Pengambil      : {infoUser(idPengambil,'nama',_user,baris)}")
+                idConsumable = infoAmbil('id_consumable',_consumableHistory,baris)
+                if isIDinDatabase(idConsumable,_consumable) and infoBarang(idConsumable,'id',_consumable,baris):
+                    print(f"Nama Consumable     : {infoBarang(idConsumable,'nama',_consumable,baris)}")
+                print(f"Tanggal Peminjaman  : {infoAmbil('tanggal_pengambilan',_consumableHistory,baris)}")
+                print(f"Jumlah              : {infoAmbil('jumlah',_consumableHistory,baris)}")
+                
         else:
-            m = 1
-        n -= 5
-
-        clear_screen()
-
-        for baris in reversed(database[m:n]):
-            print(f"\nID Pengambilan      : {infoAmbil('id')}")
-        idPengambil = infoAmbil('id_pengambil')
-        if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id'):
-            print(f"Nama Pengambil      : {infoUser(idPengambil,'nama')}")
-        idConsumable = infoAmbil('id_consumable')
-        if isIDinDatabase(idConsumable,_consumable) and infoBarang(idConsumable,'id'):
-            print(f"Nama Consumable     : {infoBarang(idConsumable,'nama')}")
-        print(f"Tanggal Pengambilan  : {infoAmbil('tanggal_pengambilan')}")
-        print(f"Jumlah              : {infoAmbil('jumlah')}")
+            break
     else:
-        break
-else:
-    print("\nSemua riwayat sudah ditampilkan")
-print("")
-os.system('pause')
+        print("\nSemua riwayat sudah ditampilkan\n")
+        os.system('pause')

@@ -12,9 +12,9 @@ from F07 import *  #done
 from F08 import *
 from F09 import *
 from F10 import *
-from F11 import *
-from F12 import *
-from F13 import *
+from F11 import *  #done
+from F12 import *  #done
+from F13 import *  #done
 from F15 import *  #done
 from F16 import *  #done
 from F17 import *  #done
@@ -140,11 +140,11 @@ while not exitprogram:
                 elif menu_admin == '6':
                     ubahJumlah(_consumable,_gadget)
                 elif menu_admin == '7':
-                    test # untuk F11
+                    riwayatPinjam(_gadget,_gadgetBorrow,_user)
                 elif menu_admin == '8':
-                    test # untuk F12
+                    riwayatKembali(_gadgetReturn,_gadgetBorrow,_gadget,_user)
                 elif menu_admin == '9':
-                    test # untuk F13
+                    riwayatMinta(_consumableHistory,_consumable,_user)
                 elif menu_admin == '10':
                     clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
