@@ -137,10 +137,13 @@ while not exitprogram:
                 elif menu_admin == '6':
                     test # untuk F07
                 elif menu_admin == '7':
+                    clear_screen()
                     riwayatPinjam(_gadget,_gadgetBorrow,_user)
                 elif menu_admin == '8':
+                    clear_screen()
                     riwayatKembali(_gadgetReturn,_gadgetBorrow,_gadget,_user)
                 elif menu_admin == '9':
+                    clear_screen()
                     riwayatMinta(_consumableHistory,_consumable,_user)
                 elif menu_admin == '10':
                     clear_screen()

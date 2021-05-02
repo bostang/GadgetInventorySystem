@@ -158,6 +158,8 @@ def riwayatMinta(_consumableHistory,_consumable,_user):
             clear_screen()
 
             for baris in reversed(database[m:n]):
+                clear_screen()
+                print(">>> Riwayat Ambil")
                 print(f"\nID Pengambilan      : {infoAmbil('id',_consumableHistory,baris)}")
                 idPengambil = infoAmbil('id_pengambil',_consumableHistory,baris)
                 if isUserinDatabase(idPengambil,_user) and infoUser(idPengambil,'id',_user,baris):
