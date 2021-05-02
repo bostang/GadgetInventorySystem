@@ -9,7 +9,7 @@ from F04 import *  #done
 from F05 import *  #done
 from F06 import *  #done
 from F07 import *  #done
-from F08 import *  #should be done
+from F08 import *  #done
 from F09 import *
 from F10 import *  #done
 from F11 import *  #done
