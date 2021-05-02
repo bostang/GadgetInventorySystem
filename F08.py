@@ -152,8 +152,10 @@ def pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif):
                 database = _gadgetBorrow
                 id_transaksi = int(database[-1][0]) + 1
 
+                sisaPinjam = jumlahPinjam
+
                 # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-                dataPinjam = [str(id_transaksi),id_peminjam,idPinjam,str(tanggal),str(jumlahPinjam),"False"]
+                dataPinjam = [str(id_transaksi),id_peminjam,idPinjam,str(tanggal),str(jumlahPinjam),str(sisaPinjam),"False"]
                 _gadgetBorrow.append(dataPinjam)
 
                 # mengubah jumlah barang yang tersedia [berkurang setelah dipinjam] pada gadget.csv

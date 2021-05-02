@@ -17,6 +17,8 @@ def convert_data_to_list_string(array):
             string = str(arr_data[0]+";"+arr_data[1]+";"+arr_data[2]+";"+arr_data[3]+";"+arr_data[4]+"\n")
         elif (len(arr_data) == 6):
             string = str(arr_data[0]+";"+arr_data[1]+";"+arr_data[2]+";"+arr_data[3]+";"+arr_data[4]+";"+arr_data[5]+"\n")
+        elif (len(arr_data) == 7):
+            string = str(arr_data[0]+";"+arr_data[1]+";"+arr_data[2]+";"+arr_data[3]+";"+arr_data[4]+";"+arr_data[5]+";"+arr_data[6]+"\n")
         _simpan.append(string)
     _simpan[len(_simpan)-1] = _simpan[len(_simpan)-1].replace("\n","")
     return _simpan
