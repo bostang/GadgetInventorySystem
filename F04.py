@@ -23,18 +23,10 @@ from Basic_Procedure import *
 
 # KAMUS
     # Variabel
-        # array_of_data : array of string { array sementara untuk menambah data dari file csv ke array database }
-        # g : textIOWrapper
-        # raw_lines_g : array of character { array sementara berisi data gadget [banyak \n ] }
-        # lines_g : array of character { array sementara sebelum mebuat _gadget }
         # _gadget : array database gadget.csv
         # tahun : integer { tahun ditemukannya item yang mau dicari }
         # kategori : string { untuk memperjelas pencarian berdasarkan tahun ditemukan }
     # Fungsi/Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
-        # procedure splitList
-            # menulis data per baris dalam csv ke dalam bentuk array
         # function isTahuninDatabase(tahun_ditemukan : integer, kategori : string, database: array of array of string) -> boolean
             # mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
         # function infoBarang(id : string ,spek : string) -> string / integer
