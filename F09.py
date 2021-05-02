@@ -260,12 +260,14 @@ def infoKembali(idPeminjaman,spek):
                 return baris[0]
             elif spek == 'id_peminjaman':
                 return baris[1]
-            elif spek == 'tanggal_pengembalian':
+            elif spek == 'id_gadget':
                 return baris[2]
-            elif spek == 'jumlah_kembali':
+            elif spek == 'tanggal_pengembalian':
                 return baris[3]
+            elif spek == 'jumlah_kembali':
+                return baris[4]
             elif spek == 'sisa':
-                return baris[4]          
+                return baris[5]          
     else:
         return "\nbarang tidak ditemukan di database"
 
@@ -281,7 +283,7 @@ def kembalikanGadget():
     if database[-1][0] == 'id':
         id_transaksi = 1
     else:
-        id_transaksi = int(database[-1][0]) + 1  
+        id_transaksi = int(database[-1][0]) + 1 
     idPeminjaman = infoPinjam(id_peminjam,'id')
     tanggalPengembalian = datetime.datetime.now().strftime("%d/%m/%Y")
     id_gadget = infoPinjam(id_peminjam,'id_gadget')
