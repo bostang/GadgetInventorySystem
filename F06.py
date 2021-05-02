@@ -18,16 +18,10 @@ from Basic_Procedure import *
         # id_remove : string { id yang ingin dihapus }
         # kondisiLanjut : boolean { jika bernilai True, maka penghapusan akan dilanjutkan }
     # Fungsi / Prosedur
-        # procedure remove_item_from_database
-            # I.S. id item yang ingin dihapus sudah divalidasi [dapat dihapus]
-            # F.S. item dengan id bersangkutan telah dihapus dari file csv
         # procedure hapusItem
             # menerima input id barang yang ingin dihapuskan dan melakukan validasi
             # I.S. belum diterima barang yang mau dihapus
             # F.S. jika id item ada, maka skema penghapusan akan dilanjutkan, jika tidak ada, pesan error ditampilkan
-        # procedure convert_datas_to_string
-            # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
-            # I.S. database terdefinisi dalam bentuk array # F.S. database dalam bentuk string terbentuk dan siap untuk di-overwrite ke file csv
         # procedure overwrite_database
             # melakukan overwrite terhadap konten database [digunakan dalam skema penghapusan item dari csv]
             # I.S. belum ada perubahan pada database ; F.S. database telah ditulis ulang tanpa mengikutkan item yang dihapus

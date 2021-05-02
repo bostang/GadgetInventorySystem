@@ -19,26 +19,12 @@ from Basic_Procedure import *
         # jumlahUbah : integer { penambahan / pengurangan terhadap jumlah awal gadget }
         # kondisiLanjut : boolean { jika True, maka proses overwritting pada file csv akan dieksekusi }
     # Fungsi/Prosedur
-        # function isIDinDatabase(id : string, database: array of array of string) -> boolean
-            # memeriksa apakah id barang sudah ada di database atau belum
-        # procedure convert_to_real(input code : character)
-            # mengonversi data suatu array database supaya bisa dimanipulasi nilainya
-            # I.S. data pada kolom 'jumlah' masih berupa string
-            # F.S. data pada kolom 'jumlah' bertipe integer dan siap dimanipulasi
-        # procedure convert_datas_to_string_ubahJumlah(input code : character)
-            # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
-            # I.S. database terdefinisi dalam bentuk array
-            # F.S. database dalam bentuk string terbentuk dan siap untuk di-overwrite ke file csv
-        # procedure overwrite_database(input code : character)
-            # melakukan overwrite terhadap konten database [digunakan dalam skema penggantian jumlah item pada file csv]
-            # I.S. belum ada perubahan pada database
-            # F.S. database telah ditulis ulang dengan perubahan salah satu jumlah item
+        # procedure ubahJumlah(input idUbah : string, jumlahUbah: integer)
+            # program utama untuk mengubah jumlah item dalam database
         # procedure change_quantity_in_database(input idUbah : string, jumlahUbah: integer ,code: character)
             # melakukan skema pengubahan jumlah barang pada array _consumable atau _gadget
             # I.S. atribut jumlah salah satu item pada array _consumable atau _gadget belum berubah
             # I.S. atribut jumlah salah satu item pada array _consumable atau _gadget sudah berubah
-        # function infoBarang(id : string ,spek : string) -> string / integer
-            # mendapatkan informasi barang dari database
 
 # REALISASI FUNGSI/PROSEDUR
 def change_quantity_in_database(idUbah,jumlahUbah,array):
