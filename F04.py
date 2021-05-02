@@ -29,7 +29,7 @@ from Basic_Procedure import *
     # Fungsi/Prosedur
         # function isTahuninDatabase(tahun_ditemukan : integer, kategori : string, database: array of array of string) -> boolean
             # mengecek apakah tahun yang diinginkan ada di database atau tidak, sesuai dengan kategori
-        # function infoBarang(id : string ,spek : string) -> string / integer
+        # function infoBarang_tahun(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
 
 # REALISASI FUNGSI/PROSEDUR
@@ -56,7 +56,7 @@ def isTahuninDatabase(tahun_ditemukan,kategori,database):
                 return True
     return False
 
-def infoBarang(tahun_ditemukan,kategori,spek,_gadget,baris):
+def infoBarang_tahun(tahun_ditemukan,kategori,spek,_gadget,baris):
     # mendapatkan informasi mengenai barang yang ada di database
     # KAMUS LOKAL
         # Variabel
@@ -91,11 +91,11 @@ def infoBarang(tahun_ditemukan,kategori,spek,_gadget,baris):
 
 def hasil_pencarian(tahun,kategori,_gadget,baris):
     # untuk menghasilkan hasil pencarian
-    print(f"\nNama            : {infoBarang(tahun,kategori,'nama',_gadget,baris)}")
-    print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi',_gadget,baris)}")
-    print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah',_gadget,baris)}")
-    print(f"Rarity          : {infoBarang(tahun,kategori,'rarity',_gadget,baris)}")
-    print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan',_gadget,baris)}")
+    print(f"\nNama            : {infoBarang_tahun(tahun,kategori,'nama',_gadget,baris)}")
+    print(f"Deskripsi       : {infoBarang_tahun(tahun,kategori,'deskripsi',_gadget,baris)}")
+    print(f"Jumlah          : {infoBarang_tahun(tahun,kategori,'jumlah',_gadget,baris)}")
+    print(f"Rarity          : {infoBarang_tahun(tahun,kategori,'rarity',_gadget,baris)}")
+    print(f"Tahun ditemukan : {infoBarang_tahun(tahun,kategori,'tahun_ditemukan',_gadget,baris)}")
 
 # ALGORITMA UTAMA
 def cariTahun(_gadget):

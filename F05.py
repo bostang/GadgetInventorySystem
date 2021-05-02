@@ -31,20 +31,8 @@ from Basic_Procedure import *
         # procedure tambahItem()
             # prosedur menerima input informasi barang dan menambahkan ke csv database
             # I.S. informasi barang belum di-ipnut ; F.S. barang telah divalidasi (ditampilkan pesan error / ditambahkan ke database)
-        # function isIDinDatabase(id : string, database: array of array of string) -> boolean
-            # memeriksa apakah id barang sudah ada di database atau belum
 
 # REALISASI FUNGSI/PROSEDUR
-def isIDinDatabase(id,database):
-    # memeriksa apakah iD item ada di suatu array database apa tidak
-    # KAMUS LOKAL
-        # element : array of string { baris pada database }
-    # ALGORITMA
-    for element in database:
-        if id == element[0]: # lokasi id ada di kolom pertama
-            return True
-    return False
-
 def add_item_to_database(id,nama,deskripsi,jumlah,rarity,tahuntemu,_consumable,_gadget):
     # menambahkan item LANGSUNG ke gadget.csv atau consumable.csv
     # KAMUS LOKAL

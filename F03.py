@@ -17,20 +17,12 @@ from Basic_Procedure import *
 
 # KAMUS
     # Variabel
-        # array_of_data : array of string { array sementara untuk menambah data dari file csv ke array database }
-        # g : textIOWrapper
-        # raw_lines_g : array of character { array sementara berisi data gadget [banyak \n ] }
-        # lines_g : array of character { array sementara sebelum mebuat _gadget }
         # _gadget : array database gadget.csv
         # rarityItem : string { rarity item yang mau dicari }
     # Fungsi/Prosedur
-        # function bersih
-            # membuat efek clear screen pada Python
-        # procedure splitList
-            # menulis data per baris dalam csv ke dalam bentuk array
         # function isRarityinDatabase(rarity : string, database: array of array of string) -> boolean
             # memeriksa apakah rarity barang sudah ada di database atau belum
-        # function infoBarang(id : string ,spek : string) -> string / integer
+        # function infoBarang_rarity(id : string ,spek : string) -> string / integer
             # mendapatkan informasi barang dari database
 
 
@@ -45,7 +37,7 @@ def isRarityinDatabase(rarity,database):
             return True
     return False
 
-def infoBarang(rarity,spek,_gadget,baris):
+def infoBarang_rarity(rarity,spek,_gadget,baris):
     # mendapatkan informasi mengenai barang yang ada di database
     # KAMUS LOKAL
         # Variabel
@@ -97,11 +89,11 @@ def cariRarity(_gadget):
     if isRarityinDatabase(rarityItem,database): 
         for baris in database:
             if baris[4] == rarityItem: # baris[4] berisi data tentang rarity
-                print(f"\nNama            : {infoBarang(rarityItem,'nama',_gadget,baris)}")
-                print(f"Deskripsi       : {infoBarang(rarityItem,'deskripsi',_gadget,baris)}")
-                print(f"Jumlah          : {infoBarang(rarityItem,'jumlah',_gadget,baris)}")
-                print(f"Rarity          : {infoBarang(rarityItem,'rarity',_gadget,baris)}")
-                print(f"Tahun ditemukan : {infoBarang(rarityItem,'tahun_ditemukan',_gadget,baris)}")
+                print(f"\nNama            : {infoBarang_rarity(rarityItem,'nama',_gadget,baris)}")
+                print(f"Deskripsi       : {infoBarang_rarity(rarityItem,'deskripsi',_gadget,baris)}")
+                print(f"Jumlah          : {infoBarang_rarity(rarityItem,'jumlah',_gadget,baris)}")
+                print(f"Rarity          : {infoBarang_rarity(rarityItem,'rarity',_gadget,baris)}")
+                print(f"Tahun ditemukan : {infoBarang_rarity(rarityItem,'tahun_ditemukan',_gadget,baris)}")
         print("\nSemua data telah ditampilkan")            
     else:
         print("\nTidak ada")
