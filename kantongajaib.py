@@ -125,12 +125,8 @@ Menu Utama Admin :
                 """)
                 menu_admin = str(input("Masukkan pilihan : "))
                 if menu_admin == '1':
+                    clear_screen()
                     register(_user)
-                    print(_user)
-                    print(type(_user[1][0]))
-                    print(type(_user[5][0]))
-                    print(type(_user[0][1]))
-                    print(type(_user[0][5]))
                 elif menu_admin == '2':
                     test # untuk F03
                 elif menu_admin == '3':
@@ -148,6 +144,7 @@ Menu Utama Admin :
                 elif menu_admin == '9':
                     test # untuk F13
                 elif menu_admin == '10':
+                    clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_admin == '11':
                     test # untuk F16
@@ -182,10 +179,12 @@ Menu Utama User :
                 elif menu_user == '5':
                     test # untuk F10
                 elif menu_user == '6':
+                    clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_user == '7':
                     test # untuk F16
                 elif menu_user == '8':
+                    clear_screen()
                     keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 else:
                     clear_screen()
