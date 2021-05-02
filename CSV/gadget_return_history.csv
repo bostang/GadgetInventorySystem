@@ -1,0 +1,4 @@
+id;id_peminjaman;tanggal_pengembalian;jumlah_kembali;sisa
+1;1;17/04/2021;6;63
+2;2;28/04/2021;5;0
+3;4;01/05/2021;3;2
