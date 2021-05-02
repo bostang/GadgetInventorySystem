@@ -110,10 +110,11 @@ def InventoryUser(user_aktif, _gadgetBorrow, _gadget):
     k = 1
     for jenis in inventory:
         print(f"{k}. {infoBarang(jenis[1],'nama',_gadget)}          || jumlah : {jenis[2]}")
+        k += 1
     
     return inventory
 
-def change_quantity_in_database(idUbah,jumlahUbah,array,x):
+def change_quantity_in_database(idUbah,jumlahUbah,array,x,sisa_dipinjam):
     # melakukan skema pengubahan jumlah barang pada array _consumable atau _gadget
     # KAMUS LOKAL
         # Variabel
@@ -124,9 +125,16 @@ def change_quantity_in_database(idUbah,jumlahUbah,array,x):
     # mengubah jumlah item yang mau diubah
     for baris in arrayProcess:
         if baris[0] == idUbah:
-            baris[x] = int(baris[x])
-            baris[x] += jumlahUbah
-            baris[x] = str(baris[x])
+            if x == 3:
+                baris[x] = int(baris[x])
+                baris[x] += jumlahUbah
+                baris[x] = str(baris[x])
+            elif x == 5:
+                baris[x] = int(baris[x])
+                baris[x] -= jumlahUbah
+                baris[x] = str(baris[x])
+                if sisa_dipinjam == 0:
+                    baris[6] = "True"
     return arrayProcess
 
 # ALGORITMA UTAMA
@@ -139,35 +147,43 @@ def kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif):
     print("")
 
     # validasi input pengembalian
-    nomorPengembalian = int(input("Masukan nomor peminjaman: "))
-    if nomorPengembalian > 0 and nomorPengembalian <= len(inventory):
-        array_pengembalian = inventory[nomorPengembalian-1]
-        idBarang = array_pengembalian[1]
-        jumlah_sisa = int(array_pengembalian[2])
-        tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
-        print("Tanggal pengembalian:",tanggal)
-        jumlahPengembalian = int(input(f"Masukkan jumlah {infoBarang(idBarang,'nama',_gadget)} yang mau dikembalikan: "))
-        if jumlahPengembalian > jumlah_sisa: 
-            print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan lebih dari yang dipinjam")
-        elif jumlahPengembalian <= 0:
-            print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan tidak valid!")
-        else: # input valid
-            # prosedur mengembalikan gadget ke gadget.csv dan mendata riwayatnya ke gadget_return_history.csv
-            # menambahkan riwayat pengembalian ke gadget_return_history.csv
-            database = _gadgetReturn
-            id_pengembalian = int(database[-1][0]) + 1
-            id_peminjaman = array_pengembalian[0]
-            data_baru = [str(id_pengembalian),id_peminjaman,idBarang,tanggal,str(jumlahPengembalian)]
-            _gadgetReturn.append(data_baru)
+    loop = True
+    while loop:
+        try:
+            nomorPengembalian = int(input("Masukan nomor peminjaman: "))
+            if nomorPengembalian > 0 and nomorPengembalian <= len(inventory):
+                loop = False
+                array_pengembalian = inventory[nomorPengembalian-1]
+                idBarang = array_pengembalian[1]
+                jumlah_sisa = int(array_pengembalian[2])
+                tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+                print("Tanggal pengembalian:",tanggal)
+                jumlahPengembalian = int(input(f"Masukkan jumlah {infoBarang(idBarang,'nama',_gadget)} yang mau dikembalikan: "))
+                if jumlahPengembalian > jumlah_sisa: 
+                    print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan lebih dari yang dipinjam")
+                elif jumlahPengembalian <= 0:
+                    print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan tidak valid!")
+                else: # input valid
+                    # prosedur mengembalikan gadget ke gadget.csv dan mendata riwayatnya ke gadget_return_history.csv
+                    # menambahkan riwayat pengembalian ke gadget_return_history.csv
+                    database = _gadgetReturn
+                    id_pengembalian = int(database[-1][0]) + 1
+                    id_peminjaman = array_pengembalian[0]
+                    sisa_inventory = jumlah_sisa - jumlahPengembalian
+                    data_baru = [str(id_pengembalian),id_peminjaman,idBarang,tanggal,str(jumlahPengembalian)]
+                    _gadgetReturn.append(data_baru)
 
-            # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
-            _gadget = change_quantity_in_database(idBarang, jumlahPengembalian, _gadget, 3)
+                    # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
+                    _gadget = change_quantity_in_database(idBarang, jumlahPengembalian, _gadget, 3, sisa_inventory)
 
-            # mengubah jumlah sisa_dipinjam pada gadget_borrow_history.csv
-            _gadgetBorrow = change_quantity_in_database(id_peminjaman, jumlahPengembalian, _gadgetBorrow, 5)
-            sisa_inventory = jumlah_sisa - jumlahPengembalian
+                    # mengubah jumlah sisa_dipinjam pada gadget_borrow_history.csv
+                    _gadgetBorrow = change_quantity_in_database(id_peminjaman, jumlahPengembalian, _gadgetBorrow, 5, sisa_inventory)
 
-            print(f"\nItem {infoBarang(idBarang,'nama',_gadget)} (x{jumlahPengembalian}) telah dikembalikan. Sisa di inventory berjumlah {sisa_inventory}.")
-    else:
-        print("Nomor barang yang ingin dikembalikan tidak sesuai!")
+                    print(f"\nItem {infoBarang(idBarang,'nama',_gadget)} (x{jumlahPengembalian}) telah dikembalikan. Sisa di inventory berjumlah {sisa_inventory}.")
+            else:
+                print("Nomor barang yang ingin dikembalikan tidak sesuai!")
+                os.system('pause')
+        except ValueError:
+            print("Nomor barang yang ingin dikembalikan tidak sesuai!")
+            os.system('pause')
     os.system('pause')
