@@ -30,14 +30,14 @@ def login(_user):
     while loop:
         clear_screen()
         print(">>> Login\n")
-        username = input('Masukkan username: ')
+        username = input('Masukkan username: ').lower()
         password = input('Masukkan password: ')
         if user_list(username,_user) == True and password_list(password,_user) == True: # Cek username dan password dalam database
-            print('Halo', username,'! Selamat datang di Kantong Ajaib.')
+            print('Halo', username,'! Selamat datang di Kantong Ajaib.\n')
             user_aktif = id_user(username,_user)
             loop = False
             os.system('pause')
             return user_aktif
         else:
-            print('Username atau password anda salah. Gagal login!') 
+            print('Username atau password anda salah. Gagal login!\n') 
             os.system('pause')

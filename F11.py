@@ -171,7 +171,6 @@ def riwayatPinjam(_gadget,_gadgetBorrow,_user):
                 print(f"Nama Gadget         : {infoBarang(idGadget,'nama',_gadget,baris)}")
                 print(f"Tanggal Peminjaman  : {infoPinjam('tanggal_peminjaman',_gadgetBorrow,baris)}")
                 print(f"Jumlah              : {infoPinjam('jumlah_pinjam',_gadgetBorrow,baris)}")
-
         else:
             break
     else:

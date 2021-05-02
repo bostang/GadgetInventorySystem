@@ -97,7 +97,7 @@ def mintaConsum(_consumable, _consumableHistory, user_aktif):
     # Prosedur untuk menuliskan informasi permintaan consumable ke data consumable_history.csv
     clear_screen()
     # melakukan proses peminjaman barang
-    print(">>> Meminta Consumable")
+    print(">>> Meminta Consumable\n")
     id_barang_diminta = input("Masukkan ID item: ").upper()
 
     if isIDinDatabase(id_barang_diminta, _consumable): # permintaan barang HANYA DARI consumable.csv
@@ -117,13 +117,15 @@ def mintaConsum(_consumable, _consumableHistory, user_aktif):
 
             # mengubah jumlah barang yang tersedia [berkurang setelah diminta] pada consumable.csv
             _consumable = change_quantity_in_database(id_barang_diminta, jumlahPermintaan, _consumable)
+            print('')
             print(f"Item {namaBarangPermintaan} (x{jumlahPermintaan}) telah berhasil diambil!")
         elif (jumlahPermintaan <= 0):
-            print("Permintaan gagal! (jumlah pengambilan harus > 0)")
+            print("\nPermintaan gagal! (jumlah pengambilan harus > 0)")
         else:
-            print("Permintaan Gagal! jumlah barang di database kurang")
+            print("\nPermintaan Gagal! jumlah barang di database kurang")
     else:
-        print("Permintaan Gagal! barang tidak ditemukan di database")
+        print("\nPermintaan Gagal! barang tidak ditemukan di database")
+    print('')
     os.system('pause')
 
         

@@ -78,7 +78,7 @@ def change_quantity_in_database(idUbah,jumlahUbah,array):
 def ubahJumlah(_consumable,_gadget):
     # skema pengubahan jumlah suatu item pada database
     clear_screen()
-    print(">>> Mengubah Jumlah Gadget atau Consumable")
+    print(">>> Mengubah Jumlah Gadget atau Consumable\n")
     idUbah = input("Masukkan ID: ").upper()
 
     if idUbah[0] == 'C':

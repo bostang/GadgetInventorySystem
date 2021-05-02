@@ -25,15 +25,15 @@ def user_list(nama_user,_user):
 def register(_user):
     print(">>> Register\n")
     nama = input("Masukkan nama: ").title()
-    username = input('Masukkan username: ')
+    username = input('Masukkan username: ').lower()
     if not user_list(username,_user):    # Cek username yang sama   
         password = input('Masukkan password: ')
         alamat = input('Masukkan alamat: ')
         register_indeks = str(int(_user[-1][0]) + 1)
         add_item_to_database(register_indeks,username,nama,alamat,password,_user)
-        print('User',username, "telah berhasil register ke dalam Kantong Ajaib!")#user telah berhasil register
+        print('User',username, "telah berhasil register ke dalam Kantong Ajaib!\n")#user telah berhasil register
         os.system('pause')
     else:
-        print('Username sama. Gagal register!')
+        print('Username sama. Gagal register!\n')
         os.system('pause')
         

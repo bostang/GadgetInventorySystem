@@ -190,6 +190,7 @@ def riwayatKembali(_gadgetReturn,_gadgetBorrow,_gadget,_user):
         while (lanjut != 'Y') and (lanjut != 'y') and (lanjut != 'N') and (lanjut != 'n'):
             print("Masukan Anda salah!")
             lanjut = input("\nApakah Anda mau ke halaman selanjutnya?(Y/N)")
+        if (lanjut == 'Y') or (lanjut == 'y'):
             if (m > 6):
                 m -= 5
             else:
@@ -212,7 +213,6 @@ def riwayatKembali(_gadgetReturn,_gadgetBorrow,_gadget,_user):
                     if isIDinDatabase(idGadget,_gadget) and infoBarang(idGadget,'id',_gadget,baris):
                         print(f"Nama Gadget           : {infoBarang(idGadget,'nama',_gadget,baris)}")
                 print(f"Tanggal Pengembalian  : {infoKembali('tanggal_pengembalian',_gadgetReturn,baris)}")
-
         else:
             break
     else:

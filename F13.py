@@ -168,8 +168,7 @@ def riwayatMinta(_consumableHistory,_consumable,_user):
                 if isIDinDatabase(idConsumable,_consumable) and infoBarang(idConsumable,'id',_consumable,baris):
                     print(f"Nama Consumable     : {infoBarang(idConsumable,'nama',_consumable,baris)}")
                 print(f"Tanggal Peminjaman  : {infoAmbil('tanggal_pengambilan',_consumableHistory,baris)}")
-                print(f"Jumlah              : {infoAmbil('jumlah',_consumableHistory,baris)}")
-                
+                print(f"Jumlah              : {infoAmbil('jumlah',_consumableHistory,baris)}")               
         else:
             break
     else:

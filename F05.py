@@ -62,7 +62,7 @@ def tambahItem(_consumable,_gadget):
     #ALGORITMA
     clear_screen()
     kondisiLanjut = True
-    print(">>> Menambah Item")
+    print(">>> Menambah Item\n")
     id = input("Masukan ID: ").upper()
     if id[0] == 'C':
         tempatData = _consumable
@@ -74,7 +74,7 @@ def tambahItem(_consumable,_gadget):
 
     if kondisiLanjut:
         if not isIDinDatabase(id,tempatData):
-            nama = input("Masukan Nama: ")
+            nama = input("Masukan Nama: ").title()
             deskripsi = input("Masukan Deskripsi: ")
 
             while True:
@@ -87,7 +87,7 @@ def tambahItem(_consumable,_gadget):
             rarity = input("Masukan Rarity: ").upper()
             while (rarity != 'C') and (rarity != 'B') and (rarity != 'A') and (rarity != 'S'):
                 print("\nInput rarity tidak valid!\n")
-                rarity = input("Masukan Rarity: ")
+                rarity = input("Masukan Rarity: ").upper()
             else:
                 if id[0] == 'G':
                     while True:

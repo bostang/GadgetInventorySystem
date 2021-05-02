@@ -92,7 +92,7 @@ def hapusItem(_consumable,_gadget):
             # database : array of array of string
     # ALGORITMA
     clear_screen()
-    print(">>> Menghapus Item")
+    print(">>> Menghapus Item\n")
     id_remove = input("Masukkan ID item: ").upper()
     # memeriksa huruf pertama
     if id_remove[0] == 'G':
@@ -117,4 +117,5 @@ def hapusItem(_consumable,_gadget):
                 print("\nItem tidak dihapus dari database")
     else: # barang tidak ditemukan di database
         print("\nTidak ada item dengan id tersebut")
+    print("")
     os.system('pause')
