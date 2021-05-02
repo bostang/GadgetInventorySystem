@@ -5,7 +5,7 @@ from Basic_Procedure import *
 from F01 import *  #done
 from F02 import *  #done
 from F03 import *  #done
-from F04 import *
+from F04 import *  #done
 from F05 import *
 from F06 import *
 from F07 import *
@@ -130,7 +130,7 @@ while not exitprogram:
                 elif menu_admin == '2':
                     cariRarity(_gadget)
                 elif menu_admin == '3':
-                    test # untuk F04
+                    cariTahun(_gadget)
                 elif menu_admin == '4':
                     test # untuk F05
                 elif menu_admin == '5':
@@ -172,7 +172,7 @@ while not exitprogram:
                 if menu_user == '1':
                     cariRarity(_gadget)
                 elif menu_user == '2':
-                    test # untuk F04
+                    cariTahun(_gadget)
                 elif menu_user == '3':
                     test # untuk F08
                 elif menu_user == '4':

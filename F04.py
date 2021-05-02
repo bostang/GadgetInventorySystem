@@ -64,7 +64,7 @@ def isTahuninDatabase(tahun_ditemukan,kategori,database):
                 return True
     return False
 
-def infoBarang(tahun_ditemukan,kategori,spek):
+def infoBarang(tahun_ditemukan,kategori,spek,_gadget,baris):
     # mendapatkan informasi mengenai barang yang ada di database
     # KAMUS LOKAL
         # Variabel
@@ -97,82 +97,53 @@ def infoBarang(tahun_ditemukan,kategori,spek):
     else:
         return "\nbarang tidak ditemukan di database"
 
+def hasil_pencarian(tahun,kategori,_gadget,baris):
+    # untuk menghasilkan hasil pencarian
+    print(f"\nNama            : {infoBarang(tahun,kategori,'nama',_gadget,baris)}")
+    print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi',_gadget,baris)}")
+    print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah',_gadget,baris)}")
+    print(f"Rarity          : {infoBarang(tahun,kategori,'rarity',_gadget,baris)}")
+    print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan',_gadget,baris)}")
+
 # ALGORITMA UTAMA
-# membaca file database .csv
-g = open("gadget.csv","r")
-raw_lines_g = g.readlines()
-g.close()
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-
-# mengakses database dalam bentuk array
-_gadget = []
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-
-# Melakukan skema pencarian berdasarkan tahun_ditemukan dan kategori
-clear_screen()
-database = _gadget
-print(">>> Pencarian Gadget berdasarkan rarity\n")
-
-# untuk memastikan bahwa tahun yang di input dalam integer, jika tidak bertipe integer maka akan meminta input ulang
-while True:
-    try:
-        tahun = int(input("Masukkan tahun: "))
-        break
-    except ValueError:
-        print("\nMasukan tahun dalam bentuk angka!\n")
-
-kategori = input("Masukkan kategori: ")
-# mengecek kategori, jika tidak valid maka akan diminta input ulang
-while (kategori != '=') and (kategori != '>') and (kategori != '<') and (kategori != '>=') and (kategori != '<='):
-    print("Kategori salah!")
+def cariTahun(_gadget):
+    # Melakukan skema pencarian berdasarkan tahun_ditemukan dan kategori
+    clear_screen()
+    database = _gadget
+    print(">>> Pencarian Gadget berdasarkan rarity\n")
+    # untuk memastikan bahwa tahun yang di input dalam integer, jika tidak bertipe integer maka akan meminta input ulang
+    while True:
+        try:
+            tahun = int(input("Masukkan tahun: "))
+            break
+        except ValueError:
+            print("\nMasukan tahun dalam bentuk angka!\n")
     kategori = input("Masukkan kategori: ")
-
-print("\nHasil pencarian:")
-# mengecek apakah tahun ada di database atau tidak, sesuai kategori
-if isTahuninDatabase(tahun,kategori,database): 
-    for baris in database[1:]: # database dimulai pada baris ke 1(header tidak dihitung)
-        if (kategori == '='):
-            if int(baris[5]) == tahun: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")
-        elif (kategori == '>'):
-            if int(baris[5]) >= tahun+1: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")        
-        elif (kategori == '<'):
-            if int(baris[5]) <= tahun-1: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")            
-        elif (kategori == '>='):
-            if int(baris[5]) >= tahun: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")        
-        elif (kategori == '<='):
-            if int(baris[5]) <= tahun: # baris[5] berisi data tentang tahun_ditemukan
-                print(f"\nNama            : {infoBarang(tahun,kategori,'nama')}")
-                print(f"Deskripsi       : {infoBarang(tahun,kategori,'deskripsi')}")
-                print(f"Jumlah          : {infoBarang(tahun,kategori,'jumlah')}")
-                print(f"Rarity          : {infoBarang(tahun,kategori,'rarity')}")
-                print(f"Tahun ditemukan : {infoBarang(tahun,kategori,'tahun_ditemukan')}")
-
-    print("\nSemua data telah ditampilkan")
-            
-else:
-    print("\nTidak ada gadget yang ditemukan")
-
-print('')
-os.system('pause')
+    # mengecek kategori, jika tidak valid maka akan diminta input ulang
+    while (kategori != '=') and (kategori != '>') and (kategori != '<') and (kategori != '>=') and (kategori != '<='):
+        print("Kategori salah!")
+        kategori = input("Masukkan kategori: ")
+    print("\nHasil pencarian:")
+    # mengecek apakah tahun ada di database atau tidak, sesuai kategori
+    if isTahuninDatabase(tahun,kategori,database): 
+        for baris in database[1:]: # database dimulai pada baris ke 1(header tidak dihitung)
+            if (kategori == '='):
+                if int(baris[5]) == tahun: # baris[5] berisi data tentang tahun_ditemukan
+                    hasil_pencarian(tahun,kategori,_gadget,baris)
+            elif (kategori == '>'):
+                if int(baris[5]) >= tahun+1: # baris[5] berisi data tentang tahun_ditemukan
+                    hasil_pencarian(tahun,kategori,_gadget,baris)    
+            elif (kategori == '<'):
+                if int(baris[5]) <= tahun-1: # baris[5] berisi data tentang tahun_ditemukan
+                    hasil_pencarian(tahun,kategori,_gadget,baris)           
+            elif (kategori == '>='):
+                if int(baris[5]) >= tahun: # baris[5] berisi data tentang tahun_ditemukan
+                    hasil_pencarian(tahun,kategori,_gadget,baris)       
+            elif (kategori == '<='):
+                if int(baris[5]) <= tahun: # baris[5] berisi data tentang tahun_ditemukan
+                    hasil_pencarian(tahun,kategori,_gadget,baris)
+        print("\nSemua data telah ditampilkan")
+    else:
+        print("\nTidak ada gadget yang ditemukan")
+    print('')
+    os.system('pause')
