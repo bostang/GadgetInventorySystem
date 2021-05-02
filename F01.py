@@ -23,11 +23,12 @@ def user_list(nama_user,_user):
 
 # Algoritma
 def register(_user):
-    nama = input("Masukkan nama:").title()
-    username = input('Masukkan username:')
+    print(">>> Register\n")
+    nama = input("Masukkan nama: ").title()
+    username = input('Masukkan username: ')
     if not user_list(username,_user):    # Cek username yang sama   
-        password = input('Masukkan password:')
-        alamat = input('Masukkan alamat:')
+        password = input('Masukkan password: ')
+        alamat = input('Masukkan alamat: ')
         register_indeks = str(int(_user[-1][0]) + 1)
         add_item_to_database(register_indeks,username,nama,alamat,password,_user)
         print('User',username, "telah berhasil register ke dalam Kantong Ajaib!")#user telah berhasil register

@@ -129,7 +129,7 @@ def infoPinjam(spek,_gadgetBorrow,baris):
 # ALGORITMA UTAMA
 # melakukan skema untuk melihat riwayat peminjaman barang
 def riwayatPinjam(_gadget,_gadgetBorrow,_user):
-    print(">>> Riwayat Kembali")
+    print(">>> Riwayat Pinjam")
     database = _gadgetBorrow
     if (len(database) < 6):
         m = 1    
@@ -160,7 +160,8 @@ def riwayatPinjam(_gadget,_gadgetBorrow,_user):
             n -= 5
 
             for baris in reversed(database[m:n]):
-                print(">>> Riwayat Kembali")
+                clear_screen()
+                print(">>> Riwayat Pinjam")
                 print(f"\nID Peminjaman       : {infoPinjam('id',_gadgetBorrow,baris)}")
             idPeminjam = infoPinjam('id_peminjam',_gadgetBorrow,baris)
             if isUserinDatabase(idPeminjam,_user) and infoUser(idPeminjam,'id',_user,baris):

@@ -199,6 +199,8 @@ def riwayatKembali(_gadgetReturn,_gadgetBorrow,_gadget,_user):
             clear_screen()
             
             for baris in reversed(database[m:n]):
+                clear_screen()
+                print(">>> Riwayat Kembali")
                 print(f"\nID Pengembalian       : {infoKembali('id',_gadgetReturn,baris)}")
                 idPeminjaman = infoKembali('id_peminjaman',_gadgetReturn,baris)
                 if isPinjaminDatabase(idPeminjaman,_gadgetBorrow) and infoPinjam(idPeminjaman,'id_peminjam',_gadgetBorrow,baris):
