@@ -10,7 +10,7 @@ from F05 import *  #done
 from F06 import *  #done
 from F07 import *  #done
 from F08 import *  #done
-from F09 import *
+from F09 import *  #testing
 from F10 import *  #done
 from F11 import *  #done
 from F12 import *  #done
@@ -181,7 +181,11 @@ while not exitprogram:
                 elif menu_user == '3':
                     pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif)
                 elif menu_user == '4':
-                    test # untuk F09
+                    kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif)
+                    print(_gadget)
+                    print(_gadgetBorrow)
+                    print(_gadgetReturn)
+                    os.system('pause')
                 elif menu_user == '5':
                     mintaConsum(_consumable, _consumableHistory, user_aktif)
                 elif menu_user == '6':

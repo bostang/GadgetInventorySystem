@@ -8,7 +8,7 @@ besar dari tanggal peminjaman (abaikan tanggal, bukan faktor dalam peminjaman).
 Namun, entry peminjaman harus ada untuk dapat mengembalikan sebuah gadget. Bila 
 mengerjakan bonus, silahkan menyesuaikan input dan output.
 
-Kontributor : Bostang Palaguna [16520090], Diffa' Shada 'Aqila [16520070], Muhammad Daris Nurhakim [16520170]
+Kontributor : Bostang Palaguna [16520090], Diffa' Shada 'Aqila [16520070], Muhammad Daris Nurhakim [16520170], Joshi Ryu Setiady [16520230]
 
 """
 
@@ -57,96 +57,14 @@ from Basic_Procedure import *
             # F.S. jumlah barang pada gadget.csv telah berubah, riwayat pengembalian telah ditambahkan ke gadget_return_history.csv
 
 # REALISASI FUNGSI/PROSEDUR
-
-def modify_datas(array, idx, col, value):
-    # melakukan modifikasi pada suatu nilai array
-    # KAMUS LOKAL
-    # ALGORITMA
-    array[idx][col] = value
-
-def locIDinArray(arr,id):
-    # mencari lokasi / index item dalam suatu array arr
-    # KAMUS LOKAL
-        # Variabel
-            # k : integer { indeks saat k ketemu di arr }
-    # ALGORITMA
-    k = 0
-    while k <= len(arr):
-        if arr[k][0] == id:
-            return k
-        k += 1
-    return "NOT FOUND"
-
-def convert_datas_to_string(code): # [ *** SUDAH ADA DI F06 tetapi agak beda *** ]
-    # mengubah konten array database menjadi untain string panjang sehingga bisa melakukan overwrite terhadap database
-    # KAMUS LOKAL
-        # Variabel
-            # arr_data : array { array yang merupakan elemen _gadget atau _consumable }
-            # arr_data_all_string : array of string { untuk skema konversi array database menjadi string }
-            # arrayProcess : array of array of string { array yang ingin diproses }
-            # string_data : string { untain informasi dari database [lokal] }
-    # ALGORITMA
-    if code == 'C':
-        arrayProcess = _consumable
-    elif code == 'G':
-        arrayProcess = _gadget
-
-    string_data = ""
-    for arr_data in arrayProcess:
-        arr_data_all_string = [str(var) for var in arr_data]
-        string_data += ";".join(arr_data_all_string)
-        string_data += "\n"
-
-    return string_data
-
-def overwrite_database(code): # [ *** SUDAH ADA DI F06 *** ] { sedikit berbeda dengan di F06 }
-    # melakukan overwrite terhadap konten database [digunakan dalam skema penggantian jumlah item pada csv]
-    # KAMUS LOKAL
-        # datas_as_string : string { untain informasi dari database [lokal] }
-        # f : textIOWrapper
-    # ALGORITMA
-    datas_as_string = convert_datas_to_string(idPengembalian[0])
-    if code == 'C':
-        f = open("consumable.csv","w")
-    elif code == 'G':
-        f = open("gadget.csv","w")
-    f.write(datas_as_string) # melakukan overwrite terhadap isi database
-    f.close()
-
-def isIDinDatabase(id,database): # [ *** SUDAH ADA DI F05 *** ]
-    # memeriksa apakah ID item ada di suatu array database apa tidak
-    # KAMUS LOKAL
-        # element : array of string { baris pada database }
-    # ALGORITMA
-    for element in database:
-        if id == element[0]: # lokasi id ada di kolom pertama
-            return True
-    return False
-
-def isUserinDatabase(user,database):
-    # memeriksa apakah user ada di array _user atau tidak
-    # KAMUS LOKAL
-        # element : array of string { baris pada database }
-    # ALGORITMA
-    for element in database:
-        if user == element[1]: # lokasi username ada di kolom kedua
-            return True
-    return False
-
-def infoBarang(id,spek):
+def infoBarang(id,spek,array):
     # mendapatkan informasi barang dari database
     # KAMUS LOKAL
         # Variabel
             # arrayProcess : array of array of string { array tempat item berada }
             # baris : baris pada arrayProcess { untuk skema pencarian }
     # ALGORITMA
-    if id[0] == 'C':
-        arrayProcess = _consumable
-    elif id[0] == 'G':
-        arrayProcess = _gadget
-    else:
-        arrayProcess = []
-
+    arrayProcess = array
     if isIDinDatabase(id,arrayProcess):
         for baris in arrayProcess:
             if baris[0] == id:
@@ -164,24 +82,7 @@ def infoBarang(id,spek):
     else:
         return "barang tidak ditemukan di database."
 
-def infoUser(username,spek):
-    # mendapatkan informasi user (nama atau id saja) dari database
-    # KAMUS LOKAL
-        # Variabel
-            # baris : baris pada arrayProcess { untuk skema pencarian }
-    # ALGORITMA
-    if isUserinDatabase(username,_user): # id menyatakan id user
-        for baris in _user:
-            if baris[1] == username:
-            # me-return informasi
-                if spek == 'id':
-                    return baris[0]
-                elif spek == 'nama':
-                    return baris[2]
-    else:
-        return "user tidak ada pada database."
-
-def Inventory(user):
+def InventoryUser(user_aktif, _gadgetBorrow, _gadget):
     # prosedur untuk menampilkan barang-barang apa saja yang sudah dipinjam (inventory)
     # KAMUS LOKAL
         # Variabel
@@ -196,181 +97,77 @@ def Inventory(user):
         # misalkan suatu barang dipinjam lebih dari satu kali, maka jumlah barang pinjam akan ditambahkan
         # perhatikan bahwa id peminjam terdapat pada indeks = 1
 
-    for riwayat in _gadgetBorrowHistory: # jumlah positif
-        if riwayat[1] == infoUser(user,'id'):
-            if riwayat[2] not in arrayBarangPinjam:
-                arrayBarangPinjam.append(riwayat[2])
-                arrayJumlahPinjam.append(int(riwayat[4]))
+    inventory = []
 
-    for riwayat in _gadgetReturnHistory: # jumlah negatif
-        # asumsi: total jumlah barang yang dikembalikan TELAH DIVALIDASI kurang dari sama dengan jumlah barang yang dipinjam
-            # maka data jumlah barang pasti >= 0
-        id_peminjam = infoUser(userAktif,'id')
-        if riwayat[1] == infoPinjam(id_peminjam,'id'):
-            arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] -= int(riwayat[4])
-
-    # menghapus yang neto jumlah sama dengan nol { berarti semua barang yang sempat dipinjam, telah dikembalikan }
-    for data in arrayJumlahPinjam:
-        if data == 0:
-            arrayBarangPinjam.remove(arrayBarangPinjam[arrayJumlahPinjam.index(data)])
-            arrayJumlahPinjam.remove(data)
+    # Memasukkan daftar gadget yang belum dibalikkan
+    for riwayat in _gadgetBorrow: # jumlah positif
+        if riwayat[1] == user_aktif[0]:
+            if riwayat[6] == "False":
+                data_inven = [riwayat[0],riwayat[2],riwayat[5]]
+                inventory.append(data_inven)
 
     # menampilkan barang-barang yang telah dipinjam dalam bentuk list:
-    for k in range(len(arrayBarangPinjam)):
-        print(f"{k+1}. {infoBarang(arrayBarangPinjam[k],'nama')}     || jumlah : {arrayJumlahPinjam[k]}")
-
-def infoPinjam(id_peminjam,spek):
-    # mendapatkan informasi mengenai barang yang dipinjam
-    # KAMUS LOKAL
-        # Variabel
-            # arrayProcess : array of array of string { array tempat item berada }
-            # baris : baris pada arrayProcess { untuk skema pencarian }
-    # ALGORITMA
-    arrayProcess = _gadgetBorrowHistory
-    # mengecek baris per baris
-    for baris in arrayProcess[1:]:
-        if id_peminjam == baris[1]:
-            if spek == 'id':
-                return baris[0]
-            elif spek == 'id_peminjam':
-                return baris[1]
-            elif spek == 'id_gadget':
-                return baris[2]
-            elif spek == 'tanggal_peminjaman':
-                return baris[3]
-            elif spek == 'jumlah_pinjam':
-                return baris[4]
-            elif spek == 'is_returned':
-                return baris[5]  
-    else:
-        return "\nbarang tidak ditemukan di database"
-
-def infoKembali(idPeminjaman,spek):
-    # mendapatkan informasi mengenai barang yang dipinjam
-    # KAMUS LOKAL
-        # Variabel
-            # arrayProcess : array of array of string { array tempat item berada }
-            # baris : baris pada arrayProcess { untuk skema pencarian }
-    # ALGORITMA
-    arrayProcess = _gadgetReturnHistory
-    # mengecek baris per baris
-    for baris in reversed(arrayProcess[-1:]):
-        if idPeminjaman == baris[1]:
-            if spek == 'id':
-                return baris[0]
-            elif spek == 'id_peminjaman':
-                return baris[1]
-            elif spek == 'id_gadget':
-                return baris[2]
-            elif spek == 'tanggal_pengembalian':
-                return baris[3]
-            elif spek == 'jumlah_kembali':
-                return baris[4]
-            elif spek == 'sisa':
-                return baris[5]          
-    else:
-        return "\nbarang tidak ditemukan di database"
-
-def kembalikanGadget():
-    # prosedur mengembalikan gadget ke gadget.csv dan mendata riwayatnya ke gadget_return_history.csv
-    # KAMUS LOKAL
-        # Variabel
-            # dataKembali : string { string data pengembalian [ yang akan ditulis ke gadget_return_history.csv ]}
-    # ALGORITMA
-        # menambahkan riwayat pengembalian ke gadget_return_history.csv
-    id_peminjam = infoUser(userAktif,'id')
-    database = _gadgetReturnHistory
-    if database[-1][0] == 'id':
-        id_transaksi = 1
-    else:
-        id_transaksi = int(database[-1][0]) + 1 
-    idPeminjaman = infoPinjam(id_peminjam,'id')
-    tanggalPengembalian = datetime.datetime.now().strftime("%d/%m/%Y")
-    id_gadget = infoPinjam(id_peminjam,'id_gadget')
-    idPeminjaman = infoPinjam(id_peminjam,'id')
-    if (infoKembali(idPeminjaman,'sisa') == '\nbarang tidak ditemukan di database'):
-        sisa = int(infoPinjam(id_peminjam,'jumlah_pinjam')) - jumlahPengembalian
-    else:
-        sisa = int(infoKembali(idPeminjaman,'sisa')) - jumlahPengembalian
+    k = 1
+    for jenis in inventory:
+        print(f"{k}. {infoBarang(jenis[1],'nama',_gadget)}          || jumlah : {jenis[2]}")
     
-    dataKembali = f"{id_transaksi};{idPeminjaman};{id_gadget};{tanggalPengembalian};{jumlahPengembalian};{sisa}\n"
-    gh = open("gadget_return_history.csv","a")
-    gh.write(dataKembali)
-    gh.close()
+    return inventory
 
-        # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
-    modify_datas(_gadget,locIDinArray(_gadget,idPengembalian),3,int(infoBarang(idPengembalian,'jumlah'))+jumlahPengembalian)
-    overwrite_database('G')
+def change_quantity_in_database(idUbah,jumlahUbah,array,x):
+    # melakukan skema pengubahan jumlah barang pada array _consumable atau _gadget
+    # KAMUS LOKAL
+        # Variabel
+            # arrayProcess : array of array of integer,string { array yang mau diproses }
+            # baris : array of integer, string { untuk pencarian baris dengan id yang mau diubah jumlah itemnya }
+    # ALGORITMA
+    arrayProcess = array
+    # mengubah jumlah item yang mau diubah
+    for baris in arrayProcess:
+        if baris[0] == idUbah:
+            baris[x] = int(baris[x])
+            baris[x] += jumlahUbah
+            baris[x] = str(baris[x])
+    return arrayProcess
 
 # ALGORITMA UTAMA
-userAktif = "bostang123" # user yang aktif akan disesuiakan dengan fungsionalitas login [ F02 ]
-arrayBarangPinjam = [] # array berisi barang yang dipinjam dan jumlah barang yang dipinjam
-arrayJumlahPinjam = [] # array berisi JUMLAH barang yang dipinjam
-        # perhatikan bahwa elemen arrayBarangPinjam dan arrayJumlahPinjam saling berkorespondensi
-
-    # mengakses database dalam bentuk array
-g = open("gadget.csv","r")
-u = open("user.csv","r")
-gb = open("gadget_borrow_history.csv","r")
-gr = open("gadget_return_history.csv","r")
-
-raw_lines_g = g.readlines()
-raw_lines_u = u.readlines()
-raw_lines_gb = gb.readlines()
-raw_lines_gr = gr.readlines()
-
-g.close()
-u.close()
-gr.close()
-gr.close()
-
-lines_g = [raw_line.replace("\n", "") for raw_line in raw_lines_g]
-lines_u = [raw_line.replace("\n", "") for raw_line in raw_lines_u]
-lines_gb = [raw_line.replace("\n", "") for raw_line in raw_lines_gb]
-lines_gr = [raw_line.replace("\n", "") for raw_line in raw_lines_gr]
-
-_gadget = []
-_user = []
-_gadgetBorrowHistory = []
-_gadgetReturnHistory = []
-
-for line in lines_g:
-    array_of_data = splitList(line)
-    _gadget.append(array_of_data)
-for line in lines_u:
-    array_of_data = splitList(line)
-    _user.append(array_of_data)
-for line in lines_gb:
-    array_of_data = splitList(line)
-    _gadgetBorrowHistory.append(array_of_data)
-for line in lines_gr:
-    array_of_data = splitList(line)
-    _gadgetReturnHistory.append(array_of_data)
-
+def kembalikanGadget(_gadget,_gadgetBorrow,_gadgetReturn,user_aktif):
     # skema pengembalian barang
-print(">>> Mengembalikan Gadget\n")
+    print(">>> Mengembalikan Gadget\n")
 
     # menampilkan inventori [ daftar barang yang telah dipinjam ]
-Inventory(userAktif)
-print("")
+    inventory = InventoryUser(user_aktif, _gadgetBorrow, _gadget)
+    print("")
 
-        # validasi input pengembalian
-kondisiLanjut = False
-nomorPengembalian = int(input("Masukan nomor peminjaman: "))
-if nomorPengembalian > 0 and nomorPengembalian <= len(arrayBarangPinjam):
-    idPengembalian = arrayBarangPinjam[nomorPengembalian-1]
-    tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
-    tanggalPengembalian = print("Tanggal pengembalian:",tanggal)
-    jumlahPengembalian = int(input(f"Masukkan jumlah {infoBarang(idPengembalian,'nama')} yang mau dikembalikan: "))
-    if jumlahPengembalian > arrayJumlahPinjam[nomorPengembalian-1]: # jangan lupa aritmatika indeks -1
-        print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan lebih dari yang dipinjam")
-    elif jumlahPengembalian <= 0:
-        print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan tidak valid!")
-    else: # input valid
-        kondisiLanjut = True
-        print(f"\nItem {infoBarang(idPengembalian,'nama')} (x{jumlahPengembalian}) telah dikembalikan")
-else:
-    print("Nomor barang yang ingin dikembalikan tidak sesuai!")
+    # validasi input pengembalian
+    nomorPengembalian = int(input("Masukan nomor peminjaman: "))
+    if nomorPengembalian > 0 and nomorPengembalian <= len(inventory):
+        array_pengembalian = inventory[nomorPengembalian-1]
+        idBarang = array_pengembalian[1]
+        jumlah_sisa = int(array_pengembalian[2])
+        tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
+        print("Tanggal pengembalian:",tanggal)
+        jumlahPengembalian = int(input(f"Masukkan jumlah {infoBarang(idBarang,'nama',_gadget)} yang mau dikembalikan: "))
+        if jumlahPengembalian > jumlah_sisa: 
+            print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan lebih dari yang dipinjam")
+        elif jumlahPengembalian <= 0:
+            print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan tidak valid!")
+        else: # input valid
+            # prosedur mengembalikan gadget ke gadget.csv dan mendata riwayatnya ke gadget_return_history.csv
+            # menambahkan riwayat pengembalian ke gadget_return_history.csv
+            database = _gadgetReturn
+            id_pengembalian = int(database[-1][0]) + 1
+            id_peminjaman = array_pengembalian[0]
+            data_baru = [str(id_pengembalian),id_peminjaman,idBarang,tanggal,str(jumlahPengembalian)]
+            _gadgetReturn.append(data_baru)
 
-if kondisiLanjut:
-    kembalikanGadget()
+            # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
+            _gadget = change_quantity_in_database(idBarang, jumlahPengembalian, _gadget, 3)
+
+            # mengubah jumlah sisa_dipinjam pada gadget_borrow_history.csv
+            _gadgetBorrow = change_quantity_in_database(id_peminjaman, jumlahPengembalian, _gadgetBorrow, 5)
+            sisa_inventory = jumlah_sisa - jumlahPengembalian
+
+            print(f"\nItem {infoBarang(idBarang,'nama',_gadget)} (x{jumlahPengembalian}) telah dikembalikan. Sisa di inventory berjumlah {sisa_inventory}.")
+    else:
+        print("Nomor barang yang ingin dikembalikan tidak sesuai!")
+    os.system('pause')
