@@ -153,7 +153,7 @@ def pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif):
                 id_transaksi = int(database[-1][0]) + 1
 
                 # menambahkan riwayat peminjaman ke gadget_borrow_history.csv
-                dataPinjam = [id_transaksi,id_peminjam,idPinjam,str(tanggal),str(jumlahPinjam),"False"]
+                dataPinjam = [str(id_transaksi),id_peminjam,idPinjam,str(tanggal),str(jumlahPinjam),"False"]
                 _gadgetBorrow.append(dataPinjam)
 
                 # mengubah jumlah barang yang tersedia [berkurang setelah dipinjam] pada gadget.csv
@@ -165,4 +165,5 @@ def pinjamGadget(_user,_gadget,_gadgetBorrow,user_aktif):
                 print("Peminjaman Gagal! jumlah barang di database kurang")
         else:
             print("Peminjaman Gagal! barang tidak ditemukan di database")
+    print("")
     os.system('pause')
