@@ -1,5 +1,6 @@
 import os
 
+# Procedure yang sering dipakai
 def clear_screen():
     # Membuat efek clear screen pada Python
     os.system('cls' if os.name == 'nt' else 'clear')

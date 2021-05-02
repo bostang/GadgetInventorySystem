@@ -9,7 +9,7 @@ from Basic_Procedure import *
 #username, password, nama, alamat, : string
 #output : string       
 
-#FUMGSI-FUNGSI TAMBAHAN
+# Fungsi - fungsi tambahan
 def add_item_to_database(register_indeks,username,nama,alamat,password,_user):
     data_baru = [register_indeks,username,nama,alamat,password,'user']
     _user = _user.append(data_baru)
@@ -21,7 +21,7 @@ def user_list(nama_user,_user):
             return True
     return False    
 
-#ALGORITMA
+# Algoritma
 def register(_user):
     nama = input("Masukkan nama:").title()
     username = input('Masukkan username:')

@@ -1,6 +1,7 @@
 import os
 from Basic_Procedure import *
 
+# Fungsi - fungsi tambahan
 def user_list(nama_user,_user):
     # Cek data username
     for element in _user:
@@ -24,7 +25,6 @@ def id_user(nama_user,_user):
 # Procedure login
 # User memasukkan input berupa username dan password kemudian diproses dalam database
 #Apabila username dan password sesuai maka output login berhasil
-
 def login(_user):
     loop = True
     while loop:

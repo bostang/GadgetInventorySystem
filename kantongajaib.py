@@ -2,8 +2,8 @@
 
 import os, argparse
 from Basic_Procedure import *
-from F01 import *
-from F02 import *
+from F01 import *  #done
+from F02 import *  #done
 from F03 import *
 from F04 import *
 from F05 import *
@@ -15,10 +15,10 @@ from F10 import *
 from F11 import *
 from F12 import *
 from F13 import *
-from F14 import *
-from F15 import *
-from F16 import *
-from F17 import *
+from F15 import *  #done
+from F16 import *  #done
+from F17 import *  #done
+# untuk F14 tidak diimport melainkan langsung diimplementasikan di program utama
 
 exitprogram = False
 loop = True
@@ -94,8 +94,8 @@ os.system('pause')
 
 # Main Program
 while not exitprogram:
-    print("""
-Program Kantong Ajaib! : 
+    clear_screen()
+    print("""Program Kantong Ajaib! : 
 1. Login
 2. Help
 3. Exit
@@ -107,8 +107,8 @@ Program Kantong Ajaib! :
         user_aktif = login(_user)
         while loop:
             if user_aktif[5] == 'admin':
-                print("""
-Menu Utama Admin :
+                clear_screen()
+                print("""Menu Utama Admin :
 1. Register akun baru
 2. Pencarian gadget berdasarkan rarity
 3. Pencarian gadget berdasarkan tahun ditemukan
@@ -147,7 +147,8 @@ Menu Utama Admin :
                     clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_admin == '11':
-                    test # untuk F16
+                    clear_screen()
+                    bantuan_admin()
                 elif menu_admin == '12':
                     keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 else:
@@ -155,8 +156,8 @@ Menu Utama Admin :
                     print("Masukkan salah. Mohon ulangi")
                     os.system('pause')
             if user_aktif[5] == 'user':
-                print("""
-Menu Utama User :
+                clear_screen()
+                print("""Menu Utama User :
 1. Pencarian gadget berdasarkan rarity
 2. Pencarian gadget berdasarkan tahun ditemukan
 3. Meminjam gadget
@@ -182,7 +183,8 @@ Menu Utama User :
                     clear_screen()
                     simpan(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
                 elif menu_user == '7':
-                    test # untuk F16
+                    clear_screen()
+                    bantuan_user()
                 elif menu_user == '8':
                     clear_screen()
                     keluar(_consumable,_consumableHistory,_gadget,_gadgetBorrow,_gadgetReturn,_user)
@@ -191,7 +193,8 @@ Menu Utama User :
                     print("Masukkan salah. Mohon ulangi")
                     os.system('pause')
     elif menu_utama == '2':
-        bantuan() # untuk F16
+        clear_screen()
+        bantuan()
     elif menu_utama == '3':
         exit()
     else:
