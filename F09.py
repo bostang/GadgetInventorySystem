@@ -201,13 +201,12 @@ def Inventory(user):
             if riwayat[2] not in arrayBarangPinjam:
                 arrayBarangPinjam.append(riwayat[2])
                 arrayJumlahPinjam.append(int(riwayat[4]))
-            else:
-                arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] += int(riwayat[4])
 
     for riwayat in _gadgetReturnHistory: # jumlah negatif
         # asumsi: total jumlah barang yang dikembalikan TELAH DIVALIDASI kurang dari sama dengan jumlah barang yang dipinjam
             # maka data jumlah barang pasti >= 0
-        if riwayat[1] == infoUser(user,'id'):
+        id_peminjam = infoUser(userAktif,'id')
+        if riwayat[1] == infoPinjam(id_peminjam,'id'):
             arrayJumlahPinjam[arrayBarangPinjam.index(riwayat[2])] -= int(riwayat[4])
 
     # menghapus yang neto jumlah sama dengan nol { berarti semua barang yang sempat dipinjam, telah dikembalikan }
@@ -279,22 +278,23 @@ def kembalikanGadget():
         # menambahkan riwayat pengembalian ke gadget_return_history.csv
     id_peminjam = infoUser(userAktif,'id')
     database = _gadgetReturnHistory
-    id_transaksi = int(database[-1][0]) + 1  
+    if database[-1][0] == 'id':
+        id_transaksi = 1
+    else:
+        id_transaksi = int(database[-1][0]) + 1  
     idPeminjaman = infoPinjam(id_peminjam,'id')
     tanggalPengembalian = datetime.datetime.now().strftime("%d/%m/%Y")
     id_gadget = infoPinjam(id_peminjam,'id_gadget')
     idPeminjaman = infoPinjam(id_peminjam,'id')
-    if (infoKembali(idPeminjaman,'sisa') == infoPinjam(id_peminjam,'jumlah_pinjam')):
+    if (infoKembali(idPeminjaman,'sisa') == '\nbarang tidak ditemukan di database'):
         sisa = int(infoPinjam(id_peminjam,'jumlah_pinjam')) - jumlahPengembalian
     else:
         sisa = int(infoKembali(idPeminjaman,'sisa')) - jumlahPengembalian
     
-    dataKembali = f"{id_transaksi};{idPeminjaman};{tanggalPengembalian};{jumlahPengembalian};{sisa}\n"
+    dataKembali = f"{id_transaksi};{idPeminjaman};{id_gadget};{tanggalPengembalian};{jumlahPengembalian};{sisa}\n"
     gh = open("gadget_return_history.csv","a")
     gh.write(dataKembali)
     gh.close()
-    namaBarangPinjam = infoBarang(id_gadget,"nama")
-    print(f"\nItem {namaBarangPinjam} (x{jumlahPengembalian}) telah dikembalikan!")
 
         # mengubah jumlah barang yang tersedia [bertambah setelah pengembalian] pada gadget.csv
     modify_datas(_gadget,locIDinArray(_gadget,idPengembalian),3,int(infoBarang(idPengembalian,'jumlah'))+jumlahPengembalian)
@@ -356,7 +356,7 @@ print("")
 kondisiLanjut = False
 nomorPengembalian = int(input("Masukan nomor peminjaman: "))
 if nomorPengembalian > 0 and nomorPengembalian <= len(arrayBarangPinjam):
-    idPengembalian = arrayBarangPinjam[nomorPengembalian -1]
+    idPengembalian = arrayBarangPinjam[nomorPengembalian-1]
     tanggal = str(datetime.datetime.now().strftime("%d/%m/%Y"))
     tanggalPengembalian = print("Tanggal pengembalian:",tanggal)
     jumlahPengembalian = int(input(f"Masukkan jumlah {infoBarang(idPengembalian,'nama')} yang mau dikembalikan: "))
@@ -366,6 +366,7 @@ if nomorPengembalian > 0 and nomorPengembalian <= len(arrayBarangPinjam):
         print("Pengembalian item gagal! Jumlah barang yang ingin dikembalikan tidak valid!")
     else: # input valid
         kondisiLanjut = True
+        print(f"\nItem {infoBarang(idPengembalian,'nama')} (x{jumlahPengembalian}) telah dikembalikan")
 else:
     print("Nomor barang yang ingin dikembalikan tidak sesuai!")
 
